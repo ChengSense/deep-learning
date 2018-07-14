@@ -1,0 +1,334 @@
+package com.deep.module.data.flow;
+
+import java.util.stream.Stream;
+
+import com.deep.gradient.Option;
+import com.deep.math.Matrix;
+import com.deep.module.gradient.Gradient;
+import com.deep.module.graph.Node;
+import com.deep.module.graph.Shape;
+import com.deep.util.Array;
+import com.deep.util.ReShape;
+
+public class TensorFlow extends ReShape {
+
+	Array<Node> list;
+
+	Gradient grad;
+
+	public TensorFlow() {
+
+		list = new Array<Node>();
+
+		grad = new Gradient();
+
+	}
+
+	public Node matmul(Shape... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null) {
+
+				Shape<double[]> shap = shape;
+
+				Matrix.random(shap.get());
+
+			}
+
+		});
+
+		Node node = new Node(Option.MATMUL, shapes) {
+
+			public void compute() {
+
+				try {
+
+					Shape<double[]> weight = shapes[0];
+					Shape<double[]> input = shapes[1];
+
+					output(Matrix.mult(weight.get(), input.get()));
+
+				} catch (Exception e) {
+
+					Shape<double[]> weight = shapes[0];
+					Shape<double[][]> input = shapes[1];
+					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
+					Shape<double[]> in = shapes[1];
+
+					output(Matrix.mult(weight.get(), in.get()));
+
+				}
+
+			}
+
+			public void gradient() {
+
+				try {
+
+					Shape<double[]> weight = shapes[0];
+					Shape<double[]> input = shapes[1];
+
+					grad.matmul(weight, input, output());
+
+				} catch (Exception e) {
+
+					Shape<double[]> weight = shapes[0];
+					Shape<double[][]> input = shapes[1];
+					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
+
+					grad.matmul(weight, input, output());
+
+				}
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node add(Shape<double[]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.ADD, shapes) {
+
+			public void compute() {
+
+				output(Matrix.add(shapes[0].get(), shapes[1].get()));
+
+			}
+
+			public void gradient() {
+
+				grad.add(shapes[0], shapes[1], output());
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node add3(Shape<double[][]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.ADD, shapes) {
+
+			public void compute() {
+
+				output(Matrix.add(shapes[0].get(), shapes[1].get()));
+
+			}
+
+			public void gradient() {
+
+				grad.add(shapes[0], shapes[1], output());
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node sigmoid(Shape<double[]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.SIGMOID, shapes) {
+
+			public void compute() {
+
+				output(Matrix.sigmoid(shapes[0].get()));
+
+			}
+
+			public void gradient() {
+
+				grad.sigmoid(shapes[0], output());
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node reduce(Shape<double[]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.SIGMOID, shapes) {
+
+			public void compute() {
+
+			}
+
+			public void gradient() {
+
+				grad.reduce(shapes);
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node conv(Shape... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null) {
+
+				Shape<double[][]> shap = shape;
+
+				Matrix.random(shap.get());
+
+			}
+
+		});
+
+		Node node = new Node(Option.SIGMOID, shapes) {
+
+			public void compute() {
+
+				Shape<double[][]> weight = shapes[0];
+				Shape<double[][]> input = shapes[1];
+
+				output(Matrix.conv(weight.get(), input.get()));
+
+			}
+
+			public void gradient() {
+
+				try {
+
+					grad.conv(shapes[0], shapes[1], output());
+
+				} catch (Exception e) {
+
+					Shape<double[]> output = output();
+					output().diff(reshape(output.diff(), new double[output.diff().length][1][1]));
+
+					grad.conv(shapes[0], shapes[1], output());
+
+				}
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node relu(Shape<double[][]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.SIGMOID, shapes) {
+
+			public void compute() {
+
+				output(Matrix.relu(shapes[0].get()));
+
+			}
+
+			public void gradient() {
+
+				grad.relu(shapes[0], output());
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+	public Node maxpool(Shape<double[][]>... shapes) {
+
+		Stream.of(shapes).forEach(shape -> {
+
+			if (shape.init != null)
+
+				Matrix.random(shape.get());
+
+		});
+
+		Node node = new Node(Option.SIGMOID, shapes) {
+
+			public void compute() {
+
+				output(Matrix.maxpool(shapes[0].get()));
+
+			}
+
+			public void gradient() {
+
+				grad.maxpool(shapes[0], output());
+
+			}
+
+		};
+
+		list.add(node);
+
+		return node;
+
+	}
+
+}
