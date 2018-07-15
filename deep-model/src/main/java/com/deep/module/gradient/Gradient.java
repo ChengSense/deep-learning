@@ -213,12 +213,12 @@ public class Gradient<E> {
 						int x2 = in.length - x0 + 1;
 						int x3 = in[0].length - x1 + 1;
 
-						new Feach(x0, x1, x2, x3) {
+						new Feach(x2, x3, x0, x1) {
 
 							public void each(int i, int l, int m, int n) {
 
 								double w = we[m][n];
-								double x = in[i][l];
+								double x = in[i + m][l + n];
 								double d = output.diff()[iw][i][l];
 
 								Map map = new HashMap();
@@ -227,7 +227,7 @@ public class Gradient<E> {
 
 								AutoDiff diff = new MulDiff(map, d);
 								weight.diff()[iw][m][n] += diff.getDiff("w");
-								input.diff()[ix][i][l] += diff.getDiff("x");
+								input.diff()[ix][i + m][l + n] += diff.getDiff("x");
 
 								weight.get()[iw][m][n] += -rate * diff.getDiff("w");
 
@@ -247,8 +247,8 @@ public class Gradient<E> {
 
 	public void relu(Shape... shapes) {
 
-		Shape<double[][]> input = shapes[1];
-		Shape<double[][]> output = shapes[2];
+		Shape<double[][]> input = shapes[0];
+		Shape<double[][]> output = shapes[1];
 
 		input.diff(Matrix.fill(input.get(), 0));
 
@@ -279,8 +279,8 @@ public class Gradient<E> {
 
 	public void maxpool(Shape... shapes) {
 
-		Shape<double[][]> input = shapes[1];
-		Shape<double[][]> output = shapes[2];
+		Shape<double[][]> input = shapes[0];
+		Shape<double[][]> output = shapes[1];
 
 		input.diff(Matrix.fill(input.get(), 0));
 

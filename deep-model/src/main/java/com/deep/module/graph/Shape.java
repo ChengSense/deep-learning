@@ -4,7 +4,7 @@ import com.deep.util.ReShape;
 
 public class Shape<E> extends ReShape {
 
-	public String init;
+	transient public String init;
 
 	public Shape(String name) {
 		this.name = name;
@@ -25,8 +25,8 @@ public class Shape<E> extends ReShape {
 		return array;
 	}
 
-	public void set(E[] array) {
-		this.array = array;
+	public void set(E array) {
+		this.array = (E[]) array;
 	}
 
 	private String name;

@@ -42,21 +42,25 @@ public class TensorFlow extends ReShape {
 
 			public void compute() {
 
-				try {
+				if (shapes[1].get() instanceof double[][]) {
 
 					Shape<double[]> weight = shapes[0];
 					Shape<double[]> input = shapes[1];
 
 					output(Matrix.mult(weight.get(), input.get()));
+					return;
 
-				} catch (Exception e) {
+				}
+
+				if (shapes[1].get() instanceof double[][][]) {
 
 					Shape<double[]> weight = shapes[0];
 					Shape<double[][]> input = shapes[1];
 					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
-					Shape<double[]> in = shapes[1];
+					Shape<double[]> inputx = shapes[1];
 
-					output(Matrix.mult(weight.get(), in.get()));
+					output(Matrix.mult(weight.get(), inputx.get()));
+					return;
 
 				}
 
@@ -64,22 +68,9 @@ public class TensorFlow extends ReShape {
 
 			public void gradient() {
 
-				try {
-
-					Shape<double[]> weight = shapes[0];
-					Shape<double[]> input = shapes[1];
-
-					grad.matmul(weight, input, output());
-
-				} catch (Exception e) {
-
-					Shape<double[]> weight = shapes[0];
-					Shape<double[][]> input = shapes[1];
-					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
-
-					grad.matmul(weight, input, output());
-
-				}
+				Shape<double[]> weight = shapes[0];
+				Shape<double[]> input = shapes[1];
+				grad.matmul(weight, input, output());
 
 			}
 
@@ -143,7 +134,7 @@ public class TensorFlow extends ReShape {
 
 			public void gradient() {
 
-				grad.add(shapes[0], shapes[1], output());
+				grad.add3(shapes[0], shapes[1], output());
 
 			}
 
@@ -244,16 +235,21 @@ public class TensorFlow extends ReShape {
 
 			public void gradient() {
 
-				try {
+				if (output().diff() instanceof double[][][]) {
 
 					grad.conv(shapes[0], shapes[1], output());
 
-				} catch (Exception e) {
+					return;
+
+				}
+
+				if (output().diff() instanceof double[][]) {
 
 					Shape<double[]> output = output();
 					output().diff(reshape(output.diff(), new double[output.diff().length][1][1]));
-
 					grad.conv(shapes[0], shapes[1], output());
+
+					return;
 
 				}
 

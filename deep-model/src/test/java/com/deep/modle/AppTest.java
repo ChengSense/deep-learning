@@ -36,7 +36,7 @@ public class AppTest extends TestCase {
 
 		Session session = new Session(tf, input, label);
 
-		session.run(node1.get("input"), node10.get("lable"), node9.output(), 10000000);
+		session.run(node1.get("input"), node10.get("lable"), 10000000);
 
 		System.out.println(tf);
 

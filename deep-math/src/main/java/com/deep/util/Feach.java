@@ -20,7 +20,7 @@ public abstract class Feach<E> {
 			for (int l = 0; l < x[1]; l++)
 				for (int m = 0; m < x[2]; m++)
 					for (int n = 0; n < x[3]; n++)
-						each(i + m, l + n, m, n);
+						each(i, l, m, n);
 	}
 
 	public void each(int x0, int x1, int x2, int x3) {

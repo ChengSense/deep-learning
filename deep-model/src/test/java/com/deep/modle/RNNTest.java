@@ -13,7 +13,7 @@ public class RNNTest extends TestCase {
 	public void test() {
 
 		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] { { { 1 } } };
+		double[][][] label = new double[][][] { { { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } } };
 
 		TensorFlow tf = new TensorFlow();
 
@@ -30,10 +30,10 @@ public class RNNTest extends TestCase {
 		Node node8 = tf.maxpool(node7.output());// 16*5
 
 		// 卷积层3
-		Node node9 = tf.conv(new Shape("weight", new double[32][5][5], "R"), node8.output());
+		Node node9 = tf.conv(new Shape("weight", new double[16][5][5], "R"), node8.output());
 
 		// 全连接层5
-		Node node10 = tf.matmul(new Shape("weight", new double[1][32], "R"), node9.output());
+		Node node10 = tf.matmul(new Shape("weight", new double[1][16], "R"), node9.output());
 		Node node11 = tf.add(node10.output(), new Shape("bias", new double[1][1], "R"));
 		Node node12 = tf.sigmoid(node11.output());
 
@@ -41,7 +41,7 @@ public class RNNTest extends TestCase {
 		Node node13 = tf.reduce(new Shape("lable", new double[1][1]), node12.output());
 
 		Session session = new Session(tf, input, label);
-		session.run(node1.get("input"), node13.get("lable"), node12.output(), 10000000);
+		session.run(node1.get("input"), node13.get("lable"), 50);
 
 	}
 }

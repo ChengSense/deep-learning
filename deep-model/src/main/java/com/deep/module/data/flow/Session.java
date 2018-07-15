@@ -8,8 +8,6 @@ import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
 import com.deep.util.Each;
 import com.deep.util.Feach;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class Session<E> {
 
@@ -55,7 +53,7 @@ public class Session<E> {
 
 	}
 
-	public void run(Shape<E> inShape, Shape<E> labShape, Shape<E> outShape, int epoch) {
+	public void run(Shape<E> inShape, Shape<E> labShape, int epoch) {
 
 		IntStream.range(0, epoch).forEach(i -> {
 
@@ -63,15 +61,15 @@ public class Session<E> {
 
 				public void each(E input, E label) {
 
-					inShape.set((E[]) input);
+					inShape.set(input);
 
 					forward();
 
-					labShape.set((E[]) label);
+					labShape.set(label);
 
 					backward();
 
-					log(input, label, outShape.get(), i);
+					log(i);
 
 				}
 
@@ -81,25 +79,21 @@ public class Session<E> {
 
 	}
 
-	private void log(E input, E label, E[] out, int epoch) {
+	private void log(int epoch) {
 
-		if (epoch % 1000 == 0) {
+		if (epoch % 10 == 0)
 
-			log.info("epoch :" + epoch);
+			new Each<Node>(tf.list) {
 
-			log.info("input :" + string(input));
+				public void each(Node node) {
 
-			log.info("label :" + string(label));
+					log.info("epoch :" + epoch + ":" + index());
+					log.info("epoch :" + node.toString());
 
-			log.info("output:" + string(out) + "\n");
+				}
 
-		}
+			};
 
-	}
-
-	public String string(Object o) {
-		Gson gson = new GsonBuilder().create();
-		return gson.toJson(o);
 	}
 
 }

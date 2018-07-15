@@ -3,8 +3,13 @@ package com.deep.math;
 import java.math.BigDecimal;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
+import org.apache.log4j.Logger;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Matrix {
+	static Logger log = Logger.getLogger(Matrix.class);
 
 	public static double[] random(double[] a) {
 		RandomDataGenerator random = new RandomDataGenerator();
@@ -14,14 +19,18 @@ public class Matrix {
 	}
 
 	public static double[][] random(double[][] A) {
+		RandomDataGenerator random = new RandomDataGenerator();
 		for (int i = 0; i < A.length; i++)
-			A[i] = random(A[i]);
+			for (int l = 0; l < A[i].length; l++)
+				A[i][l] = random.nextGaussian(0, 1);
 		return A;
 	}
 
 	public static double[][][] random(double[][][] A) {
-		for (int i = 0; i < A.length; i++)
+		for (int i = 0; i < A.length; i++) {
 			A[i] = random(A[i]);
+			A[i] = div(A[i], A.length * A[0].length * A[0][0].length);
+		}
 		return A;
 	}
 
@@ -43,6 +52,22 @@ public class Matrix {
 		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
 		for (int i = 0; i < A.length; i++)
 			C[i] = fill(A[i], b);
+		return C;
+	}
+
+	public static double sum(double[][] A) {
+		double c = 0;
+		for (int i = 0; i < A.length; i++)
+			for (int l = 0; l < A[i].length; l++)
+				c += A[i][l];
+		return c;
+	}
+
+	public static double[][] div(double[][] A, double b) {
+		double[][] C = new double[A.length][A[0].length];
+		for (int i = 0; i < A.length; i++)
+			for (int l = 0; l < A[0].length; l++)
+				C[i][l] = A[i][l] / b;
 		return C;
 	}
 
@@ -139,6 +164,9 @@ public class Matrix {
 		for (int i = 0; i < A.length; i++)
 			for (int l = 0; l < B.length; l++)
 				C[i] = add(C[i], conv(A[i], B[l]));
+//		print(A);
+//		print(B);
+//		print(C);
 		return C;
 	}
 
@@ -169,6 +197,12 @@ public class Matrix {
 			sb.delete(sb.length() - 1, sb.length()).append("\n");
 		}
 		return sb.toString();
+	}
+
+	public static String print(Object o) {
+		Gson gson = new GsonBuilder().create();
+		log.info(gson.toJson(o));
+		return gson.toJson(o);
 	}
 
 	public static void main(String[] args) {
