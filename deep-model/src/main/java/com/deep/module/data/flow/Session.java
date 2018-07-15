@@ -97,7 +97,7 @@ public class Session<E> {
 
 	private void log(int epoch) {
 
-		if (epoch % 10 != 0) return;
+		if (epoch % 1000 != 0) return;
 
 		new Each<Node>(tf.list) {
 
