@@ -9,11 +9,10 @@ import com.deep.util.ImageKit;
 import junit.framework.TestCase;
 
 public class RNNTest extends TestCase {
-
 	public void test() {
 
 		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] { { { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } },{ { 1 } } };
+		double[][][] label = new double[][][] { { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } } };
 
 		TensorFlow tf = new TensorFlow();
 
@@ -40,8 +39,8 @@ public class RNNTest extends TestCase {
 		// 损失节点
 		Node node13 = tf.reduce(new Shape("lable", new double[1][1]), node12.output());
 
-		Session session = new Session(tf, input, label);
-		session.run(node1.get("input"), node13.get("lable"), 50);
+		Session session = new Session(tf,node1.get("input"), node13.get("lable") );
+		session.run(input, label, 50);
 
 	}
 }

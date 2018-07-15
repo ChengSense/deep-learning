@@ -12,20 +12,20 @@ import com.deep.util.Feach;
 public class Session<E> {
 
 	Logger log = Logger.getLogger(Session.class);
-	E[] input, label;
-	TensorFlow tf;
+  private	Shape<E> inShape, labShape;
+  private TensorFlow tf;
 
-	public Session(TensorFlow tf, E[] input, E[] label) {
+	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {
 
+		this.inShape = inShape;
+		this.labShape = labShape;
 		this.tf = tf;
-
-		this.input = input;
-
-		this.label = label;
 
 	}
 
-	public void forward() {
+	public void forward(E input) {
+
+		inShape.set(input);
 
 		new Each<Node>(tf.list) {
 
@@ -39,7 +39,9 @@ public class Session<E> {
 
 	}
 
-	public void backward() {
+	public void backward(E label) {
+
+		labShape.set(label);
 
 		new Each<Node>(tf.list, null) {
 
@@ -53,21 +55,35 @@ public class Session<E> {
 
 	}
 
-	public void run(Shape<E> inShape, Shape<E> labShape, int epoch) {
+	public void run(E[] input, E[] label) {
 
+		new Feach<E>(input, label) {
+
+			public void each(E input, E label) {
+
+				forward(input);
+
+				backward(label);
+
+				log(0);
+
+			}
+
+		};
+
+	}
+
+	public void run(E[] input, E[] label, int epoch) {
+		
 		IntStream.range(0, epoch).forEach(i -> {
 
 			new Feach<E>(input, label) {
 
 				public void each(E input, E label) {
 
-					inShape.set(input);
+					forward(input);
 
-					forward();
-
-					labShape.set(label);
-
-					backward();
+					backward(label);
 
 					log(i);
 
@@ -81,18 +97,18 @@ public class Session<E> {
 
 	private void log(int epoch) {
 
-		if (epoch % 10 == 0)
+		if (epoch % 10 != 0) return;
 
-			new Each<Node>(tf.list) {
+		new Each<Node>(tf.list) {
 
-				public void each(Node node) {
+			public void each(Node node) {
 
-					log.info("epoch :" + epoch + ":" + index());
-					log.info("epoch :" + node.toString());
+				log.info("epoch :" + epoch + ":" + index());
+				log.info("epoch :" + node.toString());
 
-				}
+			}
 
-			};
+		};
 
 	}
 

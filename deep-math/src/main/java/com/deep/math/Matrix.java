@@ -164,9 +164,6 @@ public class Matrix {
 		for (int i = 0; i < A.length; i++)
 			for (int l = 0; l < B.length; l++)
 				C[i] = add(C[i], conv(A[i], B[l]));
-//		print(A);
-//		print(B);
-//		print(C);
 		return C;
 	}
 
@@ -203,21 +200,6 @@ public class Matrix {
 		Gson gson = new GsonBuilder().create();
 		log.info(gson.toJson(o));
 		return gson.toJson(o);
-	}
-
-	public static void main(String[] args) {
-		double[][] A = new double[][] {
-
-				{ 1, 2, 3, 4, 4 },
-
-				{ 1, 2, 3, 4, 4 },
-
-				{ 1, 7, 3, 6, 4 },
-
-				{ 1, 2, 3, 4, 4 }
-
-		};
-		System.out.println(format(maxpool(A)));
 	}
 
 }
