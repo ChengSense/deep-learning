@@ -34,7 +34,7 @@ public class NNTest extends TestCase {
 		double[][][] input = new double[][][] { { { 0.1 }, { 0.1 } }, { { 0.1 }, { 0.2 } }, { { 0.2 }, { 0.2 } }, { { 0.2 }, { 0.3 } }, { { 0.3 }, { 0.7 } }, { { 0.4 }, { 0.8 } }, { { 0.5 }, { 0.9 } }, { { 0.8 }, { 0.9 } }, { { 0.6 }, { 0.8 } } };
 		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
 
-		Session session = new Session(tf, node1.get("input"), node10.get("lable") );
+		Session session = new Session(tf, node1.get("input"), node10.get("lable"));
 
 		session.run(input, label, 10000000);
 

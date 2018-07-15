@@ -39,7 +39,7 @@ public class RNNTest extends TestCase {
 		// 损失节点
 		Node node13 = tf.reduce(new Shape("lable", new double[1][1]), node12.output());
 
-		Session session = new Session(tf,node1.get("input"), node13.get("lable") );
+		Session session = new Session(tf, node1.get("input"), node13.get("lable"));
 		session.run(input, label, 50);
 
 	}

@@ -1,5 +1,6 @@
 package com.deep.module.data.flow;
 
+import java.io.Serializable;
 import java.util.stream.IntStream;
 
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import com.deep.module.graph.Shape;
 import com.deep.util.Each;
 import com.deep.util.Feach;
 
-public class Session<E> {
+public class Session<E> implements Serializable {
 
 	Logger log = Logger.getLogger(Session.class);
   private	Shape<E> inShape, labShape;
