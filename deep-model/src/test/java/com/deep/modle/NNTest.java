@@ -1,15 +1,20 @@
 package com.deep.modle;
 
+import org.junit.Test;
+
 import com.deep.module.data.flow.Session;
 import com.deep.module.data.flow.TensorFlow;
 import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
+import com.deep.util.Model;
 
-import junit.framework.TestCase;
+public class NNTest {
 
-public class NNTest extends TestCase {
+	String path = "D:/nn-session.ml";
+	Session session = null;
 
-	public void test() {
+	//@Test
+	public void nn() {
 
 		TensorFlow tf = new TensorFlow();
 
@@ -34,11 +39,41 @@ public class NNTest extends TestCase {
 		double[][][] input = new double[][][] { { { 0.1 }, { 0.1 } }, { { 0.1 }, { 0.2 } }, { { 0.2 }, { 0.2 } }, { { 0.2 }, { 0.3 } }, { { 0.3 }, { 0.7 } }, { { 0.4 }, { 0.8 } }, { { 0.5 }, { 0.9 } }, { { 0.8 }, { 0.9 } }, { { 0.6 }, { 0.8 } } };
 		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
 
-		Session session = new Session(tf, node1.get("input"), node10.get("lable"));
+		session = new Session(tf, node1.get("input"), node10.get("lable"));
 
-		session.run(input, label, 10000000);
+		session.run(input, label, 1000, 1000);
 
-		System.out.println(tf);
+		session.inStore(path);
 
 	}
+
+	@Test
+	public void nnr() {
+
+		Model<Session> model = new Model<Session>();
+
+		session = model.outStore(path);
+
+		double[][][] input = new double[][][] { { { 0.1 }, { 0.1 } }, { { 0.1 }, { 0.2 } }, { { 0.1 }, { 0.9 } }, { { 0.2 }, { 0.2 } }, { { 0.2 }, { 0.3 } }, { { 0.3 }, { 0.7 } }, { { 0.4 }, { 0.8 } }, { { 0.5 }, { 0.9 } }, { { 0.8 }, { 0.9 } }, { { 0.6 }, { 0.8 } } };
+		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.09 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
+
+		session.run(input, label, 100000, 1000);
+
+		session.inStore(path);
+
+	}
+
+	@Test
+	public void run() {
+
+		Model<Session> model = new Model<Session>();
+
+		session = model.outStore(path);
+
+		double[][] input = { { 0.1 }, { 0.9 } };
+
+		session.run(input);
+
+	}
+
 }

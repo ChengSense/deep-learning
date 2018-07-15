@@ -1,5 +1,6 @@
 package com.deep.module.gradient;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import com.deep.module.graph.Shape;
 import com.deep.util.Each;
 import com.deep.util.Feach;
 
-public class Gradient<E> {
+public class Gradient<E> implements Serializable {
 
 	static double rate = 0.05;
 

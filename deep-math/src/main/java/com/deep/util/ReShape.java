@@ -1,6 +1,8 @@
 package com.deep.util;
 
-public class ReShape {
+import java.io.Serializable;
+
+public class ReShape implements Serializable {
 
 	public static double[] reshape(double[][] A, double[] b) {
 		for (int i = 0; i < b.length; i++) {

@@ -162,7 +162,7 @@ public class ImageKit {
 		}
 	}
 
-	static double[][][] img2rgb(String src) {
+	public static double[][][] img2rgb(String src) {
 		try {
 			BufferedImage image = ImageIO.read(new File(src));
 			int width = image.getWidth();

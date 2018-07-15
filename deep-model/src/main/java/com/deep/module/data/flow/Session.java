@@ -1,6 +1,5 @@
 package com.deep.module.data.flow;
 
-import java.io.Serializable;
 import java.util.stream.IntStream;
 
 import org.apache.log4j.Logger;
@@ -9,12 +8,12 @@ import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
 import com.deep.util.Each;
 import com.deep.util.Feach;
+import com.deep.util.Model;
 
-public class Session<E> implements Serializable {
+public class Session<E> extends Model {
 
-	Logger log = Logger.getLogger(Session.class);
-  private	Shape<E> inShape, labShape;
-  private TensorFlow tf;
+	private Shape<E> inShape, labShape;
+	private TensorFlow tf;
 
 	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {
 
@@ -24,7 +23,7 @@ public class Session<E> implements Serializable {
 
 	}
 
-	public void forward(E input) {
+	private void forward(E input) {
 
 		inShape.set(input);
 
@@ -40,7 +39,7 @@ public class Session<E> implements Serializable {
 
 	}
 
-	public void backward(E label) {
+	private void backward(E label) {
 
 		labShape.set(label);
 
@@ -56,26 +55,16 @@ public class Session<E> implements Serializable {
 
 	}
 
-	public void run(E[] input, E[] label) {
+	public void run(E[] input) {
 
-		new Feach<E>(input, label) {
+		forward((E) input);
 
-			public void each(E input, E label) {
-
-				forward(input);
-
-				backward(label);
-
-				log(0);
-
-			}
-
-		};
+		log(0, 10);
 
 	}
 
-	public void run(E[] input, E[] label, int epoch) {
-		
+	public void run(E[] input, E[] label, int epoch, int step) {
+
 		IntStream.range(0, epoch).forEach(i -> {
 
 			new Feach<E>(input, label) {
@@ -86,7 +75,7 @@ public class Session<E> implements Serializable {
 
 					backward(label);
 
-					log(i);
+					log(i, step);
 
 				}
 
@@ -96,9 +85,11 @@ public class Session<E> implements Serializable {
 
 	}
 
-	private void log(int epoch) {
+	private void log(int epoch, int step) {
 
-		if (epoch % 1000 != 0) return;
+		if (epoch % step != 0) return;
+
+		Logger log = Logger.getLogger(Session.class);
 
 		new Each<Node>(tf.list) {
 

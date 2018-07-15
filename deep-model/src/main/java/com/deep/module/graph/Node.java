@@ -1,5 +1,6 @@
 package com.deep.module.graph;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import com.deep.gradient.Option;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public abstract class Node {
+public abstract class Node implements Serializable {
 
 	Option option;
 

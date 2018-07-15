@@ -1,15 +1,21 @@
 package com.deep.modle;
 
+import org.junit.Test;
+
 import com.deep.module.data.flow.Session;
 import com.deep.module.data.flow.TensorFlow;
 import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
 import com.deep.util.ImageKit;
+import com.deep.util.Model;
 
-import junit.framework.TestCase;
+public class CNNTest {
 
-public class RNNTest extends TestCase {
-	public void test() {
+	String path = "D:/cnn-session.ml";
+	Session session;
+
+	//@Test
+	public void cnn() {
 
 		double[][][][] input = ImageKit.getInput();
 		double[][][] label = new double[][][] { { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } } };
@@ -39,8 +45,42 @@ public class RNNTest extends TestCase {
 		// 损失节点
 		Node node13 = tf.reduce(new Shape("lable", new double[1][1]), node12.output());
 
-		Session session = new Session(tf, node1.get("input"), node13.get("lable"));
-		session.run(input, label, 50);
+		session = new Session(tf, node1.get("input"), node13.get("lable"));
+
+		session.run(input, label, 10, 10);
+
+		session.inStore(path);
 
 	}
+
+	//@Test
+	public void runr() {
+
+		double[][][][] input = ImageKit.getInput();
+		double[][][] label = new double[][][] { { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } } };
+
+		Model<Session> model = new Model<Session>();
+
+		session = model.outStore(path);
+
+		session.run(input, label, 10, 10);
+
+		session.inStore(path);
+
+	}
+
+	@Test
+	public void run() {
+
+		Model<Session> model = new Model<Session>();
+
+		session = model.outStore(path);
+
+		//double[][][] input =ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
+		double[][][] input =ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
+
+		session.run(input);
+
+	}
+
 }
