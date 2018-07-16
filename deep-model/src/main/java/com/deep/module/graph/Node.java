@@ -19,6 +19,7 @@ public abstract class Node implements Serializable {
 	}
 
 	public abstract void compute();
+
 	public abstract void gradient();
 
 	public Shape get(String name) {
@@ -45,6 +46,8 @@ public abstract class Node implements Serializable {
 			builder.append("\n       ");
 		});
 		builder.append(gson.toJson(ouput));
+		builder.append("\n       ");
+		builder.append("{\"option\":" + option + "}");
 		return builder.toString();
 	}
 

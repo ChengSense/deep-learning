@@ -142,7 +142,7 @@ public class TensorFlow extends ReShape {
 
 	public Node reduce(Shape... shapes) {
 
-		Node node = new Node(Option.SIGMOID, shapes) {
+		Node node = new Node(Option.REDUCE, shapes) {
 
 			public void compute() {
 
@@ -164,7 +164,7 @@ public class TensorFlow extends ReShape {
 
 	public Node conv(Shape... shapes) {
 
-		Node node = new Node(Option.SIGMOID, shapes) {
+		Node node = new Node(Option.CONV, shapes) {
 
 			public void compute() {
 
@@ -204,7 +204,7 @@ public class TensorFlow extends ReShape {
 
 	public Node relu(Shape<double[][][]>... shapes) {
 
-		Node node = new Node(Option.SIGMOID, shapes) {
+		Node node = new Node(Option.RELU, shapes) {
 
 			public void compute() {
 
@@ -228,7 +228,7 @@ public class TensorFlow extends ReShape {
 
 	public Node maxpool(Shape<double[][][]>... shapes) {
 
-		Node node = new Node(Option.SIGMOID, shapes) {
+		Node node = new Node(Option.MAXPOOL, shapes) {
 
 			public void compute() {
 
