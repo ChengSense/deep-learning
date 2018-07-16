@@ -24,13 +24,13 @@ public class CNNTest {
 
 		// 卷积层1
 		Node node1 = tf.conv(new Shape("weight", new double[6][5][5], "R"), new Shape("input", new double[3][32][32], "R"));
-		Node node2 = tf.add3(node1.output(), new Shape("bias", new double[6][28][28], "R"));// 6*28
+		Node node2 = tf.add3(node1.output(), new Shape("bias", new double[6], "R"));// 6*28
 		Node node3 = tf.relu(node2.output());// 6*28
 		Node node4 = tf.maxpool(node3.output());// 6*14
 
 		// 卷积层2
 		Node node5 = tf.conv(new Shape("weight", new double[16][5][5], "R"), node4.output());// 6*14
-		Node node6 = tf.add3(node5.output(), new Shape("bias", new double[16][10][10], "R"));// 16*10
+		Node node6 = tf.add3(node5.output(), new Shape("bias", new double[16], "R"));// 16*10
 		Node node7 = tf.relu(node6.output());// 16*10
 		Node node8 = tf.maxpool(node7.output());// 16*5
 
@@ -53,7 +53,7 @@ public class CNNTest {
 
 	}
 
-	//@Test
+	@Test
 	public void runr() {
 
 		double[][][][] input = ImageKit.getInput();
@@ -63,7 +63,7 @@ public class CNNTest {
 
 		session = model.outStore(path);
 
-		session.run(input, label, 10, 10);
+		session.run(input, label, 1000, 10);
 
 		session.inStore(path);
 

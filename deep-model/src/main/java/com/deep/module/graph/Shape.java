@@ -1,47 +1,46 @@
 package com.deep.module.graph;
 
+import com.deep.math.Matrix;
 import com.deep.util.ReShape;
 
 public class Shape<E> extends ReShape {
 
-	transient public String init;
+	private String name;
+	private E data;
+	private E diff;
 
 	public Shape(String name) {
 		this.name = name;
 	}
 
-	public Shape(String name, E[] array) {
+	public Shape(String name, E data) {
 		this.name = name;
-		this.array = array;
+		this.data = data;
 	}
 
-	public Shape(String name, E[] array, String init) {
+	public Shape(String name, E data, String random) {
 		this.name = name;
-		this.array = array;
-		this.init = init;
+		this.data = data;
+		Matrix.random(data);
 	}
 
-	public E[] get() {
-		return array;
+	public E get() {
+		return data;
 	}
 
-	public void set(E array) {
-		this.array = (E[]) array;
+	public void set(E data) {
+		this.data = data;
 	}
-
-	private String name;
-	private E[] array;
-	private E[] diff;
 
 	public String getName() {
 		return name;
 	}
 
-	public void diff(E[] diff) {
+	public void diff(E diff) {
 		this.diff = diff;
 	}
 
-	public E[] diff() {
+	public E diff() {
 		return diff;
 	}
 

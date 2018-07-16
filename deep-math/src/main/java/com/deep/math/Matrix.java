@@ -11,6 +11,23 @@ import com.google.gson.GsonBuilder;
 public class Matrix {
 	static Logger log = Logger.getLogger(Matrix.class);
 
+	public static <E> E random(E a) {
+		try {
+			return (E) random((double[]) a);
+		} catch (Exception e) {
+			try {
+				return (E) random((double[][]) a);
+			} catch (Exception c) {
+				try {
+					return (E) random((double[][][]) a);
+				} catch (Exception o) {
+
+				}
+			}
+		}
+		return a;
+	}
+
 	public static double[] random(double[] a) {
 		RandomDataGenerator random = new RandomDataGenerator();
 		for (int i = 0; i < a.length; i++)
@@ -83,6 +100,21 @@ public class Matrix {
 		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
 		for (int i = 0; i < A.length; i++)
 			C[i] = add(A[i], B[i]);
+		return C;
+	}
+
+	public static double[][][] add(double[][][] A, double[] B) {
+		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
+		for (int i = 0; i < A.length; i++)
+			C[i] = add(A[i], B[i]);
+		return C;
+	}
+
+	public static double[][] add(double[][] A, double b) {
+		double[][] C = new double[A.length][A[0].length];
+		for (int i = 0; i < A.length; i++)
+			for (int l = 0; l < A[i].length; l++)
+				C[i][l] = A[i][l] + b;
 		return C;
 	}
 

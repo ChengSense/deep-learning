@@ -11,49 +11,31 @@ import com.google.gson.GsonBuilder;
 
 public abstract class Node implements Serializable {
 
-	Option option;
-
-	Shape ouput;
-
-	Map<String, Shape> map;
-
-	public abstract void compute();
-
-	public abstract void gradient();
-
 	public Node(Option option, Shape... shapes) {
-
 		this.option = option;
-
 		this.ouput = new Shape("output");
-
 		this.map = new HashMap<String, Shape>();
-
-		Arrays.stream(shapes).forEach(shape -> {
-
-			map.put(shape.getName(), shape);
-
-		});
-
+		Arrays.stream(shapes).forEach(shape -> map.put(shape.getName(), shape));
 	}
 
+	public abstract void compute();
+	public abstract void gradient();
+
 	public Shape get(String name) {
-
 		return map.get(name);
-
 	}
 
 	public <E> void output(E data) {
-
 		ouput.set(data);
-
 	}
 
 	public Shape output() {
-
 		return ouput;
-
 	}
+
+	private Option option;
+	private Shape ouput;
+	private Map<String, Shape> map;
 
 	public String toString() {
 		Gson gson = new GsonBuilder().create();

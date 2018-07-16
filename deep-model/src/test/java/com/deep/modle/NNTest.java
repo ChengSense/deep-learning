@@ -57,20 +57,20 @@ public class NNTest {
 		double[][][] input = new double[][][] { { { 0.1 }, { 0.1 } }, { { 0.1 }, { 0.2 } }, { { 0.1 }, { 0.9 } }, { { 0.2 }, { 0.2 } }, { { 0.2 }, { 0.3 } }, { { 0.3 }, { 0.7 } }, { { 0.4 }, { 0.8 } }, { { 0.5 }, { 0.9 } }, { { 0.8 }, { 0.9 } }, { { 0.6 }, { 0.8 } } };
 		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.09 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
 
-		session.run(input, label, 100000, 1000);
+		session.run(input, label, 1000000, 1000);
 
 		session.inStore(path);
 
 	}
 
-	@Test
+	//@Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-		double[][] input = { { 0.1 }, { 0.9 } };
+		double[][] input = { { 0.8 }, { 0.9 } };
 
 		session.run(input);
 

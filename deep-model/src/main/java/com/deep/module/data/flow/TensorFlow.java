@@ -1,7 +1,5 @@
 package com.deep.module.data.flow;
 
-import java.util.stream.Stream;
-
 import com.deep.gradient.Option;
 import com.deep.math.Matrix;
 import com.deep.module.gradient.Gradient;
@@ -26,26 +24,14 @@ public class TensorFlow extends ReShape {
 
 	public Node matmul(Shape... shapes) {
 
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null) {
-
-				Shape<double[]> shap = shape;
-
-				Matrix.random(shap.get());
-
-			}
-
-		});
-
 		Node node = new Node(Option.MATMUL, shapes) {
 
 			public void compute() {
 
 				if (shapes[1].get() instanceof double[][]) {
 
-					Shape<double[]> weight = shapes[0];
-					Shape<double[]> input = shapes[1];
+					Shape<double[][]> weight = shapes[0];
+					Shape<double[][]> input = shapes[1];
 
 					output(Matrix.mult(weight.get(), input.get()));
 					return;
@@ -54,10 +40,10 @@ public class TensorFlow extends ReShape {
 
 				if (shapes[1].get() instanceof double[][][]) {
 
-					Shape<double[]> weight = shapes[0];
-					Shape<double[][]> input = shapes[1];
+					Shape<double[][]> weight = shapes[0];
+					Shape<double[][][]> input = shapes[1];
 					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
-					Shape<double[]> inputx = shapes[1];
+					Shape<double[][]> inputx = shapes[1];
 
 					output(Matrix.mult(weight.get(), inputx.get()));
 					return;
@@ -68,9 +54,7 @@ public class TensorFlow extends ReShape {
 
 			public void gradient() {
 
-				Shape<double[]> weight = shapes[0];
-				Shape<double[]> input = shapes[1];
-				grad.matmul(weight, input, output());
+				grad.matmul(shapes[0], shapes[1], output());
 
 			}
 
@@ -82,15 +66,7 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node add(Shape<double[]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node add(Shape<double[][]>... shapes) {
 
 		Node node = new Node(Option.ADD, shapes) {
 
@@ -114,21 +90,15 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node add3(Shape<double[][]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node add3(Shape... shapes) {
 
 		Node node = new Node(Option.ADD, shapes) {
 
 			public void compute() {
-
-				output(Matrix.add(shapes[0].get(), shapes[1].get()));
+				
+				Shape<double[][][]> input = shapes[0];
+				Shape<double[]> bias = shapes[1];
+				output(Matrix.add(input.get(), bias.get()));
 
 			}
 
@@ -146,15 +116,7 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node sigmoid(Shape<double[]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node sigmoid(Shape<double[][]>... shapes) {
 
 		Node node = new Node(Option.SIGMOID, shapes) {
 
@@ -178,15 +140,7 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node reduce(Shape<double[]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node reduce(Shape... shapes) {
 
 		Node node = new Node(Option.SIGMOID, shapes) {
 
@@ -210,24 +164,12 @@ public class TensorFlow extends ReShape {
 
 	public Node conv(Shape... shapes) {
 
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null) {
-
-				Shape<double[][]> shap = shape;
-
-				Matrix.random(shap.get());
-
-			}
-
-		});
-
 		Node node = new Node(Option.SIGMOID, shapes) {
 
 			public void compute() {
 
-				Shape<double[][]> weight = shapes[0];
-				Shape<double[][]> input = shapes[1];
+				Shape<double[][][]> weight = shapes[0];
+				Shape<double[][][]> input = shapes[1];
 
 				output(Matrix.conv(weight.get(), input.get()));
 
@@ -236,16 +178,13 @@ public class TensorFlow extends ReShape {
 			public void gradient() {
 
 				if (output().diff() instanceof double[][][]) {
-
 					grad.conv(shapes[0], shapes[1], output());
-
 					return;
-
 				}
 
 				if (output().diff() instanceof double[][]) {
 
-					Shape<double[]> output = output();
+					Shape<double[][]> output = output();
 					output().diff(reshape(output.diff(), new double[output.diff().length][1][1]));
 					grad.conv(shapes[0], shapes[1], output());
 
@@ -263,15 +202,7 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node relu(Shape<double[][]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node relu(Shape<double[][][]>... shapes) {
 
 		Node node = new Node(Option.SIGMOID, shapes) {
 
@@ -295,15 +226,7 @@ public class TensorFlow extends ReShape {
 
 	}
 
-	public Node maxpool(Shape<double[][]>... shapes) {
-
-		Stream.of(shapes).forEach(shape -> {
-
-			if (shape.init != null)
-
-				Matrix.random(shape.get());
-
-		});
+	public Node maxpool(Shape<double[][][]>... shapes) {
 
 		Node node = new Node(Option.SIGMOID, shapes) {
 

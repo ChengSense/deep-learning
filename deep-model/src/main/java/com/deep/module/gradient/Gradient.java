@@ -20,9 +20,9 @@ public class Gradient<E> implements Serializable {
 
 	public void matmul(Shape... shapes) {
 
-		Shape<double[]> weight = shapes[0];
-		Shape<double[]> input = shapes[1];
-		Shape<double[]> output = shapes[2];
+		Shape<double[][]> weight = shapes[0];
+		Shape<double[][]> input = shapes[1];
+		Shape<double[][]> output = shapes[2];
 
 		weight.diff(Matrix.fill(weight.get(), 0));
 		input.diff(Matrix.fill(input.get(), 0));
@@ -62,9 +62,9 @@ public class Gradient<E> implements Serializable {
 
 	public void add(Shape... shapes) {
 
-		Shape<double[]> input = shapes[0];
-		Shape<double[]> bias = shapes[1];
-		Shape<double[]> output = shapes[2];
+		Shape<double[][]> input = shapes[0];
+		Shape<double[][]> bias = shapes[1];
+		Shape<double[][]> output = shapes[2];
 
 		input.diff(Matrix.fill(input.get(), 0));
 		bias.diff(Matrix.fill(bias.get(), 0));
@@ -94,9 +94,9 @@ public class Gradient<E> implements Serializable {
 
 	public void add3(Shape... shapes) {
 
-		Shape<double[][]> input = shapes[0];
-		Shape<double[][]> bias = shapes[1];
-		Shape<double[][]> output = shapes[2];
+		Shape<double[][][]> input = shapes[0];
+		Shape<double[]> bias = shapes[1];
+		Shape<double[][][]> output = shapes[2];
 
 		input.diff(Matrix.fill(input.get(), 0));
 		bias.diff(Matrix.fill(bias.get(), 0));
@@ -112,7 +112,7 @@ public class Gradient<E> implements Serializable {
 					public void each(int i, int l) {
 
 						double x = in[i][l];
-						double b = bias.get()[ix][i][l];
+						double b = bias.get()[ix];
 						double d = output.diff()[ix][i][l];
 
 						Map map = new HashMap();
@@ -120,10 +120,10 @@ public class Gradient<E> implements Serializable {
 						map.put("b", b);
 
 						AutoDiff diff = new AddDiff(map, d);
-						bias.diff()[ix][i][l] = diff.getDiff("b");
+						bias.diff()[ix] = diff.getDiff("b");
 						input.diff()[ix][i][l] = diff.getDiff("x");
 
-						bias.get()[ix][i][l] += -rate * diff.getDiff("b");
+						bias.get()[ix] += -rate * diff.getDiff("b");
 
 					}
 
@@ -136,8 +136,8 @@ public class Gradient<E> implements Serializable {
 
 	public void sigmoid(Shape... shapes) {
 
-		Shape<double[]> input = shapes[0];
-		Shape<double[]> output = shapes[1];
+		Shape<double[][]> input = shapes[0];
+		Shape<double[][]> output = shapes[1];
 
 		input.diff(Matrix.fill(input.get(), 0));
 
@@ -163,8 +163,8 @@ public class Gradient<E> implements Serializable {
 
 	public void reduce(Shape... shapes) {
 
-		Shape<double[]> lable = shapes[0];
-		Shape<double[]> output = shapes[1];
+		Shape<double[][]> lable = shapes[0];
+		Shape<double[][]> output = shapes[1];
 
 		output.diff(Matrix.fill(output.get(), 0));
 
@@ -190,9 +190,9 @@ public class Gradient<E> implements Serializable {
 
 	public void conv(Shape... shapes) {
 
-		Shape<double[][]> weight = shapes[0];
-		Shape<double[][]> input = shapes[1];
-		Shape<double[][]> output = shapes[2];
+		Shape<double[][][]> weight = shapes[0];
+		Shape<double[][][]> input = shapes[1];
+		Shape<double[][][]> output = shapes[2];
 
 		weight.diff(Matrix.fill(weight.get(), 0));
 		input.diff(Matrix.fill(input.get(), 0));
@@ -248,8 +248,8 @@ public class Gradient<E> implements Serializable {
 
 	public void relu(Shape... shapes) {
 
-		Shape<double[][]> input = shapes[0];
-		Shape<double[][]> output = shapes[1];
+		Shape<double[][][]> input = shapes[0];
+		Shape<double[][][]> output = shapes[1];
 
 		input.diff(Matrix.fill(input.get(), 0));
 
@@ -280,8 +280,8 @@ public class Gradient<E> implements Serializable {
 
 	public void maxpool(Shape... shapes) {
 
-		Shape<double[][]> input = shapes[0];
-		Shape<double[][]> output = shapes[1];
+		Shape<double[][][]> input = shapes[0];
+		Shape<double[][][]> output = shapes[1];
 
 		input.diff(Matrix.fill(input.get(), 0));
 
