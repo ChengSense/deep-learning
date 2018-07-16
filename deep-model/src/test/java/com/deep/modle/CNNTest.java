@@ -47,7 +47,7 @@ public class CNNTest {
 
 		session = new Session(tf, node1.get("input"), node13.get("lable"));
 
-		session.run(input, label, 10, 10);
+		session.run(input, label, 10, null);
 
 		session.inStore(path);
 

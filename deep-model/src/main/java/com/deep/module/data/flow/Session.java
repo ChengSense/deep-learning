@@ -63,7 +63,7 @@ public class Session<E> extends Model {
 
 	}
 
-	public void run(E[] input, E[] label, int epoch, int step) {
+	public void run(E[] input, E[] label, int epoch, Integer step) {
 
 		IntStream.range(0, epoch).forEach(i -> {
 
@@ -85,9 +85,9 @@ public class Session<E> extends Model {
 
 	}
 
-	private void log(int epoch, int step) {
+	private void log(int epoch, Integer step) {
 
-		if (epoch % step != 0) return;
+		if (step != 0 && epoch % step != 0) return;
 
 		Logger log = Logger.getLogger(Session.class);
 
