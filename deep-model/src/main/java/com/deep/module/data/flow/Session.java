@@ -72,8 +72,6 @@ public class Session<E> extends Model {
 				public void each(E input, E label) {
 
 					forward(input);
-					
-					log(i, index(), step);
 
 					backward(label);
 
@@ -97,8 +95,8 @@ public class Session<E> extends Model {
 
 			public void each(Node node) {
 
-				log.info("epoch :" + epoch + ":" + i + ":" + index());
-				log.info("epoch :" + node.toString());
+				log.debug("epoch :" + epoch + ":" + i + ":" + index());
+				log.debug("epoch :" + node.toString());
 
 			}
 
