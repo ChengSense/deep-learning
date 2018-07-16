@@ -87,7 +87,7 @@ public class Session<E> extends Model {
 
 	private void log(int epoch, Integer step) {
 
-		if (step != 0 && epoch % step != 0) return;
+		if (step !=null && epoch % step != 0) return;
 
 		Logger log = Logger.getLogger(Session.class);
 
