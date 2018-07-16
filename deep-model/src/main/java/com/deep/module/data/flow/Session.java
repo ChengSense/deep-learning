@@ -72,6 +72,8 @@ public class Session<E> extends Model {
 				public void each(E input, E label) {
 
 					forward(input);
+					
+					log(i, index(), step);
 
 					backward(label);
 
