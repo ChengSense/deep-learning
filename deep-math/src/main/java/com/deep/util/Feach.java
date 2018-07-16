@@ -35,6 +35,10 @@ public abstract class Feach<E> {
 
 	public void each(int x0, int x1) {
 
-	};
+	}
 
+	public int index() {
+		return index;
+	};
+	
 }

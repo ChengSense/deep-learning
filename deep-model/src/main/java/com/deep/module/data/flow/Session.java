@@ -59,7 +59,7 @@ public class Session<E> extends Model {
 
 		forward((E) input);
 
-		log(0, 10);
+		log(0, 0, 10);
 
 	}
 
@@ -75,7 +75,7 @@ public class Session<E> extends Model {
 
 					backward(label);
 
-					log(i, step);
+					log(i, index(), step);
 
 				}
 
@@ -85,7 +85,7 @@ public class Session<E> extends Model {
 
 	}
 
-	private void log(int epoch, Integer step) {
+	private void log(int epoch,int i, Integer step) {
 
 		if (step !=null && epoch % step != 0) return;
 
@@ -95,7 +95,7 @@ public class Session<E> extends Model {
 
 			public void each(Node node) {
 
-				log.info("epoch :" + epoch + ":" + index());
+				log.info("epoch :" + epoch + ":" + i + ":" + index());
 				log.info("epoch :" + node.toString());
 
 			}
