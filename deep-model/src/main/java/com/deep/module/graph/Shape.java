@@ -1,9 +1,10 @@
 package com.deep.module.graph;
 
-import com.deep.math.Matrix;
-import com.deep.util.ReShape;
+import java.io.Serializable;
 
-public class Shape<E> extends ReShape {
+import com.deep.math.Matrix;
+
+public class Shape<E> implements Serializable {
 
 	private String name;
 	private E array;

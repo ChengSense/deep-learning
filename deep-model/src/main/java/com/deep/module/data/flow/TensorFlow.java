@@ -8,7 +8,7 @@ import com.deep.module.graph.Shape;
 import com.deep.util.Array;
 import com.deep.util.ReShape;
 
-public class TensorFlow extends ReShape {
+public class TensorFlow<E> extends ReShape {
 
 	Array<Node> list;
 
@@ -28,27 +28,11 @@ public class TensorFlow extends ReShape {
 
 			public void compute() {
 
-				if (shapes[1].get() instanceof double[][]) {
+				Shape<double[][]> weight = shapes[0];
+				Shape<E[]> input = shapes[1];
+				shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
 
-					Shape<double[][]> weight = shapes[0];
-					Shape<double[][]> input = shapes[1];
-
-					output(Matrix.mult(weight.get(), input.get()));
-					return;
-
-				}
-
-				if (shapes[1].get() instanceof double[][][]) {
-
-					Shape<double[][]> weight = shapes[0];
-					Shape<double[][][]> input = shapes[1];
-					shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
-					Shape<double[][]> inputx = shapes[1];
-
-					output(Matrix.mult(weight.get(), inputx.get()));
-					return;
-
-				}
+				output(Matrix.mult(weight.get(), (double[][]) shapes[1].get()));
 
 			}
 
@@ -95,7 +79,7 @@ public class TensorFlow extends ReShape {
 		Node node = new Node(Option.ADD, shapes) {
 
 			public void compute() {
-				
+
 				Shape<double[][][]> input = shapes[0];
 				Shape<double[]> bias = shapes[1];
 				output(Matrix.add(input.get(), bias.get()));
