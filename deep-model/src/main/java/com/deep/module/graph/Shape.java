@@ -1,12 +1,11 @@
 package com.deep.module.graph;
 
-import java.io.Serializable;
-
 import com.deep.math.Matrix;
 
-public class Shape<E> implements Serializable {
+public class Shape<E> extends Shapes {
 
 	private String name;
+	private E cache;
 	private E array;
 	private E diff;
 
@@ -23,6 +22,17 @@ public class Shape<E> implements Serializable {
 		this.name = name;
 		this.array = array;
 		Matrix.random(array);
+	}
+
+	public void reshape(Object[] b) {
+		Object[] a = (Object[]) array;
+		cache = array;
+		array = (E) reshape(a, b);
+	}
+
+	public void shape() {
+		array = cache;
+		cache = null;
 	}
 
 	public E get() {

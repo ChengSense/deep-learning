@@ -5,10 +5,10 @@ import com.deep.math.Matrix;
 import com.deep.module.gradient.Gradient;
 import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
+import com.deep.module.graph.Shapes;
 import com.deep.util.Array;
-import com.deep.util.ReShape;
 
-public class TensorFlow<E> extends ReShape {
+public class TensorFlow<E> extends Shapes {
 
 	Array<Node> list;
 
@@ -30,7 +30,7 @@ public class TensorFlow<E> extends ReShape {
 
 				Shape<double[][]> weight = shapes[0];
 				Shape<E[]> input = shapes[1];
-				shapes[1].set(reshape(input.get(), new double[input.get().length][1]));
+				shapes[1].reshape(new double[input.get().length][1]);
 
 				output(Matrix.mult(weight.get(), (double[][]) shapes[1].get()));
 
@@ -39,6 +39,7 @@ public class TensorFlow<E> extends ReShape {
 			public void gradient() {
 
 				grad.matmul(shapes[0], shapes[1], output());
+				shapes[1].shape();
 
 			}
 
@@ -161,20 +162,9 @@ public class TensorFlow<E> extends ReShape {
 
 			public void gradient() {
 
-				if (output().diff() instanceof double[][][]) {
-					grad.conv(shapes[0], shapes[1], output());
-					return;
-				}
-
-				if (output().diff() instanceof double[][]) {
-
-					Shape<double[][]> output = output();
-					output().diff(reshape(output.diff(), new double[output.diff().length][1][1]));
-					grad.conv(shapes[0], shapes[1], output());
-
-					return;
-
-				}
+				Shape<double[][][]> output = output();
+				output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
+				grad.conv(shapes[0], shapes[1], output());
 
 			}
 
