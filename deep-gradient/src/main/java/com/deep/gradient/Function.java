@@ -28,6 +28,39 @@ public class Function {
 
 		return X;
 	}
+	
+	public static Node softmax(double diff) {
+		
+		Node X = new Node(Option.DIV,
+				
+				new Node(Option.POW,
+
+						new Node(Option.NONE, Type.CONS, "E"),
+
+						new Node(Option.MINUS, Type.VAR, "x")
+
+				),
+				
+				new Node(Option.ADD,
+						
+						new Node(Option.NONE, Type.CONS, "a"),
+						
+						new Node(Option.POW,
+								
+								new Node(Option.NONE, Type.CONS, "E"),
+								
+								new Node(Option.MINUS, Type.VAR, "x")
+								
+								)
+						
+						)
+				
+				);
+		
+		X.setGradient(diff);
+		
+		return X;
+	}
 
 	public static Node mul(double diff) {
 

@@ -72,6 +72,20 @@ public class Matrix {
 		return C;
 	}
 
+	public static double[][][][] fill(double[][][][] A, double b) {
+		double[][][][] C = new double[A.length][A[0].length][A[0][0].length][A[0][0][0].length];
+		for (int i = 0; i < A.length; i++)
+			C[i] = fill(A[i], b);
+		return C;
+	}
+
+	public static double sum(double[] a) {
+		double c = 0;
+		for (int i = 0; i < a.length; i++)
+			c += a[i];
+		return c;
+	}
+
 	public static double sum(double[][] A) {
 		double c = 0;
 		for (int i = 0; i < A.length; i++)
@@ -126,12 +140,28 @@ public class Matrix {
 		return C;
 	}
 
+	public static double[][] mult(double[][] A, double b) {
+		double[][] C = new double[A.length][A[0].length];
+		for (int i = 0; i < A.length; i++)
+			for (int l = 0; l < A[0].length; l++)
+				C[i][l] = A[i][l] * b;
+		return C;
+	}
+
 	public static double[][] mult(double[][] A, double[][] B) {
 		double[][] C = new double[A.length][B[0].length];
 		for (int i = 0; i < A.length; i++)
 			for (int l = 0; l < B[0].length; l++)
 				for (int j = 0; j < A[0].length; j++)
 					C[i][l] += A[i][j] * B[j][l];
+		return C;
+	}
+
+	public static double[][][] mult(double[][] A, double[][][][] B) {
+		double[][][] C = new double[A.length][B[0][0].length][B[0][0].length];
+		for (int i = 0; i < A.length; i++)
+			for (int l = 0; l < A[0].length; l++)
+				C[i] = add(C[i], mult(B[i][l], A[i][l]));
 		return C;
 	}
 
@@ -191,11 +221,11 @@ public class Matrix {
 		return C;
 	}
 
-	public static double[][][] conv(double[][][] A, double[][][] B) {
-		double[][][] C = new double[A.length][B[0].length - A[0].length + 1][B[0][0].length - A[0][0].length + 1];
+	public static double[][][][] conv(double[][][] A, double[][][] B) {
+		double[][][][] C = new double[A.length][B.length][B[0].length - A[0].length + 1][B[0][0].length - A[0][0].length + 1];
 		for (int i = 0; i < A.length; i++)
 			for (int l = 0; l < B.length; l++)
-				C[i] = add(C[i], conv(A[i], B[l]));
+				C[i][l] = conv(A[i], B[l]);
 		return C;
 	}
 
@@ -213,6 +243,23 @@ public class Matrix {
 		for (int i = 0; i < A.length; i++)
 			B[i] = maxpool(A[i]);
 		return B;
+	}
+
+	public static double[] softmax(double[] a) {
+		double[] b = new double[a.length];
+		for (int i = 0; i < a.length; i++)
+			b[i] = Math.exp(a[i]);
+		double s = sum(b);
+		for (int i = 0; i < b.length; i++)
+			b[i] = b[i] / s;
+		return b;
+	}
+
+	public static double[][] softmax(double[][] a) {
+		double[][] b = new double[a.length][a[0].length];
+		for (int i = 0; i < a.length; i++)
+			b[i] = softmax(a[i]);
+		return b;
 	}
 
 	public static String format(double[][] A) {
