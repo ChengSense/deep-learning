@@ -40,10 +40,11 @@ public abstract class Node implements Serializable {
 	public String toString() {
 		Gson gson = new GsonBuilder().create();
 		StringBuilder builder = new StringBuilder();
+		builder.append("{\"name\":\"" + option.toString().toLowerCase() + "\"}").append("\n       ");
 		map.forEach((key, value) -> {
 			builder.append(gson.toJson(value)).append("\n       ");
 		});
-		builder.append(gson.toJson(ouput)).append("\n       ").append("{\"name\":\"" + option.toString().toLowerCase() + "\"}");
+		builder.append(gson.toJson(ouput)).append("\n       ");
 		return builder.toString();
 	}
 

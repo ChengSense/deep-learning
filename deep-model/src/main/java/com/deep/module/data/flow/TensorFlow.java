@@ -24,7 +24,7 @@ public class TensorFlow<E> extends Shapes {
 
 	public Node mult3(Shape... shapes) {
 
-		Node node = new Node(Option.MATMUL, shapes) {
+		Node node = new Node(Option.MULT3, shapes) {
 
 			public void compute() {
 
@@ -36,6 +36,9 @@ public class TensorFlow<E> extends Shapes {
 			}
 
 			public void gradient() {
+
+				Shape<E[]> output = output();
+				output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
 
 				grad.mult3(shapes[0], shapes[1], output());
 
@@ -104,7 +107,7 @@ public class TensorFlow<E> extends Shapes {
 
 	public Node add3(Shape... shapes) {
 
-		Node node = new Node(Option.ADD, shapes) {
+		Node node = new Node(Option.ADD3, shapes) {
 
 			public void compute() {
 
@@ -190,7 +193,7 @@ public class TensorFlow<E> extends Shapes {
 			public void gradient() {
 
 				Shape<double[][][][]> output = output();
-				//output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
+				// output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
 				grad.conv(shapes[0], shapes[1], output());
 
 			}
@@ -253,7 +256,7 @@ public class TensorFlow<E> extends Shapes {
 
 	public Node softmax(Shape<double[][]>... shapes) {
 
-		Node node = new Node(Option.MAXPOOL, shapes) {
+		Node node = new Node(Option.SOFTMAX, shapes) {
 
 			public void compute() {
 

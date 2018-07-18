@@ -23,7 +23,7 @@ public class Gradient<E> implements Serializable {
 
 		Shape<double[][]> weight = shapes[0];
 		Shape<double[][][][]> input = shapes[1];
-		Shape<double[][]> output = shapes[2];
+		Shape<double[][][]> output = shapes[2];
 
 		weight.diff(Matrix.fill(weight.get(), 0));
 		input.diff(Matrix.fill(input.get(), 0));
@@ -47,7 +47,7 @@ public class Gradient<E> implements Serializable {
 							public void each(int i, int l) {
 
 								double x = input.get()[iw][ix][i][l];
-								double d = output.diff()[iw][0];
+								double d = output.diff()[iw][i][l];
 
 								Map map = new HashMap();
 								map.put("x", x);
@@ -70,8 +70,6 @@ public class Gradient<E> implements Serializable {
 			}
 
 		};
-
-		System.out.println(11111);
 
 	}
 
