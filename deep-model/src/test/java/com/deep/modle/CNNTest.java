@@ -18,41 +18,46 @@ public class CNNTest {
 	public void cnn() {
 
 		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] { { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } } };
+		double[][][] label = new double[][][] {
 
+				{ { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } },
+				// 换
+				{ { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }
+
+		};
 		TensorFlow tf = new TensorFlow();
 
 		// 卷积层1
 		Node node1 = tf.conv(new Shape("weight", new double[6][5][5], "R"), new Shape("input", new double[3][32][32], "R"));
-		Node nodeA = tf.softmax(new Shape("input", new double[6][3], "R"));// 6
-		Node nodeB = tf.mult3(nodeA.output(), node1.output());// 6*32
-		Node node2 = tf.add3(nodeB.output(), new Shape("bias", new double[6], "R"));// 6*28
-		Node node3 = tf.relu(node2.output());// 6*28
-		Node node4 = tf.maxpool(node3.output());// 6*14
+		Node node2 = tf.softmax(new Shape("input", new double[6][3], "R"));// 6
+		Node node3 = tf.mult3(node2.output(), node1.output());// 6*32
+		Node node4 = tf.add3(node3.output(), new Shape("bias", new double[6], "R"));// 6*28
+		Node node5 = tf.relu(node4.output());// 6*28
+		Node node6 = tf.maxpool(node5.output());// 6*14
 
 		// 卷积层2
-		Node node5 = tf.conv(new Shape("weight", new double[16][5][5], "R"), node4.output());// 6*14
-		Node nodeC = tf.softmax(new Shape("input", new double[16][6], "R"));// 16
-		Node nodeD = tf.mult3(nodeC.output(), node5.output());// 16*14
-		Node node6 = tf.add3(nodeD.output(), new Shape("bias", new double[16], "R"));// 16*10
-		Node node7 = tf.relu(node6.output());// 16*10
-		Node node8 = tf.maxpool(node7.output());// 16*5
+		Node node7 = tf.conv(new Shape("weight", new double[16][5][5], "R"), node6.output());// 6*14
+		Node node8 = tf.softmax(new Shape("input", new double[16][6], "R"));// 16
+		Node node9 = tf.mult3(node8.output(), node7.output());// 16*14
+		Node node10 = tf.add3(node9.output(), new Shape("bias", new double[16], "R"));// 16*10
+		Node node11 = tf.relu(node10.output());// 16*10
+		Node node12 = tf.maxpool(node11.output());// 16*5
 
 		// 卷积层3
-		Node node9 = tf.conv(new Shape("weight", new double[32][5][5], "R"), node8.output());
-		Node nodeE = tf.softmax(new Shape("input", new double[32][16], "R"));// 16
-		Node nodeF = tf.mult3(nodeE.output(), node9.output());// 16*14
+		Node node13 = tf.conv(new Shape("weight", new double[32][5][5], "R"), node12.output());
+		Node node14 = tf.softmax(new Shape("input", new double[32][16], "R"));// 16
+		Node node15 = tf.mult3(node14.output(), node13.output());// 16*14
 
 		// 全连接层5
-		Node node10 = tf.matmul(new Shape("weight", new double[1][32], "R"), nodeF.output());
-		Node node11 = tf.add(node10.output(), new Shape("bias", new double[1][1], "R"));
-		Node node12 = tf.sigmoid(node11.output());
+		Node node16 = tf.matmul(new Shape("weight", new double[1][32], "R"), node15.output());
+		Node node17 = tf.add(node16.output(), new Shape("bias", new double[1][1], "R"));
+		Node node18 = tf.sigmoid(node17.output());
 
 		// 损失节点
-		Node node13 = tf.reduce(new Shape("lable", new double[1][1]), node12.output());
+		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
-		session = new Session(tf, node1.get("input"), node13.get("lable"));
-		session.run(input, label, 1, null);
+		session = new Session(tf, node1.get("input"), node19.get("lable"));
+		session.run(input, label, 200, 10);
 		session.inStore(path);
 
 	}
@@ -61,13 +66,19 @@ public class CNNTest {
 	public void runr() {
 
 		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] { { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } } };
+		double[][][] label = new double[][][] {
+
+				{ { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } },
+				// 换
+				{ { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }
+
+		};
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-		session.run(input, label, 1000, 10);
+		session.run(input, label, 100, 10);
 
 		session.inStore(path);
 
@@ -80,10 +91,24 @@ public class CNNTest {
 
 		session = model.outStore(path);
 
-		// double[][][] input =ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
-		double[][][] input = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
+		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
 
-		session.run(input);
+		session.run(input1);
+
+		// double[][][] input2 =ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
+		// session.run(input2);
+
+	}
+
+	// @Test
+	public void img() {
+
+		Model<Session> model = new Model<Session>();
+
+		session = model.outStore(path);
+
+		double[][][] input2 = ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
+		session.run(input2);
 
 	}
 

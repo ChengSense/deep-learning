@@ -192,8 +192,6 @@ public class TensorFlow<E> extends Shapes {
 
 			public void gradient() {
 
-				Shape<double[][][][]> output = output();
-				// output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
 				grad.conv(shapes[0], shapes[1], output());
 
 			}

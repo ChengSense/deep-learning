@@ -29,27 +29,51 @@ public class Matrix {
 	}
 
 	public static <E> E fill(E a, double b) {
-		return fill(a, null, 0, b);
-	}
-
-	public static <E> E fill(E a, E o, int l, double b) {
-		if (a.getClass().isArray()) {
+		try {
+			return (E) fill((double[]) a, b);
+		} catch (Exception e) {
 			try {
-				E[] c = (E[]) a;
-				for (int i = 0; i < c.length; i++) {
-					fill(c[i], c, l, b);
-				}
-			} catch (Exception e) {
-				double[] c = (double[]) a;
-				for (int i = 0; i < c.length; i++) {
-					fill(c[i], c, l, b);
+				return (E) fill((double[][]) a, b);
+			} catch (Exception f) {
+				try {
+					return (E) fill((double[][][]) a, b);
+				} catch (Exception g) {
+					try {
+						return (E) fill((double[][][][]) a, b);
+					} catch (Exception k) {
+					}
 				}
 			}
-		} else {
-			double[] e = (double[]) o;
-			e[l] = b;
 		}
-		return a;
+		return null;
+	}
+
+	public static double[] fill(double[] a, double b) {
+		double[] c = new double[a.length];
+		for (int i = 0; i < a.length; i++)
+			c[i] = b;
+		return c;
+	}
+
+	public static double[][] fill(double[][] A, double b) {
+		double[][] C = new double[A.length][A[0].length];
+		for (int i = 0; i < A.length; i++)
+			C[i] = fill(A[i], b);
+		return C;
+	}
+
+	public static double[][][] fill(double[][][] A, double b) {
+		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
+		for (int i = 0; i < A.length; i++)
+			C[i] = fill(A[i], b);
+		return C;
+	}
+
+	public static double[][][][] fill(double[][][][] A, double b) {
+		double[][][][] C = new double[A.length][A[0].length][A[0][0].length][A[0][0][0].length];
+		for (int i = 0; i < A.length; i++)
+			C[i] = fill(A[i], b);
+		return C;
 	}
 
 	public static double[] random(double[] a) {
@@ -70,7 +94,7 @@ public class Matrix {
 	public static double[][][] random(double[][][] A) {
 		for (int i = 0; i < A.length; i++) {
 			A[i] = random(A[i]);
-			//A[i] = div(A[i], A.length * A[0].length * A[0][0].length);
+			A[i] = div(A[i], A.length);
 		}
 		return A;
 	}

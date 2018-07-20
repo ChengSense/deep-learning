@@ -175,8 +175,8 @@ public class Gradient<E> implements Serializable {
 						map.put("b", b);
 
 						AutoDiff diff = new AddDiff(map, d);
-						bias.diff()[ix] = diff.getDiff("b");
 						input.diff()[ix][i][l] = diff.getDiff("x");
+						bias.diff()[ix] += diff.getDiff("b");
 
 						bias.get()[ix] += -rate * diff.getDiff("b");
 
@@ -322,7 +322,7 @@ public class Gradient<E> implements Serializable {
 						double a = in[i][l];
 						double d = output.diff()[ix][i][l];
 
-						input.diff()[ix][i][l] = d * a < 0 ? 0 : 1;
+						input.diff()[ix][i][l] = d * (a < 0 ? 0 : 1);
 
 					}
 
@@ -390,7 +390,7 @@ public class Gradient<E> implements Serializable {
 
 						Map map = new HashMap();
 						map.put("E", Math.E);
-						map.put("a", s - x);
+						map.put("a", s - Math.exp(x));
 						map.put("x", x);
 
 						AutoDiff diff = new SoftmaxDiff(map, d);

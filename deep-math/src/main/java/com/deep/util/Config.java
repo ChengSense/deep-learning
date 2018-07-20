@@ -13,7 +13,19 @@ public interface Config {
 		"216_128", 
 		"216_129", 
 		"216_130", 
-		"216_131"
+		"216_131",
+		"270_190", 
+		"270_191", 
+		"270_192", 
+		"270_193", 
+		"270_194", 
+		"270_195", 
+		"270_196", 
+		"270_197", 
+		"270_198", 
+		"270_199", 
+		"270_190", 
+		"270_191"
 	};
 	String[] TEST_SET_140 = new String[] { "D:/chengdongliang-test1(140).jpg", "D:/chengdongliang-test2(140).jpg", "D:/chengdongliang-test3(140).jpg", "D:/chengdongliang-test4(140).jpg" };
 	String IMAGE_URL = "D:/img-test/";

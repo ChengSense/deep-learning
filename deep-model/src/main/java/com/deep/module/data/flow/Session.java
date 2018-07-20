@@ -73,9 +73,9 @@ public class Session<E> extends Model {
 
 					forward(input);
 
-					backward(label);
-
 					log(i, index(), step);
+					
+					backward(label);
 
 				}
 
@@ -85,9 +85,9 @@ public class Session<E> extends Model {
 
 	}
 
-	private void log(int epoch,int i, Integer step) {
+	private void log(int epoch, int i, Integer step) {
 
-		if (step !=null && epoch % step != 0) return;
+		if (step != null && epoch % step != 0) return;
 
 		Logger log = Logger.getLogger(Session.class);
 
@@ -95,7 +95,7 @@ public class Session<E> extends Model {
 
 			public void each(Node node) {
 
-				log.debug("epoch :" + epoch + ":" + i + ":" + index());
+				log.debug("epoch :" + epoch + ":" + (i + 1) + ":" + (index() + 1));
 				log.debug("epoch :" + node.toString());
 
 			}

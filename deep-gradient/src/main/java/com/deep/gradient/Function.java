@@ -37,7 +37,7 @@ public class Function {
 
 						new Node(Option.NONE, Type.CONS, "E"),
 
-						new Node(Option.MINUS, Type.VAR, "x")
+						new Node(Option.NONE, Type.VAR, "x")
 
 				),
 				
@@ -49,7 +49,7 @@ public class Function {
 								
 								new Node(Option.NONE, Type.CONS, "E"),
 								
-								new Node(Option.MINUS, Type.VAR, "x")
+								new Node(Option.NONE, Type.VAR, "x")
 								
 								)
 						
