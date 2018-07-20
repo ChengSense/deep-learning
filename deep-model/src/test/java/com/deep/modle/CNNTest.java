@@ -14,7 +14,7 @@ public class CNNTest {
 	String path = "D:/cnn-session.ml";
 	Session session;
 
-	@Test
+	//@Test
 	public void cnn() {
 
 		double[][][][] input = ImageKit.getInput();
@@ -84,19 +84,20 @@ public class CNNTest {
 
 	}
 
-	// @Test
+	@Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
+//		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
+//
+//		session.run(input1);
 
-		session.run(input1);
-
-		// double[][][] input2 =ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
-		// session.run(input2);
+		 double[][][] input2 =ImageKit.img2rgb("E:\\imgs\\59_100.jpg");
+		 
+		 session.run(input2);
 
 	}
 
