@@ -19,7 +19,7 @@ public class Gradient<E> implements Serializable {
 
 	static double rate = 0.05;
 
-	public void mult3(Shape... shapes) {
+	public void prod(Shape... shapes) {
 
 		Shape<double[][]> weight = shapes[0];
 		Shape<double[][][][]> input = shapes[1];

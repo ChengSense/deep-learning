@@ -129,7 +129,7 @@ public class Matrix {
 		return C;
 	}
 
-	public static double[][][] mult(double[][] A, double[][][][] B) {
+	public static double[][][] prod(double[][] A, double[][][][] B) {
 		double[][][] C = new double[A.length][B[0][0].length][B[0][0].length];
 		for (int i = 0; i < A.length; i++)
 			for (int l = 0; l < A[0].length; l++)

@@ -22,7 +22,7 @@ public class TensorFlow<E> extends Shapes {
 
 	}
 
-	public Node mult3(Shape... shapes) {
+	public Node prod(Shape... shapes) {
 
 		Node node = new Node(Option.MULT3, shapes) {
 
@@ -31,7 +31,7 @@ public class TensorFlow<E> extends Shapes {
 				Shape<double[][]> weight = shapes[0];
 				Shape<double[][][][]> input = shapes[1];
 
-				output(Matrix.mult(weight.get(), input.get()));
+				output(Matrix.prod(weight.get(), input.get()));
 
 			}
 
@@ -40,7 +40,7 @@ public class TensorFlow<E> extends Shapes {
 				Shape<E[]> output = output();
 				output().diff(reshape(output.diff(), Shape.fill(output.get(), 0)));
 
-				grad.mult3(shapes[0], shapes[1], output());
+				grad.prod(shapes[0], shapes[1], output());
 
 			}
 
