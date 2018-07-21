@@ -6,25 +6,22 @@ import com.deep.module.data.flow.Session;
 import com.deep.module.data.flow.TensorFlow;
 import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
-import com.deep.util.ImageKit;
+import com.deep.util.DataSet;
 import com.deep.util.Model;
 
 public class CNNTest {
 
 	String path = "D:/cnn-session.ml";
 	Session session;
+	double[][][][] input = DataSet.loadImageData();
+	double[][][] label = new double[][][] {
+			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
+			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
+	};
 
-	//@Test
+	@Test
 	public void cnn() {
 
-		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] {
-
-				{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
-				// 换
-				{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
-
-		};
 		TensorFlow tf = new TensorFlow();
 
 		// 卷积层1
@@ -62,53 +59,29 @@ public class CNNTest {
 
 	}
 
-	// @Test
+	@Test
 	public void runr() {
-
-		double[][][][] input = ImageKit.getInput();
-		double[][][] label = new double[][][] {
-
-				{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
-				// 换
-				{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
-
-		};
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-		session.run(input, label, 100, 10);
+		session.run(input, label, 10, 10);
 
 		session.inStore(path);
 
 	}
 
-	// @Test
+	@Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
-
 		session = model.outStore(path);
 
-		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
+		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
+		// session.run(input1);
 
-		session.run(input1);
-
-		double[][][] input2 = ImageKit.img2rgb("E:\\imgs\\59_100.jpg");
-
-		session.run(input2);
-
-	}
-
-	// @Test
-	public void img() {
-
-		Model<Session> model = new Model<Session>();
-
-		session = model.outStore(path);
-
-		double[][][] input2 = ImageKit.img2rgb("E:\\imgs\\216_138.jpg");
+		double[][][] input2 = DataSet.img2rgb("E:\\imgs\\216_120.jpg");
 		session.run(input2);
 
 	}
