@@ -25,8 +25,8 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][][][]> input = shapes[1];
 		Shape<double[][][]> output = shapes[2];
 
-		weight.diff(Matrix.fill(weight.get(), 0));
-		input.diff(Matrix.fill(input.get(), 0));
+		weight.diff(Shape.fill(weight.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[]>(weight.get()) {
 
@@ -79,8 +79,8 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][]> input = shapes[1];
 		Shape<double[][]> output = shapes[2];
 
-		weight.diff(Matrix.fill(weight.get(), 0));
-		input.diff(Matrix.fill(input.get(), 0));
+		weight.diff(Shape.fill(weight.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[]>(weight.get()) {
 
@@ -121,8 +121,8 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][]> bias = shapes[1];
 		Shape<double[][]> output = shapes[2];
 
-		input.diff(Matrix.fill(input.get(), 0));
-		bias.diff(Matrix.fill(bias.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
+		bias.diff(Shape.fill(bias.get(), 0));
 
 		new Each<double[]>(input.get()) {
 
@@ -153,8 +153,8 @@ public class Gradient<E> implements Serializable {
 		Shape<double[]> bias = shapes[1];
 		Shape<double[][][]> output = shapes[2];
 
-		input.diff(Matrix.fill(input.get(), 0));
-		bias.diff(Matrix.fill(bias.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
+		bias.diff(Shape.fill(bias.get(), 0));
 
 		new Each<double[][]>(input.get()) {
 
@@ -195,7 +195,7 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][]> input = shapes[0];
 		Shape<double[][]> output = shapes[1];
 
-		input.diff(Matrix.fill(input.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[]>(input.get()) {
 
@@ -222,7 +222,7 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][]> lable = shapes[0];
 		Shape<double[][]> output = shapes[1];
 
-		output.diff(Matrix.fill(output.get(), 0));
+		output.diff(Shape.fill(output.get(), 0));
 
 		new Each<double[]>(lable.get()) {
 
@@ -250,8 +250,8 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][][]> input = shapes[1];
 		Shape<double[][][][]> output = shapes[2];
 
-		weight.diff(Matrix.fill(weight.get(), 0));
-		input.diff(Matrix.fill(input.get(), 0));
+		weight.diff(Shape.fill(weight.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[][]>(weight.get()) {
 
@@ -307,7 +307,7 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][][]> input = shapes[0];
 		Shape<double[][][]> output = shapes[1];
 
-		input.diff(Matrix.fill(input.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[][]>(input.get()) {
 
@@ -339,7 +339,7 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][][]> input = shapes[0];
 		Shape<double[][][]> output = shapes[1];
 
-		input.diff(Matrix.fill(input.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[][]>(input.get()) {
 
@@ -372,7 +372,7 @@ public class Gradient<E> implements Serializable {
 		Shape<double[][]> input = shapes[0];
 		Shape<double[][]> output = shapes[1];
 
-		input.diff(Matrix.fill(input.get(), 0));
+		input.diff(Shape.fill(input.get(), 0));
 
 		new Each<double[]>(input.get()) {
 

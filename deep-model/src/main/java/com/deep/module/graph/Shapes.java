@@ -20,7 +20,7 @@ public class Shapes implements Serializable {
 		return b;
 	}
 
-	public void each(Object a) {
+	private void each(Object a) {
 		if (a.getClass().isArray()) {
 			try {
 				Object[] c = (Object[]) a;
@@ -38,7 +38,7 @@ public class Shapes implements Serializable {
 		}
 	}
 
-	public void each(int l, Object o, Object a) {
+	private void each(int l, Object o, Object a) {
 		if (a != null && a.getClass().isArray()) {
 			try {
 				Object[] c = (Object[]) a;
@@ -55,6 +55,36 @@ public class Shapes implements Serializable {
 			double[] e = (double[]) o;
 			e[l] = (double) queue.poll();
 		}
+	}
+
+	public static <E> E fill(E a, double b) {
+		E[] o = (E[]) new Object[1];
+		fill(a, o, 0, b);
+		return o[0];
+	}
+
+	private static <E> E fill(E a, E o, int l, double b) {
+		if (a.getClass().isArray()) {
+			if (a instanceof double[]) {
+				double[] c = (double[]) a, m = c.clone();
+				E[] n = (E[]) o;
+				n[l] = (E) m;
+				for (int i = 0; i < c.length; i++) {
+					fill(c[i], m, i, b);
+				}
+			} else {
+				E[] c = (E[]) a, m = c.clone();
+				E[] n = (E[]) o;
+				n[l] = (E) m;
+				for (int i = 0; i < c.length; i++) {
+					fill(c[i], m, i, b);
+				}
+			}
+		} else {
+			double[] e = (double[]) o;
+			e[l] = b;
+		}
+		return o;
 	}
 
 }

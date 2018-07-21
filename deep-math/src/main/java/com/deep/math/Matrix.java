@@ -28,54 +28,6 @@ public class Matrix {
 		return a;
 	}
 
-	public static <E> E fill(E a, double b) {
-		try {
-			return (E) fill((double[]) a, b);
-		} catch (Exception e) {
-			try {
-				return (E) fill((double[][]) a, b);
-			} catch (Exception f) {
-				try {
-					return (E) fill((double[][][]) a, b);
-				} catch (Exception g) {
-					try {
-						return (E) fill((double[][][][]) a, b);
-					} catch (Exception k) {
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	public static double[] fill(double[] a, double b) {
-		double[] c = new double[a.length];
-		for (int i = 0; i < a.length; i++)
-			c[i] = b;
-		return c;
-	}
-
-	public static double[][] fill(double[][] A, double b) {
-		double[][] C = new double[A.length][A[0].length];
-		for (int i = 0; i < A.length; i++)
-			C[i] = fill(A[i], b);
-		return C;
-	}
-
-	public static double[][][] fill(double[][][] A, double b) {
-		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
-		for (int i = 0; i < A.length; i++)
-			C[i] = fill(A[i], b);
-		return C;
-	}
-
-	public static double[][][][] fill(double[][][][] A, double b) {
-		double[][][][] C = new double[A.length][A[0].length][A[0][0].length][A[0][0][0].length];
-		for (int i = 0; i < A.length; i++)
-			C[i] = fill(A[i], b);
-		return C;
-	}
-
 	public static double[] random(double[] a) {
 		RandomDataGenerator random = new RandomDataGenerator();
 		for (int i = 0; i < a.length; i++)
@@ -94,7 +46,7 @@ public class Matrix {
 	public static double[][][] random(double[][][] A) {
 		for (int i = 0; i < A.length; i++) {
 			A[i] = random(A[i]);
-			A[i] = div(A[i], A.length);
+			A[i] = div(A[i], A.length * A[0].length * A[0][0].length);
 		}
 		return A;
 	}

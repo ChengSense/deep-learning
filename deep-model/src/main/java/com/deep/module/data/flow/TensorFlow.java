@@ -38,7 +38,7 @@ public class TensorFlow<E> extends Shapes {
 			public void gradient() {
 
 				Shape<E[]> output = output();
-				output().diff(reshape(output.diff(), Matrix.fill(output.get(), 0)));
+				output().diff(reshape(output.diff(), Shape.fill(output.get(), 0)));
 
 				grad.mult3(shapes[0], shapes[1], output());
 

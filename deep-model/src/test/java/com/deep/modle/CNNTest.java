@@ -14,15 +14,15 @@ public class CNNTest {
 	String path = "D:/cnn-session.ml";
 	Session session;
 
-	//@Test
+	@Test
 	public void cnn() {
 
 		double[][][][] input = ImageKit.getInput();
 		double[][][] label = new double[][][] {
 
-				{ { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } },
+				{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
 				// 换
-				{ { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }
+				{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
 
 		};
 		TensorFlow tf = new TensorFlow();
@@ -68,9 +68,9 @@ public class CNNTest {
 		double[][][][] input = ImageKit.getInput();
 		double[][][] label = new double[][][] {
 
-				{ { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } }, { { 1 } },
+				{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
 				// 换
-				{ { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }, { { 0 } }
+				{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
 
 		};
 
@@ -84,20 +84,20 @@ public class CNNTest {
 
 	}
 
-	@Test
+	// @Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-//		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
-//
-//		session.run(input1);
+		double[][][] input1 = ImageKit.img2rgb("E:\\imgs\\23_200.jpg");
 
-		 double[][][] input2 =ImageKit.img2rgb("E:\\imgs\\59_100.jpg");
-		 
-		 session.run(input2);
+		session.run(input1);
+
+		double[][][] input2 = ImageKit.img2rgb("E:\\imgs\\59_100.jpg");
+
+		session.run(input2);
 
 	}
 
