@@ -59,7 +59,7 @@ public class CNNTest {
 
 	}
 
-	@Test
+	//@Test
 	public void runr() {
 
 		Model<Session> model = new Model<Session>();
@@ -72,7 +72,7 @@ public class CNNTest {
 
 	}
 
-	@Test
+	//@Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
@@ -81,7 +81,7 @@ public class CNNTest {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// session.run(input1);
 
-		double[][][] input2 = DataSet.img2rgb("E:\\imgs\\216_120.jpg");
+		double[][][] input2 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		session.run(input2);
 
 	}

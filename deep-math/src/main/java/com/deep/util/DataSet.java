@@ -10,7 +10,7 @@ public class DataSet {
 
 	static String BASE_PATH = "E:/";
 	static String INPUT_DIR = "E:/imgs/";
-	static String OUTPUT_DIR = "E:/img/test";
+	static String OUTPUT_DIR = "E:/img/";
 	static String[] TRIAN_SET_32 = new String[] { 
 		"216_120", 
 		"216_121", 
@@ -97,7 +97,7 @@ public class DataSet {
 		}
 	}
 
-	static double[][] img2linergb(String src) {
+	public static double[][] img2linergb(String src) {
 		try {
 			BufferedImage image = ImageIO.read(new File(src));
 			int width = image.getWidth();
@@ -124,10 +124,22 @@ public class DataSet {
 		return null;
 	}
 
-	static void rgb2img(double[][][] input) {
+	public static void gray2img(double[][][] input) {
+		for (int i = 0; i < input.length; i++) {
+			gray2img(input[i]);
+		}
+	}
+
+	public static void gray2img(double[][][][] input) {
+		for (int i = 0; i < input.length; i++) {
+			gray2img(input[i]);
+		}
+	}
+
+	public static void gray2img(double[][] input) {
 		try {
-			int width = input[0][0].length;
-			int height = input[0].length;
+			int width = input[0].length;
+			int height = input.length;
 			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			File file = new File(OUTPUT_DIR);
 			if (file.exists())
@@ -135,9 +147,9 @@ public class DataSet {
 			file.mkdirs();
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					int r = ((int) (input[0][y][x] * 255)) << 16;
-					int g = ((int) (input[1][y][x] * 255)) << 8;
-					int b = ((int) (input[2][y][x] * 255));
+					int r = ((int) (input[y][x] * 255)) << 16;
+					int g = ((int) (input[y][x] * 255)) << 8;
+					int b = ((int) (input[y][x] * 255));
 					image.setRGB(x, y, r + g + b);
 				}
 			}
@@ -197,7 +209,7 @@ public class DataSet {
 		return null;
 	}
 
-	static double[] img2line(BufferedImage image) {
+	public static double[] img2line(BufferedImage image) {
 		try {
 			int width = image.getWidth();
 			int height = image.getHeight();
