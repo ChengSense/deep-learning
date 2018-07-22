@@ -16,7 +16,7 @@ public class CNNTest {
 	double[][][][] input = DataSet.loadImageData();
 	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
 
-	//@Test
+	@Test
 	public void cnn() {
 
 		TensorFlow tf = new TensorFlow();
@@ -51,25 +51,24 @@ public class CNNTest {
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
-		session.run(input, label, 10, 20);
+		session.run(input, label, 10, 10);
 		session.inStore(path);
 
 	}
 
-	@Test
+	// @Test
 	public void runr() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
-
 		session.run(input, label, 100, 20);
 
 		session.inStore(path);
 
 	}
 
-	// @Test
+	//@Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
