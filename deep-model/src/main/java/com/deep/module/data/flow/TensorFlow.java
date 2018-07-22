@@ -161,6 +161,8 @@ public class TensorFlow<E> extends Shapes {
 
 			public void compute() {
 
+				output(shapes[1].get());
+
 			}
 
 			public void gradient() {

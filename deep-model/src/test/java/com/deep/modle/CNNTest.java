@@ -51,19 +51,18 @@ public class CNNTest {
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
-		session.run(input, label, 10, 10);
+		session.run(input, label, 500);
 		session.inStore(path);
 
 	}
 
-	// @Test
+	//@Test
 	public void runr() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
-		session.run(input, label, 100, 20);
-
+		session.run(input, label, 100);
 		session.inStore(path);
 
 	}

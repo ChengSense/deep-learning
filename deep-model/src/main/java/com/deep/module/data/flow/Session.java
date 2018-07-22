@@ -12,9 +12,9 @@ import com.deep.util.Model;
 
 public class Session<E> extends Model {
 
-	private Integer epoch, batch;
+	private Integer epoch;
 	private Shape<E> inShape, labShape;
-	private TensorFlow tf;
+	private TensorFlow<Node> tf;
 
 	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {
 
@@ -59,14 +59,12 @@ public class Session<E> extends Model {
 	public void run(E[] input) {
 
 		forward((E) input);
-		
-		log(0);
+
+		log(tf.list.end(), 0);
 
 	}
 
-	public void run(E[] input, E[] label, int epochs, Integer batch) {
-		
-		this.batch = batch;
+	public void run(E[] input, E[] label, int epochs) {
 
 		IntStream.range(0, epochs).forEach(epoch -> {
 
@@ -78,7 +76,7 @@ public class Session<E> extends Model {
 
 					forward(input);
 
-					log(index());
+					log(tf.list.end(), index());
 
 					backward(label);
 
@@ -90,24 +88,28 @@ public class Session<E> extends Model {
 
 	}
 
-	public void log(int i) {
+	private void log(Node node, int i) {
 
-		if (batch != null && epoch % batch == 0) {
+		Logger log = Logger.getLogger(Session.class);
 
-			Logger log = Logger.getLogger(Session.class);
+		log.debug("epoch :" + epoch + ":" + i);
+		log.debug("epoch :" + node.toString());
 
-			new Each<Node>(tf.list) {
+	}
 
-				public void each(Node node) {
+	public void log() {
 
-					log.debug("epoch :" + epoch + ":" + (i + 1) + ":" + (index() + 1));
-					log.debug("epoch :" + node.toString());
+		Logger log = Logger.getLogger(Session.class);
 
-				}
+		new Each<Node>(tf.list) {
 
-			};
+			public void each(Node node) {
 
-		}
+				log.debug(node.toString());
+
+			}
+
+		};
 
 	}
 
