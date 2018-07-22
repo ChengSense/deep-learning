@@ -8,11 +8,11 @@ import java.util.Map;
 import com.deep.gradient.Option;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public abstract class Node implements Serializable {
 
 	private Option option;
-	private Shape ouput;
 	private Map<String, Shape> map;
 
 	public abstract void compute();
@@ -21,9 +21,11 @@ public abstract class Node implements Serializable {
 
 	public Node(Option option, Shape... shapes) {
 		this.option = option;
-		this.ouput = new Shape("ouput_" + String.valueOf(System.nanoTime()));
 		this.map = new LinkedHashMap<String, Shape>();
-		Arrays.stream(shapes).forEach(shape -> map.put(shape.getName(), shape));
+		Arrays.stream(shapes).forEach(shape -> {
+			map.put("output".equals(shape.getName()) ? "input" : shape.getName(), shape);
+		});
+		map.put("output", new Shape("output"));
 	}
 
 	public Shape get(String name) {
@@ -31,11 +33,11 @@ public abstract class Node implements Serializable {
 	}
 
 	public <E> void output(E data) {
-		ouput.set(data);
+		map.get("output").set(data);
 	}
 
 	public Shape output() {
-		return ouput;
+		return map.get("output");
 	}
 
 	public String toString() {
@@ -43,9 +45,10 @@ public abstract class Node implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("{\"name\":\"" + option.toString().toLowerCase() + "\"}").append("\n       ");
 		map.forEach((key, value) -> {
-			builder.append(gson.toJson(value)).append("\n       ");
+			JsonObject json = gson.toJsonTree(value).getAsJsonObject();
+			json.addProperty("name", key);
+			builder.append(json.toString()).append("\n       ");
 		});
-		builder.append(gson.toJson(ouput)).append("\n       ");
 		return builder.toString();
 	}
 

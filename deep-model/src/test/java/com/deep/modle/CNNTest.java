@@ -14,12 +14,9 @@ public class CNNTest {
 	String path = "D:/cnn-session.ml";
 	Session session;
 	double[][][][] input = DataSet.loadImageData();
-	double[][][] label = new double[][][] {
-			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
-			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
-	};
+	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
 
-	@Test
+	//@Test
 	public void cnn() {
 
 		TensorFlow tf = new TensorFlow();
@@ -54,25 +51,25 @@ public class CNNTest {
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
-		session.run(input, label, 200, 10);
+		session.run(input, label, 10, 20);
 		session.inStore(path);
 
 	}
 
-	//@Test
+	@Test
 	public void runr() {
 
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
 
-		session.run(input, label, 10, 10);
+		session.run(input, label, 100, 20);
 
 		session.inStore(path);
 
 	}
 
-	//@Test
+	// @Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
@@ -81,8 +78,11 @@ public class CNNTest {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// session.run(input1);
 
-		double[][][] input2 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
-		session.run(input2);
+		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
+		// session.run(input2);
+
+		double[][][] input3 = DataSet.img2rgb("D:\\chengdongliang-sam(32).jpg");
+		session.run(input3);
 
 	}
 

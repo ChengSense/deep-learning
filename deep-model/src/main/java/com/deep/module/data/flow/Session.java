@@ -12,6 +12,7 @@ import com.deep.util.Model;
 
 public class Session<E> extends Model {
 
+	private Integer epoch;
 	private Shape<E> inShape, labShape;
 	private TensorFlow tf;
 
@@ -59,22 +60,22 @@ public class Session<E> extends Model {
 
 		forward((E) input);
 
-		log(0, 0, 10);
-
 	}
 
-	public void run(E[] input, E[] label, int epoch, Integer step) {
+	public void run(E[] input, E[] label, int epochs, Integer batch) {
 
-		IntStream.range(0, epoch).forEach(i -> {
+		IntStream.range(0, epochs).forEach(i -> {
+
+			this.epoch = i;
 
 			new Feach<E>(input, label) {
 
 				public void each(E input, E label) {
 
+					log(batch, index());
+
 					forward(input);
 
-					log(i, index(), step);
-					
 					backward(label);
 
 				}
@@ -85,22 +86,31 @@ public class Session<E> extends Model {
 
 	}
 
-	private void log(int epoch, int i, Integer step) {
+	private void log(Integer batch, int i) {
 
-		if (step != null && epoch % step != 0) return;
+		if (batch != null && epoch % batch == 0) {
 
-		Logger log = Logger.getLogger(Session.class);
+			new Thread(new Runnable() {
 
-		new Each<Node>(tf.list) {
+				public void run() {
 
-			public void each(Node node) {
+					Logger log = Logger.getLogger(Session.class);
 
-				log.debug("epoch :" + epoch + ":" + (i + 1) + ":" + (index() + 1));
-				log.debug("epoch :" + node.toString());
+					new Each<Node>(tf.list) {
 
-			}
+						public void each(Node node) {
 
-		};
+							log.debug("epoch :" + epoch + ":" + (i + 1) + ":" + (index() + 1));
+							log.debug("epoch :" + node.toString());
+
+						}
+
+					};
+
+				}
+
+			}).start();
+		}
 
 	}
 

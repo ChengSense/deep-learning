@@ -46,7 +46,7 @@ public class Matrix {
 	public static double[][][] random(double[][][] A) {
 		for (int i = 0; i < A.length; i++) {
 			A[i] = random(A[i]);
-			A[i] = div(A[i], A.length * A[0].length * A[0][0].length);
+			A[i] = div(A[i], A.length);
 		}
 		return A;
 	}
