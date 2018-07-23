@@ -28,11 +28,11 @@ public class Function {
 
 		return X;
 	}
-	
+
 	public static Node softmax(double diff) {
-		
+
 		Node X = new Node(Option.DIV,
-				
+
 				new Node(Option.POW,
 
 						new Node(Option.NONE, Type.CONS, "E"),
@@ -40,25 +40,25 @@ public class Function {
 						new Node(Option.NONE, Type.VAR, "x")
 
 				),
-				
+
 				new Node(Option.ADD,
-						
+
 						new Node(Option.NONE, Type.CONS, "a"),
-						
+
 						new Node(Option.POW,
-								
+
 								new Node(Option.NONE, Type.CONS, "E"),
-								
+
 								new Node(Option.NONE, Type.VAR, "x")
-								
-								)
-						
+
 						)
-				
-				);
-		
+
+				)
+
+		);
+
 		X.setGradient(diff);
-		
+
 		return X;
 	}
 
@@ -116,4 +116,102 @@ public class Function {
 
 		return C;
 	}
+
+	public static Node crossLoss() {
+
+		Node X = new Node(Option.ADD,
+
+				new Node(Option.MUL,
+
+						new Node(Option.NONE, Type.CONS, "y"),
+
+						new Node(Option.LOG,
+
+								new Node(Option.NONE, Type.CONS, "E"),
+
+								new Node(Option.DIV,
+
+										new Node(Option.POW,
+
+												new Node(Option.NONE, Type.CONS, "E"),
+
+												new Node(Option.NONE, Type.VAR, "x")
+
+										),
+
+										new Node(Option.ADD,
+
+												new Node(Option.NONE, Type.CONS, "a"),
+
+												new Node(Option.POW,
+
+														new Node(Option.NONE, Type.CONS, "E"),
+
+														new Node(Option.NONE, Type.VAR, "x")
+
+												)
+
+										)
+
+								)
+
+						)
+
+				),
+
+				new Node(Option.MUL,
+
+						new Node(Option.MINUS,
+
+								new Node(Option.NONE, Type.CONS, "1"),
+
+								new Node(Option.NONE, Type.CONS, "y")
+
+						),
+
+						new Node(Option.MINUS,
+
+								new Node(Option.NONE, Type.CONS, "1"),
+
+								new Node(Option.LOG,
+
+										new Node(Option.NONE, Type.CONS, "E"),
+
+										new Node(Option.DIV,
+
+												new Node(Option.POW,
+
+														new Node(Option.NONE, Type.CONS, "E"),
+
+														new Node(Option.NONE, Type.VAR, "x")
+
+												),
+
+												new Node(Option.ADD,
+
+														new Node(Option.NONE, Type.CONS, "a"),
+
+														new Node(Option.POW,
+
+																new Node(Option.NONE, Type.CONS, "E"),
+
+																new Node(Option.NONE, Type.VAR, "x")
+
+														)
+
+												)
+
+										)
+
+								)
+
+						)
+
+				)
+
+		);
+
+		return X;
+	}
+
 }
