@@ -39,12 +39,12 @@ public class AutoDiff {
 	public static void corssTest() {
 		Double value = 2 * Math.log(Math.exp(0.46544853667912633) / 2) + (1 - 2) * Math.log(1 - Math.exp(0.46544853667912633) / 2);
 		System.out.println(value);
-		Double value1 = 2 - Math.exp(0.46544853667912633)/2;
+		Double value1 = 2 - Math.exp(0.46544853667912633) / 2;
 		System.out.println(value1);
-		Double value2 = 2 * (1 - Math.exp(0.46544853667912633)/2)+(Math.exp(0.46544853667912633)/2)*(1-2);
+		Double value2 = 2 * (1 - Math.exp(0.46544853667912633) / 2) + (Math.exp(0.46544853667912633) / 2) * (1 - 2);
 		System.out.println(value2);
 	}
-	
+
 	public Double getDiff(String key) {
 		return diff.get(key);
 	}
@@ -104,10 +104,18 @@ public class AutoDiff {
 			rightValue = right.getOutput();
 			node.setOutput(Math.pow(leftValue, rightValue));
 			break;
+		case EXP:
+			leftValue = left.getOutput();
+			node.setOutput(Math.exp(leftValue));
+			break;
 		case LOG:
 			leftValue = left.getOutput();
 			rightValue = right.getOutput();
 			node.setOutput(Math.log(rightValue) / Math.log(leftValue));
+			break;
+		case LN:
+			leftValue = left.getOutput();
+			node.setOutput(Math.log(leftValue));
 			break;
 		default:
 			break;
@@ -168,12 +176,20 @@ public class AutoDiff {
 			gradient = rightValue * Math.pow(leftValue, rightValue - 1);
 			child.setGradient(gradient * node.getGradient());
 			break;
-		case LOG:
+		case EXP:
 			leftValue = left.getOutput();
 			leftGrad = left.gradient();
-			rightValue = right.getOutput();
-			rightGrad = 0d;
+			gradient = leftGrad * Math.exp(leftValue);
+			child.setGradient(gradient * node.getGradient());
+			break;
+		case LOG:
 			gradient = 0d;
+			child.setGradient(gradient * node.getGradient());
+			break;
+		case LN:
+			leftValue = left.getOutput();
+			leftGrad = left.gradient();
+			gradient = leftGrad * 1 / leftValue;
 			child.setGradient(gradient * node.getGradient());
 			break;
 		default:
@@ -235,7 +251,7 @@ public class AutoDiff {
 			leftGrad = 0d;
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = 1 / (rightValue * Math.log(leftValue));
+			gradient = 1 / (rightValue * Math.log(leftValue)) * rightGrad;
 			child.setGradient(gradient * node.getGradient());
 			break;
 		default:
