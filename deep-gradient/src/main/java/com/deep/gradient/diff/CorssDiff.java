@@ -12,5 +12,4 @@ public class CorssDiff extends AutoDiff {
 		super(param, Function.corssLoss());
 
 	}
-
 }

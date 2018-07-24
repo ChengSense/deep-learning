@@ -44,7 +44,7 @@ public class AutoDiff {
 		Double value2 = 2 * (1 - Math.exp(0.46544853667912633)/2)+(Math.exp(0.46544853667912633)/2)*(1-2);
 		System.out.println(value2);
 	}
-
+	
 	public Double getDiff(String key) {
 		return diff.get(key);
 	}
