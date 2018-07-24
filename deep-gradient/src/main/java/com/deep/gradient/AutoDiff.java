@@ -2,22 +2,47 @@ package com.deep.gradient;
 
 import java.util.Map;
 
+import com.deep.gradient.diff.CorssDiff;
+import com.deep.gradient.diff.SigmoidDiff;
 import com.google.common.collect.Maps;
 
-public  class AutoDiff {
+public class AutoDiff {
 	private Map<String, Double> param;
 	private Map<String, Double> diff;
 	public Node node;
 
 	public static void main(String[] args) {
-		Node node = Function.sigmoid(1d);
-		Map<String, Double> param = Maps.newHashMap();
-		param.put("E", Math.E);
-		param.put("x", 0.46544853667912633);
-		AutoDiff diff = new AutoDiff(param, node);
-		System.out.println(node);
-		System.out.println(diff.diff);
-		test();
+		Map<String, Double> sparam = Maps.newHashMap();
+		sparam.put("E", Math.E);
+		sparam.put("x", 0.46544853667912633);
+		AutoDiff sdiff = new SigmoidDiff(sparam, 1d);
+		System.out.println(sdiff.diff);
+		sigmoidTest();
+
+		Map<String, Double> cparam = Maps.newHashMap();
+		cparam.put("E", Math.E);
+		cparam.put("y", 2d);
+		cparam.put("a", 2d - Math.exp(0.46544853667912633));
+		cparam.put("x", 0.46544853667912633);
+		AutoDiff cdiff = new CorssDiff(cparam);
+		System.out.println(cdiff.diff);
+		corssTest();
+	}
+
+	public static void sigmoidTest() {
+		Double value = 1 / (1 + Math.exp(-0.46544853667912633));
+		System.out.println(value);
+		Double value1 = value * (1 - value);
+		System.out.println(value1);
+	}
+
+	public static void corssTest() {
+		Double value = 2 * Math.log(Math.exp(0.46544853667912633) / 2) + (1 - 2) * Math.log(1 - Math.exp(0.46544853667912633) / 2);
+		System.out.println(value);
+		Double value1 = 2 - Math.exp(0.46544853667912633)/2;
+		System.out.println(value1);
+		Double value2 = 2 * (1 - Math.exp(0.46544853667912633)/2)+(Math.exp(0.46544853667912633)/2)*(1-2);
+		System.out.println(value2);
 	}
 
 	public Double getDiff(String key) {
@@ -30,13 +55,6 @@ public  class AutoDiff {
 		this.node = node;
 		eachOpt(node);
 		eachGrad(node);
-	}
-
-	public static void test() {
-		Double value = 1 / (1 + Math.pow(Math.E, -0.46544853667912633));
-		System.out.println(value);
-		Double value1 = value * (1 - value);
-		System.out.println(value1);
 	}
 
 	public void eachOpt(Node node) {
@@ -86,6 +104,11 @@ public  class AutoDiff {
 			rightValue = right.getOutput();
 			node.setOutput(Math.pow(leftValue, rightValue));
 			break;
+		case LOG:
+			leftValue = left.getOutput();
+			rightValue = right.getOutput();
+			node.setOutput(Math.log(rightValue) / Math.log(leftValue));
+			break;
 		default:
 			break;
 		}
@@ -134,7 +157,7 @@ public  class AutoDiff {
 			leftGrad = left.gradient();
 			rightValue = right.getOutput();
 			rightGrad = 0d;
-			gradient = (leftGrad * rightValue - rightGrad * leftValue) / Math.pow(rightValue, 2);
+			gradient = rightValue / Math.pow(rightValue, 2);
 			child.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
@@ -145,11 +168,19 @@ public  class AutoDiff {
 			gradient = rightValue * Math.pow(leftValue, rightValue - 1);
 			child.setGradient(gradient * node.getGradient());
 			break;
+		case LOG:
+			leftValue = left.getOutput();
+			leftGrad = left.gradient();
+			rightValue = right.getOutput();
+			rightGrad = 0d;
+			gradient = 0d;
+			child.setGradient(gradient * node.getGradient());
+			break;
 		default:
 			break;
 		}
 
-		if (param.containsKey(child.getValue())) {
+		if (param.containsKey(child.getValue()) && child.getType().equals(Type.VAR)) {
 			Double output = diff.get(child.getValue());
 			if (output == null) {
 				diff.put(child.getValue(), child.getGradient());
@@ -188,7 +219,7 @@ public  class AutoDiff {
 			leftGrad = 0d;
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = (leftGrad * rightValue - rightGrad * leftValue) / Math.pow(rightValue, 2);
+			gradient = -leftValue / Math.pow(rightValue, 2);
 			child.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
@@ -199,11 +230,19 @@ public  class AutoDiff {
 			gradient = Math.pow(leftValue, rightValue) * rightGrad;
 			child.setGradient(gradient * node.getGradient());
 			break;
+		case LOG:
+			leftValue = left.getOutput();
+			leftGrad = 0d;
+			rightValue = right.getOutput();
+			rightGrad = right.gradient();
+			gradient = 1 / (rightValue * Math.log(leftValue));
+			child.setGradient(gradient * node.getGradient());
+			break;
 		default:
 			break;
 		}
 
-		if (param.containsKey(child.getValue())) {
+		if (param.containsKey(child.getValue()) && child.getType().equals(Type.VAR)) {
 			Double output = diff.get(child.getValue());
 			if (output == null) {
 				diff.put(child.getValue(), child.getGradient());

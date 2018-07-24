@@ -1,5 +1,8 @@
 package com.deep.modle;
 
+import java.io.File;
+
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import com.deep.module.data.flow.Session;
@@ -15,6 +18,7 @@ public class CNNTest {
 	Session session;
 	double[][][][] input = DataSet.loadImageData();
 	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
+	Logger log = Logger.getLogger(Session.class);
 
 	@Test
 	public void cnn() {
@@ -51,12 +55,12 @@ public class CNNTest {
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
-		session.run(input, label, 500);
+		session.run(input, label, 10);
 		session.inStore(path);
 
 	}
 
-	//@Test
+	// @Test
 	public void runr() {
 
 		Model<Session> model = new Model<Session>();
@@ -75,12 +79,34 @@ public class CNNTest {
 
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// session.run(input1);
+		// session.log();
 
 		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
 		// session.run(input2);
+		// session.log();
 
 		double[][][] input3 = DataSet.img2rgb("D:\\chengdongliang-sam(32).jpg");
 		session.run(input3);
+		session.log();
+
+	}
+
+	//@Test
+	public void img() {
+
+		Model<Session> model = new Model<Session>();
+		session = model.outStore(path);
+
+		File file = new File("E:/imgs/");
+		File[] files = file.listFiles();
+		for (File f : files) {
+			try {
+				double[][][] input = DataSet.img2rgb(f.getPath());
+				log.debug(f.getName());
+				session.run(input);
+			} catch (Exception e) {
+			}
+		}
 
 	}
 
