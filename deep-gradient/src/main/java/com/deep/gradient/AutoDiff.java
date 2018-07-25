@@ -41,8 +41,6 @@ public class AutoDiff {
 		System.out.println(value);
 		Double value1 = 2 - Math.exp(0.46544853667912633) / 2;
 		System.out.println(value1);
-		Double value2 = 2 * (1 - Math.exp(0.46544853667912633) / 2) + (Math.exp(0.46544853667912633) / 2) * (1 - 2);
-		System.out.println(value2);
 	}
 
 	public Double getDiff(String key) {
@@ -125,145 +123,131 @@ public class AutoDiff {
 	public void eachGrad(Node node) {
 		Node left = node.left();
 		if (left != null) {
-			gradientLeft(left, node);
+			gradientLeft(node);
 			eachGrad(left);
 		}
 
 		Node right = node.right();
 		if (right != null) {
-			gradientRight(right, node);
+			gradientRight(node);
 			eachGrad(right);
 		}
 	}
 
-	private void gradientLeft(Node child, Node node) {
-		Double leftValue, leftGrad, rightValue, rightGrad, gradient;
+	private void gradientLeft(Node node) {
+		Double leftValue, leftGrad, rightValue, gradient;
 		Node left = node.left(), right = node.right();
 		switch (node.getOption()) {
 		case ADD:
 			leftGrad = left.gradient();
-			rightGrad = 0d;
-			gradient = leftGrad + rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			gradient = leftGrad;
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case MINUS:
 			leftGrad = left.gradient();
-			rightGrad = 0d;
-			gradient = leftGrad - rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			gradient = leftGrad;
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case MUL:
-			leftValue = left.getOutput();
 			leftGrad = left.gradient();
 			rightValue = right.getOutput();
-			rightGrad = 0d;
-			gradient = leftGrad * rightValue + rightGrad * leftValue;
-			child.setGradient(gradient * node.getGradient());
+			gradient = leftGrad * rightValue;
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case DIV:
-			leftValue = left.getOutput();
 			leftGrad = left.gradient();
 			rightValue = right.getOutput();
-			rightGrad = 0d;
-			gradient = rightValue / Math.pow(rightValue, 2);
-			child.setGradient(gradient * node.getGradient());
+			gradient = leftGrad * rightValue / Math.pow(rightValue, 2);
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
 			leftValue = left.getOutput();
 			leftGrad = left.gradient();
 			rightValue = right.getOutput();
-			rightGrad = 0d;
-			gradient = rightValue * Math.pow(leftValue, rightValue - 1);
-			child.setGradient(gradient * node.getGradient());
+			gradient = leftGrad * rightValue * Math.pow(leftValue, rightValue - 1);
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case EXP:
 			leftValue = left.getOutput();
 			leftGrad = left.gradient();
 			gradient = leftGrad * Math.exp(leftValue);
-			child.setGradient(gradient * node.getGradient());
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case LOG:
 			gradient = 0d;
-			child.setGradient(gradient * node.getGradient());
+			left.setGradient(gradient * node.getGradient());
 			break;
 		case LN:
 			leftValue = left.getOutput();
 			leftGrad = left.gradient();
 			gradient = leftGrad * 1 / leftValue;
-			child.setGradient(gradient * node.getGradient());
+			left.setGradient(gradient * node.getGradient());
 			break;
 		default:
 			break;
 		}
 
-		if (param.containsKey(child.getValue()) && child.getType().equals(Type.VAR)) {
-			Double output = diff.get(child.getValue());
+		if (param.containsKey(left.getValue()) && left.getType().equals(Type.VAR)) {
+			Double output = diff.get(left.getValue());
 			if (output == null) {
-				diff.put(child.getValue(), child.getGradient());
+				diff.put(left.getValue(), left.getGradient());
 			} else {
-				diff.put(child.getValue(), output + child.getGradient());
+				diff.put(left.getValue(), output + left.getGradient());
 			}
 		}
 	}
 
-	private void gradientRight(Node child, Node node) {
-		Double leftValue, leftGrad, rightValue, rightGrad, gradient;
+	private void gradientRight(Node node) {
+		Double leftValue, rightValue, rightGrad, gradient;
 		Node left = node.left(), right = node.right();
 		switch (node.getOption()) {
 		case ADD:
-			leftGrad = 0d;
 			rightGrad = right.gradient();
-			gradient = leftGrad + rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			gradient = rightGrad;
+			right.setGradient(gradient * node.getGradient());
 			break;
 		case MINUS:
-			leftGrad = 0d;
-			rightGrad = right.gradient();
-			gradient = leftGrad - rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			rightGrad = -right.gradient();
+			gradient = rightGrad;
+			right.setGradient(gradient * node.getGradient());
 			break;
 		case MUL:
 			leftValue = left.getOutput();
-			leftGrad = 0d;
-			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = leftGrad * rightValue + rightGrad * leftValue;
-			child.setGradient(gradient * node.getGradient());
+			gradient = rightGrad * leftValue;
+			right.setGradient(gradient * node.getGradient());
 			break;
 		case DIV:
 			leftValue = left.getOutput();
-			leftGrad = 0d;
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = -leftValue / Math.pow(rightValue, 2);
-			child.setGradient(gradient * node.getGradient());
+			gradient = -rightGrad * leftValue / Math.pow(rightValue, 2);
+			right.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
 			leftValue = left.getOutput();
-			leftGrad = 0d;
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = Math.pow(leftValue, rightValue) * rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			gradient = rightGrad * Math.pow(leftValue, rightValue) * Math.log(leftValue);
+			right.setGradient(gradient * node.getGradient());
 			break;
 		case LOG:
 			leftValue = left.getOutput();
-			leftGrad = 0d;
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = 1 / (rightValue * Math.log(leftValue)) * rightGrad;
-			child.setGradient(gradient * node.getGradient());
+			gradient = rightGrad * 1 / (rightValue * Math.log(leftValue));
+			right.setGradient(gradient * node.getGradient());
 			break;
 		default:
 			break;
 		}
 
-		if (param.containsKey(child.getValue()) && child.getType().equals(Type.VAR)) {
-			Double output = diff.get(child.getValue());
+		if (param.containsKey(right.getValue()) && right.getType().equals(Type.VAR)) {
+			Double output = diff.get(right.getValue());
 			if (output == null) {
-				diff.put(child.getValue(), child.getGradient());
+				diff.put(right.getValue(), right.getGradient());
 			} else {
-				diff.put(child.getValue(), output + child.getGradient());
+				diff.put(right.getValue(), output + right.getGradient());
 			}
 		}
 
