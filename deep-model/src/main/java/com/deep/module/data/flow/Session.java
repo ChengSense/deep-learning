@@ -14,7 +14,7 @@ import com.deep.util.Model;
 public class Session<E> extends Model {
 	public int epoch;
 	private Shape<E> inShape, labShape;
-	private Consumer<Session> feach;
+	private transient Consumer<Session> feach;
 	public final TensorFlow tf;
 
 	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {

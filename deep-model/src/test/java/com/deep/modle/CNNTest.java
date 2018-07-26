@@ -22,7 +22,7 @@ public class CNNTest {
 	Logger log = Logger.getLogger(Session.class);
 
 	@Test
-	public void cnn() {
+	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
 
@@ -66,7 +66,7 @@ public class CNNTest {
 	}
 
 	// @Test
-	public void runr() {
+	public void Traing() {
 
 		Model<Session> model = new Model<Session>();
 
@@ -80,8 +80,8 @@ public class CNNTest {
 
 	}
 
-	// @Test
-	public void run() {
+	//@Test
+	public void Test() {
 
 		Model<Session> model = new Model<Session>();
 		session = model.outStore(path);
@@ -94,14 +94,17 @@ public class CNNTest {
 		// session.run(input2);
 		// session.log();
 
-		double[][][] input3 = DataSet.img2rgb("D:\\chengdongliang-sam(32).jpg");
+		double[][][] input3 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
+		session.feach(a -> {
+			if (session.epoch % 100 == 0)
+				session.log();
+		});
 		session.run(input3);
-		session.log();
 
 	}
 
-//@Test
-	public void img() {
+  //@Test
+	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
 		session = model.outStore(path);
