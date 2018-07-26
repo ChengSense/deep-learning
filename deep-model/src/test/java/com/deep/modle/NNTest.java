@@ -13,10 +13,10 @@ public class NNTest {
 	String path = "D:/nn-session.ml";
 	Session session = null;
 
-	//@Test
+	@Test
 	public void nn() {
 
-		TensorFlow tf = new TensorFlow();
+		TensorFlow<Session> tf = new TensorFlow();
 
 		// 第一
 		Node node1 = tf.matmul(new Shape("weight", new double[4][2], "R"), new Shape("input", new double[2][1]));
@@ -40,14 +40,17 @@ public class NNTest {
 		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
 
 		session = new Session(tf, node1.get("input"), node10.get("lable"));
-
-		session.run(input, label, 1000);
+		session.feach(a -> {
+			if (session.epoch % 100 == 0)
+				session.log();
+		});
+		session.run(input, label, 10000);
 
 		session.inStore(path);
 
 	}
 
-	@Test
+	// @Test
 	public void nnr() {
 
 		Model<Session> model = new Model<Session>();
@@ -57,13 +60,18 @@ public class NNTest {
 		double[][][] input = new double[][][] { { { 0.1 }, { 0.1 } }, { { 0.1 }, { 0.2 } }, { { 0.1 }, { 0.9 } }, { { 0.2 }, { 0.2 } }, { { 0.2 }, { 0.3 } }, { { 0.3 }, { 0.7 } }, { { 0.4 }, { 0.8 } }, { { 0.5 }, { 0.9 } }, { { 0.8 }, { 0.9 } }, { { 0.6 }, { 0.8 } } };
 		double[][][] label = new double[][][] { { { 0.01 } }, { { 0.02 } }, { { 0.09 } }, { { 0.04 } }, { { 0.06 } }, { { 0.21 } }, { { 0.32 } }, { { 0.45 } }, { { 0.72 } }, { { 0.48 } } };
 
+		session.feach(a -> {
+			if (session.epoch % 100 == 0)
+				session.log();
+		});
+
 		session.run(input, label, 1000000);
 
 		session.inStore(path);
 
 	}
 
-	//@Test
+	// @Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();

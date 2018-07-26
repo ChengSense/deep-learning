@@ -12,7 +12,7 @@ public class Function {
 
 						new Node(Option.NONE, Type.CONS, "1"),
 
-						new Node(Option.POW,
+						new Node(Option.EXP,
 
 								new Node(Option.NONE, Type.CONS, "E"),
 
@@ -33,7 +33,7 @@ public class Function {
 
 		Node X = new Node(Option.DIV,
 
-				new Node(Option.POW,
+				new Node(Option.EXP,
 
 						new Node(Option.NONE, Type.CONS, "E"),
 
@@ -45,7 +45,7 @@ public class Function {
 
 						new Node(Option.NONE, Type.CONS, "a"),
 
-						new Node(Option.POW,
+						new Node(Option.EXP,
 
 								new Node(Option.NONE, Type.CONS, "E"),
 
@@ -131,7 +131,7 @@ public class Function {
 
 								new Node(Option.DIV,
 
-										new Node(Option.POW,
+										new Node(Option.EXP,
 
 												new Node(Option.NONE, Type.CONS, "E"),
 
@@ -143,7 +143,7 @@ public class Function {
 
 												new Node(Option.NONE, Type.CONS, "a"),
 
-												new Node(Option.POW,
+												new Node(Option.EXP,
 
 														new Node(Option.NONE, Type.CONS, "E"),
 
@@ -179,7 +179,7 @@ public class Function {
 
 										new Node(Option.DIV,
 
-												new Node(Option.POW,
+												new Node(Option.EXP,
 
 														new Node(Option.NONE, Type.CONS, "E"),
 
@@ -191,7 +191,7 @@ public class Function {
 
 														new Node(Option.NONE, Type.CONS, "a"),
 
-														new Node(Option.POW,
+														new Node(Option.EXP,
 
 																new Node(Option.NONE, Type.CONS, "E"),
 

@@ -5,6 +5,7 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.deep.module.data.flow.Prediction;
 import com.deep.module.data.flow.Session;
 import com.deep.module.data.flow.TensorFlow;
 import com.deep.module.graph.Node;
@@ -55,7 +56,11 @@ public class CNNTest {
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
-		session.run(input, label, 10);
+		session.feach(a -> {
+			if (session.epoch % 100 == 0)
+				session.log();
+		});
+		session.run(input, label, 500);
 		session.inStore(path);
 
 	}
@@ -66,12 +71,16 @@ public class CNNTest {
 		Model<Session> model = new Model<Session>();
 
 		session = model.outStore(path);
+		session.feach(a -> {
+			if (session.epoch % 100 == 0)
+				session.log();
+		});
 		session.run(input, label, 100);
 		session.inStore(path);
 
 	}
 
-	//@Test
+	// @Test
 	public void run() {
 
 		Model<Session> model = new Model<Session>();
@@ -91,7 +100,7 @@ public class CNNTest {
 
 	}
 
-	//@Test
+//@Test
 	public void img() {
 
 		Model<Session> model = new Model<Session>();
@@ -100,12 +109,23 @@ public class CNNTest {
 		File file = new File("E:/imgs/");
 		File[] files = file.listFiles();
 		for (File f : files) {
+			
 			try {
+
 				double[][][] input = DataSet.img2rgb(f.getPath());
-				log.debug(f.getName());
-				session.run(input);
+
+				double cost = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
+
+				if (cost < 0.006)
+
+					DataSet.copy(f.getPath(), "E:/pred-img/");
+
+				log.debug(f.getName() + " -> " + cost);
+
 			} catch (Exception e) {
+
 			}
+
 		}
 
 	}

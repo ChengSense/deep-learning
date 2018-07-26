@@ -1,5 +1,6 @@
 package com.deep.module.data.flow;
 
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import org.apache.log4j.Logger;
@@ -11,10 +12,10 @@ import com.deep.util.Feach;
 import com.deep.util.Model;
 
 public class Session<E> extends Model {
-
-	private Integer epoch;
+	public int epoch;
 	private Shape<E> inShape, labShape;
-	private TensorFlow<Node> tf;
+	private Consumer<Session> feach;
+	public final TensorFlow tf;
 
 	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {
 
@@ -56,19 +57,35 @@ public class Session<E> extends Model {
 
 	}
 
-	public void run(E[] input) {
+	public void feach(Consumer<Session> feach) {
 
-		forward((E) input);
+		if (feach != null) {
 
-		log(tf.list.end(), 0);
+			this.feach = feach;
+
+		}
+
+		else if (this.feach != null) {
+
+			this.feach.accept(this);
+
+		}
 
 	}
 
-	public void run(E[] input, E[] label, int epochs) {
+	public void run(E input) {
 
-		IntStream.range(0, epochs).forEach(epoch -> {
+		forward(input);
 
-			this.epoch = epoch;
+		feach(null);
+
+	}
+
+	public void run(E[] input, E[] label, int epoch) {
+
+		IntStream.range(0, epoch).forEach(i -> {
+
+			this.epoch = i;
 
 			new Feach<E>(input, label) {
 
@@ -76,24 +93,15 @@ public class Session<E> extends Model {
 
 					forward(input);
 
-					log(tf.list.end(), index());
-
 					backward(label);
+
+					feach(null);
 
 				}
 
 			};
 
 		});
-
-	}
-
-	private void log(Node node, int i) {
-
-		Logger log = Logger.getLogger(Session.class);
-
-		log.debug("epoch :" + epoch + ":" + i);
-		log.debug("epoch :" + node.toString());
 
 	}
 
@@ -105,7 +113,8 @@ public class Session<E> extends Model {
 
 			public void each(Node node) {
 
-				log.debug(node.toString());
+				log.debug("epoch :" + epoch + ":" + index());
+				log.debug("epoch :" + node.toString());
 
 			}
 

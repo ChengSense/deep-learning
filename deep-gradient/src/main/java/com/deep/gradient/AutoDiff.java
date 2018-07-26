@@ -84,8 +84,7 @@ public class AutoDiff {
 			break;
 		case MINUS:
 			leftValue = left.getOutput();
-			rightValue = right == null ? 0 : right.getOutput();
-			node.setOutput(leftValue - rightValue);
+			node.setOutput(right == null ? -leftValue : leftValue - right.getOutput());
 			break;
 		case MUL:
 			leftValue = left.getOutput();
@@ -104,7 +103,8 @@ public class AutoDiff {
 			break;
 		case EXP:
 			leftValue = left.getOutput();
-			node.setOutput(Math.exp(leftValue));
+			rightValue = right.getOutput();
+			node.setOutput(Math.pow(leftValue, rightValue));
 			break;
 		case LOG:
 			leftValue = left.getOutput();
@@ -145,7 +145,7 @@ public class AutoDiff {
 			break;
 		case MINUS:
 			leftGrad = left.gradient();
-			gradient = leftGrad;
+			gradient = right == null ? -leftGrad : leftGrad;
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case MUL:
@@ -168,9 +168,8 @@ public class AutoDiff {
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case EXP:
-			leftValue = left.getOutput();
 			leftGrad = left.gradient();
-			gradient = leftGrad * Math.exp(leftValue);
+			gradient = leftGrad;
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case LOG:
@@ -225,10 +224,15 @@ public class AutoDiff {
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
+			rightGrad = right.gradient();
+			gradient = rightGrad;
+			right.setGradient(gradient * node.getGradient());
+			break;
+		case EXP:
 			leftValue = left.getOutput();
 			rightValue = right.getOutput();
 			rightGrad = right.gradient();
-			gradient = rightGrad * Math.pow(leftValue, rightValue) * Math.log(leftValue);
+			gradient = rightGrad * node.getOutput() * Math.log(leftValue);
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case LOG:

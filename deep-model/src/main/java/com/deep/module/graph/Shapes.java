@@ -22,14 +22,14 @@ public class Shapes implements Serializable {
 
 	private void each(Object a) {
 		if (a.getClass().isArray()) {
-			try {
-				Object[] c = (Object[]) a;
-				for (Object o : c) {
-					each(o);
-				}
-			} catch (Exception e) {
+			if (a instanceof double[]) {
 				double[] c = (double[]) a;
 				for (double o : c) {
+					each(o);
+				}
+			} else {
+				Object[] c = (Object[]) a;
+				for (Object o : c) {
 					each(o);
 				}
 			}
@@ -40,13 +40,13 @@ public class Shapes implements Serializable {
 
 	private void each(int l, Object o, Object a) {
 		if (a != null && a.getClass().isArray()) {
-			try {
-				Object[] c = (Object[]) a;
+			if (a instanceof double[]) {
+				double[] c = (double[]) a;
 				for (int i = 0; i < c.length; i++) {
 					each(i, c, c[i]);
 				}
-			} catch (Exception e) {
-				double[] c = (double[]) a;
+			} else {
+				Object[] c = (Object[]) a;
 				for (int i = 0; i < c.length; i++) {
 					each(i, c, c[i]);
 				}
@@ -85,6 +85,31 @@ public class Shapes implements Serializable {
 			e[l] = b;
 		}
 		return o;
+	}
+
+	public static double[] sums(Object a) {
+		double[] m = { 0, 0 };
+		sum(a, m);
+		return m;
+	}
+
+	private static void sum(Object a, double[] m) {
+		if (a.getClass().isArray()) {
+			if (a instanceof double[]) {
+				double[] c = (double[]) a;
+				for (double o : c) {
+					sum(o, m);
+				}
+			} else {
+				Object[] c = (Object[]) a;
+				for (Object o : c) {
+					sum(o, m);
+				}
+			}
+		} else {
+			m[0] += (double) a;
+			m[1]++;
+		}
 	}
 
 }

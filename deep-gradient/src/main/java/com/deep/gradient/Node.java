@@ -33,32 +33,46 @@ public class Node {
 	}
 
 	public Node left() {
-		if (inputs == null)
+		if (inputs == null) {
+
 			return null;
-		if (inputs.length > 0)
+
+		}
+
+		if (inputs.length > 0) {
+
 			return inputs[0];
+
+		}
+
 		return null;
 	}
 
 	public Node right() {
-		if (inputs == null)
+
+		if (inputs == null) {
+
 			return null;
-		if (inputs.length > 1)
+
+		}
+
+		if (inputs.length > 1) {
+
 			return inputs[1];
+
+		}
+
 		return null;
 	}
 
 	public Double gradient() {
-		switch (type) {
-		case CONS:
-			return gradient = 0d;
-		case VAR:
-			return var();
-		}
-		return gradient;
-	}
 
-	public Double var() {
+		if (Type.CONS.equals(type)) {
+
+			return gradient = 0d;
+
+		}
+
 		if (option.equals(option.MINUS)) {
 
 			if (inputs == null) {
@@ -67,14 +81,9 @@ public class Node {
 
 			}
 
-			if (inputs.length == 1) {
-
-				return gradient = -1d;
-
-			}
-
 		}
-		return gradient = 1d;
+
+		return gradient;
 	}
 
 	public void value(Map<String, Double> map) {
@@ -95,12 +104,8 @@ public class Node {
 
 				output = -output;
 
-			} else if (inputs.length == 1) {
-
-				output = -output;
-
 			}
-
+			
 		}
 
 	}
