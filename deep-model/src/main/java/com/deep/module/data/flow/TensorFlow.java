@@ -10,9 +10,8 @@ import com.deep.util.Array;
 
 public class TensorFlow<E> extends Shapes {
 
-	Array<Node> list;
-
-	Gradient grad;
+	private Gradient grad;
+	public final Array<Node> list;
 
 	public TensorFlow() {
 
