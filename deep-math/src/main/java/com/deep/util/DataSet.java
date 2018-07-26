@@ -282,7 +282,6 @@ public class DataSet {
 
 	public static void copy(String fileName, String target) {
 		try {
-			fileName = BASE_PATH + fileName;
 			File file = new File(fileName);
 			BufferedImage image = ImageIO.read(file);
 			File outFile = new File(target);

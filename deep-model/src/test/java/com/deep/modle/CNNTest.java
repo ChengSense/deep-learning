@@ -15,13 +15,13 @@ import com.deep.util.Model;
 
 public class CNNTest {
 
-	String path = "D:/cnn-session.ml";
 	Session session;
+	Logger log = Logger.getLogger(CNNTest.class);
 	double[][][][] input = DataSet.loadImageData();
 	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
-	Logger log = Logger.getLogger(Session.class);
+	String path = "D:/cnn-session.ml";
 
-	@Test
+	//@Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -57,53 +57,48 @@ public class CNNTest {
 
 		session = new Session(tf, node1.get("input"), node19.get("lable"));
 		session.feach(a -> {
-			if (session.epoch % 100 == 0)
-				session.log();
+			Node node = (Node) session.tf.list.end();
+			log.debug("epoch :" + session.epoch);
+			log.debug("epoch :" + node);
 		});
 		session.run(input, label, 500);
 		session.inStore(path);
 
 	}
 
-	// @Test
+	@Test
 	public void Traing() {
 
 		Model<Session> model = new Model<Session>();
-
 		session = model.outStore(path);
 		session.feach(a -> {
-			if (session.epoch % 100 == 0)
-				session.log();
+			Node node = (Node) session.tf.list.end();
+			log.debug("epoch :" + session.epoch);
+			log.debug("epoch :" + node);
 		});
-		session.run(input, label, 100);
+		session.run(input, label, 1000);
 		session.inStore(path);
 
 	}
 
-	//@Test
+	// @Test
 	public void Test() {
+		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
+		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
+		double[][][] input3 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
 
 		Model<Session> model = new Model<Session>();
 		session = model.outStore(path);
-
-		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
-		// session.run(input1);
-		// session.log();
-
-		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
-		// session.run(input2);
-		// session.log();
-
-		double[][][] input3 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
 		session.feach(a -> {
-			if (session.epoch % 100 == 0)
-				session.log();
+			Node node = (Node) session.tf.list.end();
+			log.debug("epoch :" + session.epoch);
+			log.debug("epoch :" + node);
 		});
 		session.run(input3);
 
 	}
 
-  //@Test
+	@Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
@@ -112,7 +107,7 @@ public class CNNTest {
 		File file = new File("E:/imgs/");
 		File[] files = file.listFiles();
 		for (File f : files) {
-			
+
 			try {
 
 				double[][][] input = DataSet.img2rgb(f.getPath());
