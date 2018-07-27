@@ -8,18 +8,13 @@ public class Prediction<E> {
 	private TensorFlow<Node> tf;
 
 	public Prediction(Session se) {
-
 		this.session = se;
 		this.tf = se.tf;
-
 	}
 
 	public Prediction feed(E input) {
-
 		session.run(input);
-
 		return this;
-
 	}
 
 	public double eval(E lab) {
@@ -30,9 +25,8 @@ public class Prediction<E> {
 
 		Shape input = node.get("input");
 		node.gradient();
-		double[] x = Shape.sums(input.diff());
 
-		return x[0] / x[1];
+		return Shape.mean(input.diff());
 
 	}
 

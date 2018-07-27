@@ -75,6 +75,11 @@ public class Shapes implements Serializable {
 		}
 	}
 
+	public static double mean(Object a) {
+		double[] m =sums(a);
+		return m[0] / m[1];
+	}
+	
 	public static double[] sums(Object a) {
 		double[] m = { 0, 0 };
 		sum(a, m);
