@@ -73,7 +73,7 @@ public class Node {
 
 		}
 
-		if (option.equals(option.MINUS)) {
+		if (Option.MINUS.equals(option)) {
 
 			if (inputs == null) {
 
@@ -98,7 +98,7 @@ public class Node {
 
 		}
 
-		if (option.equals(option.MINUS)) {
+		if (Option.MINUS.equals(option)) {
 
 			if (inputs == null) {
 
