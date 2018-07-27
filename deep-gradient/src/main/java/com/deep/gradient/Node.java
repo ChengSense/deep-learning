@@ -19,17 +19,20 @@ public class Node {
 
 	public Node(Option option) {
 		this.option = option;
+		this.gradient();
 	}
 
 	public Node(Option option, Type type, String value) {
 		this.option = option;
 		this.type = type;
 		this.value = value;
+		this.gradient();
 	}
 
 	public Node(Option option, Node... inputs) {
 		this.option = option;
 		this.inputs = inputs;
+		this.gradient();
 	}
 
 	public Node left() {
@@ -65,7 +68,7 @@ public class Node {
 		return null;
 	}
 
-	public Double gradient() {
+	private Double gradient() {
 
 		if (Type.CONS.equals(type)) {
 
