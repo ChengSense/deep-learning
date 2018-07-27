@@ -139,36 +139,36 @@ public class AutoDiff {
 		Node left = node.left(), right = node.right();
 		switch (node.getOption()) {
 		case ADD:
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			gradient = leftGrad;
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case MINUS:
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			gradient = right == null ? -leftGrad : leftGrad;
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case MUL:
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			rightValue = right.getOutput();
 			gradient = leftGrad * rightValue;
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case DIV:
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			rightValue = right.getOutput();
 			gradient = leftGrad * rightValue / Math.pow(rightValue, 2);
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
 			leftValue = left.getOutput();
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			rightValue = right.getOutput();
 			gradient = leftGrad * rightValue * Math.pow(leftValue, rightValue - 1);
 			left.setGradient(gradient * node.getGradient());
 			break;
 		case EXP:
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			gradient = leftGrad;
 			left.setGradient(gradient * node.getGradient());
 			break;
@@ -178,7 +178,7 @@ public class AutoDiff {
 			break;
 		case LN:
 			leftValue = left.getOutput();
-			leftGrad = left.getGradient();
+			leftGrad = left.gradient();
 			gradient = leftGrad * 1 / leftValue;
 			left.setGradient(gradient * node.getGradient());
 			break;
@@ -201,44 +201,44 @@ public class AutoDiff {
 		Node left = node.left(), right = node.right();
 		switch (node.getOption()) {
 		case ADD:
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = rightGrad;
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case MINUS:
-			rightGrad = -right.getGradient();
+			rightGrad = -right.gradient();
 			gradient = rightGrad;
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case MUL:
 			leftValue = left.getOutput();
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = rightGrad * leftValue;
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case DIV:
 			leftValue = left.getOutput();
 			rightValue = right.getOutput();
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = -rightGrad * leftValue / Math.pow(rightValue, 2);
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case POW:
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = rightGrad;
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case EXP:
 			leftValue = left.getOutput();
 			rightValue = right.getOutput();
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = rightGrad * node.getOutput() * Math.log(leftValue);
 			right.setGradient(gradient * node.getGradient());
 			break;
 		case LOG:
 			leftValue = left.getOutput();
 			rightValue = right.getOutput();
-			rightGrad = right.getGradient();
+			rightGrad = right.gradient();
 			gradient = rightGrad * 1 / (rightValue * Math.log(leftValue));
 			right.setGradient(gradient * node.getGradient());
 			break;
