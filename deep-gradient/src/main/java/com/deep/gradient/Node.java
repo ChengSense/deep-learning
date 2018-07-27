@@ -65,7 +65,7 @@ public class Node {
 		return null;
 	}
 
-	public Double gradient() {
+	public Double getGradient() {
 
 		if (Type.CONS.equals(type)) {
 

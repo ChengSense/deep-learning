@@ -22,10 +22,20 @@ public class CNNTest {
 	Session session;
 	Logger log = Logger.getLogger(CNNTest.class);
 	double[][][][] input = DataSet.loadImageData();
-	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
+	double[][][] label = new double[][][] {
+
+			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
+
+			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } },
+
+			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
+
+			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
+
+	};
 	String path = "D:/cnn-session.ml";
 
-	@Test
+	// @Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -102,7 +112,7 @@ public class CNNTest {
 
 	}
 
-	//@Test
+	@Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
@@ -114,13 +124,17 @@ public class CNNTest {
 
 				double[][][] input = DataSet.img2rgb(path.toString());
 
-				double cost = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
+				double cost1 = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
+				double cost9 = new Prediction(session).feed(input).eval(new double[][] { { 0.9 } });
+				log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
-				if (cost < 0.006)
+				if (cost1 < 0.006)
 
-					DataSet.copy(path.toString(), "E:/pred-img/");
+					DataSet.copy(path.toString(), "E:/pred-img1/");
 
-				log.debug(path.toString() + " -> " + cost);
+				if (cost9 < 0.006)
+
+					DataSet.copy(path.toString(), "E:/pred-img9/");
 
 			});
 
