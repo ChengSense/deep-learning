@@ -21,20 +21,16 @@ public class Shapes implements Serializable {
 	}
 
 	private void each(Object a) {
-		if (a.getClass().isArray()) {
-			if (a instanceof double[]) {
-				double[] c = (double[]) a;
-				for (double o : c) {
-					each(o);
-				}
-			} else {
-				Object[] c = (Object[]) a;
-				for (Object o : c) {
-					each(o);
-				}
+		if (a instanceof double[]) {
+			double[] c = (double[]) a;
+			for (double o : c) {
+				queue.add(o);
 			}
 		} else {
-			queue.add(a);
+			Object[] c = (Object[]) a;
+			for (Object o : c) {
+				each(o);
+			}
 		}
 	}
 
@@ -58,33 +54,25 @@ public class Shapes implements Serializable {
 	}
 
 	public static <E> E fill(E a, double b) {
-		E[] o = (E[]) new Object[1];
+		Object[] o = new Object[1];
 		fill(a, o, 0, b);
-		return o[0];
+		return (E) o[0];
 	}
 
-	private static <E> E fill(E a, E o, int l, double b) {
-		if (a.getClass().isArray()) {
-			if (a instanceof double[]) {
-				double[] c = (double[]) a, m = c.clone();
-				E[] n = (E[]) o;
-				n[l] = (E) m;
-				for (int i = 0; i < c.length; i++) {
-					fill(c[i], m, i, b);
-				}
-			} else {
-				E[] c = (E[]) a, m = c.clone();
-				E[] n = (E[]) o;
-				n[l] = (E) m;
-				for (int i = 0; i < c.length; i++) {
-					fill(c[i], m, i, b);
-				}
+	private static <E> void fill(E a, Object[] o, int l, double b) {
+		if (a instanceof double[]) {
+			double[] c = (double[]) a, m = c.clone();
+			o[l] = m;
+			for (int i = 0; i < c.length; i++) {
+				m[i] = b;
 			}
 		} else {
-			double[] e = (double[]) o;
-			e[l] = b;
+			E[] c = (E[]) a, m = c.clone();
+			o[l] = m;
+			for (int i = 0; i < c.length; i++) {
+				fill(c[i], m, i, b);
+			}
 		}
-		return o;
 	}
 
 	public static double[] sums(Object a) {
@@ -94,21 +82,17 @@ public class Shapes implements Serializable {
 	}
 
 	private static void sum(Object a, double[] m) {
-		if (a.getClass().isArray()) {
-			if (a instanceof double[]) {
-				double[] c = (double[]) a;
-				for (double o : c) {
-					sum(o, m);
-				}
-			} else {
-				Object[] c = (Object[]) a;
-				for (Object o : c) {
-					sum(o, m);
-				}
+		if (a instanceof double[]) {
+			double[] c = (double[]) a;
+			for (double o : c) {
+				m[0] += o;
+				m[1]++;
 			}
 		} else {
-			m[0] += (double) a;
-			m[1]++;
+			Object[] c = (Object[]) a;
+			for (Object o : c) {
+				sum(o, m);
+			}
 		}
 	}
 

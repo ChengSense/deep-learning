@@ -1,6 +1,10 @@
 package com.deep.modle;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -21,7 +25,7 @@ public class CNNTest {
 	double[][][] label = new double[][][] { { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } } };
 	String path = "D:/cnn-session.ml";
 
-	//@Test
+	@Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -66,7 +70,7 @@ public class CNNTest {
 
 	}
 
-	@Test
+	// @Test
 	public void Traing() {
 
 		Model<Session> model = new Model<Session>();
@@ -76,7 +80,7 @@ public class CNNTest {
 			log.debug("epoch :" + session.epoch);
 			log.debug("epoch :" + node);
 		});
-		session.run(input, label, 1000);
+		session.run(input, label, 500);
 		session.inStore(path);
 
 	}
@@ -98,32 +102,30 @@ public class CNNTest {
 
 	}
 
-	@Test
+	//@Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
 		session = model.outStore(path);
 
-		File file = new File("E:/imgs/");
-		File[] files = file.listFiles();
-		for (File f : files) {
+		try (Stream<Path> stream = Files.list(Paths.get("E:/imgs/"))) {
 
-			try {
+			stream.forEach(path -> {
 
-				double[][][] input = DataSet.img2rgb(f.getPath());
+				double[][][] input = DataSet.img2rgb(path.toString());
 
 				double cost = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
 
 				if (cost < 0.006)
 
-					DataSet.copy(f.getPath(), "E:/pred-img/");
+					DataSet.copy(path.toString(), "E:/pred-img/");
 
-				log.debug(f.getName() + " -> " + cost);
+				log.debug(path.toString() + " -> " + cost);
 
-			} catch (Exception e) {
+			});
 
-			}
-
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
