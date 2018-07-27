@@ -5,11 +5,9 @@ import com.deep.module.graph.Shape;
 
 public class Prediction<E> {
 	private Session session;
-	private TensorFlow<Node> tf;
 
 	public Prediction(Session se) {
 		this.session = se;
-		this.tf = se.tf;
 	}
 
 	public Prediction feed(E input) {
@@ -19,7 +17,9 @@ public class Prediction<E> {
 
 	public double eval(E lab) {
 
+		TensorFlow<Node> tf = session.tf;
 		Node node = tf.list.end();
+
 		Shape label = node.get("lable");
 		label.set(lab);
 

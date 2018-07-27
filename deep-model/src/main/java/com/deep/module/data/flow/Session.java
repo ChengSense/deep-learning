@@ -16,6 +16,7 @@ public class Session<E> extends Model {
 	private Shape<E> inShape, labShape;
 	private transient Consumer<Session> feach;
 	public final TensorFlow tf;
+	private static final long serialVersionUID = 1L;
 
 	public Session(TensorFlow tf, Shape<E> inShape, Shape<E> labShape) {
 
