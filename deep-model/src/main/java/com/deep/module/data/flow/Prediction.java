@@ -26,7 +26,7 @@ public class Prediction<E> {
 		Shape input = node.get("input");
 		node.gradient();
 
-		return Shape.mean(input.diff());
+		return Math.abs(Shape.mean(input.diff())) ;
 
 	}
 

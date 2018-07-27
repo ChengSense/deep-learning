@@ -12,7 +12,8 @@ import com.google.gson.JsonObject;
 
 public abstract class Node implements Serializable {
 
-	private Option option;
+	private static final long serialVersionUID = 1L;
+	public final Option option;
 	private Map<String, Shape> map;
 
 	public abstract void compute();

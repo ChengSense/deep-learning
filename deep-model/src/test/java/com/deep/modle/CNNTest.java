@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.deep.gradient.Option;
 import com.deep.module.data.flow.Prediction;
 import com.deep.module.data.flow.Session;
 import com.deep.module.data.flow.TensorFlow;
@@ -95,7 +96,7 @@ public class CNNTest {
 
 	}
 
-	// @Test
+	@Test
 	public void Test() {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
@@ -104,15 +105,27 @@ public class CNNTest {
 		Model<Session> model = new Model<Session>();
 		session = model.outStore(path);
 		session.feach(a -> {
-			Node node = (Node) session.tf.list.end();
-			log.debug("epoch :" + session.epoch);
-			log.debug("epoch :" + node);
-		});
-		session.run(input3);
 
+			session.tf.list.forEach(o -> {
+
+				Node node = (Node) o;
+
+				if (node.option.equals(Option.CONV)) {
+					DataSet.gray2img((double[][][][]) node.output().get());
+				}
+
+				log.debug("epoch :" + session.epoch);
+				log.debug("epoch :" + node);
+
+			});
+
+		});
+
+		double cost = new Prediction(session).feed(input3).eval(new double[][] { { 0.1 } });
+		log.debug("cost :" + cost);
 	}
 
-	@Test
+	// @Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
@@ -126,15 +139,22 @@ public class CNNTest {
 
 				double cost1 = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
 				double cost9 = new Prediction(session).feed(input).eval(new double[][] { { 0.9 } });
-				log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
-				if (cost1 < 0.006)
+				if (cost1 < 0.006) {
+
+					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
 					DataSet.copy(path.toString(), "E:/pred-img1/");
 
-				if (cost9 < 0.006)
+				}
+
+				if (cost9 < 0.006) {
+
+					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
 					DataSet.copy(path.toString(), "E:/pred-img9/");
+
+				}
 
 			});
 

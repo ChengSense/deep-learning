@@ -23,7 +23,7 @@ public class TensorFlow<E> extends Shapes {
 
 	public Node prod(Shape... shapes) {
 
-		Node node = new Node(Option.MULT3, shapes) {
+		Node node = new Node(Option.PROD, shapes) {
 
 			public void compute() {
 
