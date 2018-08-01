@@ -17,7 +17,7 @@ import com.deep.util.Feach;
 
 public class Gradient<E> implements Serializable {
 
-	static double rate = 0.05;
+	static double rate = 0.003;
 
 	public void prod(Shape... shapes) {
 
