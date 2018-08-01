@@ -1,6 +1,8 @@
 package com.deep.math;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.log4j.Logger;
@@ -76,9 +78,11 @@ public class Matrix {
 
 	public static double[][] add(double[][] A, double[][] B) {
 		double[][] C = new double[A.length][A[0].length];
-		for (int i = 0; i < A.length; i++)
-			for (int l = 0; l < A[i].length; l++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
+			IntStream.range(0, A[i].length).parallel().forEach(l -> {
 				C[i][l] = A[i][l] + B[i][l];
+			});
+		});
 		return C;
 	}
 
@@ -91,8 +95,9 @@ public class Matrix {
 
 	public static double[][][] add(double[][][] A, double[] B) {
 		double[][][] C = new double[A.length][A[0].length][A[0][0].length];
-		for (int i = 0; i < A.length; i++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
 			C[i] = add(A[i], B[i]);
+		});
 		return C;
 	}
 
@@ -114,18 +119,22 @@ public class Matrix {
 
 	public static double[][] mult(double[][] A, double b) {
 		double[][] C = new double[A.length][A[0].length];
-		for (int i = 0; i < A.length; i++)
-			for (int l = 0; l < A[0].length; l++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
+			IntStream.range(0, A[0].length).parallel().forEach(l -> {
 				C[i][l] = A[i][l] * b;
+			});
+		});
 		return C;
 	}
 
 	public static double[][] mult(double[][] A, double[][] B) {
 		double[][] C = new double[A.length][B[0].length];
-		for (int i = 0; i < A.length; i++)
-			for (int l = 0; l < B[0].length; l++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
+			IntStream.range(0, B[0].length).parallel().forEach(l -> {
 				for (int j = 0; j < A[0].length; j++)
 					C[i][l] += A[i][j] * B[j][l];
+			});
+		});
 		return C;
 	}
 
@@ -151,15 +160,17 @@ public class Matrix {
 
 	public static double[] sigmoid(double[] a) {
 		double[] b = new double[a.length];
-		for (int i = 0; i < a.length; i++)
+		IntStream.range(0, a.length).parallel().forEach(i -> {
 			b[i] = sigmoid(a[i]);
+		});
 		return b;
 	}
 
 	public static double[][] sigmoid(double[][] A) {
 		double[][] B = new double[A.length][A[0].length];
-		for (int i = 0; i < A.length; i++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
 			B[i] = sigmoid(A[i]);
+		});
 		return B;
 	}
 
@@ -169,35 +180,42 @@ public class Matrix {
 
 	public static double[][] relu(double[][] A) {
 		double[][] B = new double[A.length][A[0].length];
-		for (int i = 0; i < A.length; i++)
-			for (int l = 0; l < A[i].length; l++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
+			IntStream.range(0, A[i].length).parallel().forEach(l -> {
 				B[i][l] = relu(A[i][l]);
+			});
+		});
 		return B;
 	}
 
 	public static double[][][] relu(double[][][] A) {
 		double[][][] B = new double[A.length][A[0].length][A[0][0].length];
-		for (int i = 0; i < A.length; i++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
 			B[i] = relu(A[i]);
+		});
 		return B;
 	}
 
 	public static double[][] conv(double[][] A, double[][] B) {
 		int height = B.length - A.length + 1, width = B[0].length - A[0].length + 1;
 		double[][] C = new double[height][width];
-		for (int i = 0; i < height; i++)
-			for (int l = 0; l < width; l++)
+		IntStream.range(0, height).parallel().forEach(i -> {
+			IntStream.range(0, width).parallel().forEach(l -> {
 				for (int m = 0; m < A.length; m++)
 					for (int n = 0; n < A[m].length; n++)
 						C[i][l] += B[i + m][l + n] * A[m][n];
+			});
+		});
 		return C;
 	}
 
 	public static double[][][][] conv(double[][][] A, double[][][] B) {
 		double[][][][] C = new double[A.length][B.length][B[0].length - A[0].length + 1][B[0][0].length - A[0][0].length + 1];
-		for (int i = 0; i < A.length; i++)
-			for (int l = 0; l < B.length; l++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
+			IntStream.range(0, B.length).parallel().forEach(l -> {
 				C[i][l] = conv(A[i], B[l]);
+			});
+		});
 		return C;
 	}
 
@@ -212,25 +230,29 @@ public class Matrix {
 
 	public static double[][][] maxpool(double[][][] A) {
 		double[][][] B = new double[A.length][][];
-		for (int i = 0; i < A.length; i++)
+		IntStream.range(0, A.length).parallel().forEach(i -> {
 			B[i] = maxpool(A[i]);
+		});
 		return B;
 	}
 
 	public static double[] softmax(double[] a) {
 		double[] b = new double[a.length];
-		for (int i = 0; i < a.length; i++)
+		IntStream.range(0, a.length).parallel().forEach(i -> {
 			b[i] = Math.exp(a[i]);
-		double s = sum(b);
-		for (int i = 0; i < b.length; i++)
+		});
+		double s = Arrays.stream(b).parallel().sum();
+		IntStream.range(0, b.length).parallel().forEach(i -> {
 			b[i] = b[i] / s;
+		});
 		return b;
 	}
 
 	public static double[][] softmax(double[][] a) {
 		double[][] b = new double[a.length][a[0].length];
-		for (int i = 0; i < a.length; i++)
+		IntStream.range(0, a.length).parallel().forEach(i -> {
 			b[i] = softmax(a[i]);
+		});
 		return b;
 	}
 

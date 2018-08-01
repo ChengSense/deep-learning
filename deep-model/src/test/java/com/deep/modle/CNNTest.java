@@ -20,7 +20,6 @@ import com.deep.util.Model;
 
 public class CNNTest {
 
-	Session session;
 	Logger log = Logger.getLogger(CNNTest.class);
 	double[][][][] input = DataSet.loadImageData();
 	double[][][] label = new double[][][] {
@@ -36,7 +35,7 @@ public class CNNTest {
 	};
 	String path = "D:/cnn-session.ml";
 
-	// @Test
+	//@Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -70,7 +69,22 @@ public class CNNTest {
 		// 损失节点
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
-		session = new Session(tf, node1.get("input"), node19.get("lable"));
+		Session session = new Session(tf, node1.get("input"), node19.get("lable"));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+		session.feach(a -> {
+			Node node = (Node) session.tf.list.end();
+			log.debug("epoch :" + session.epoch + ":" + session.index);
+			log.debug("epoch :" + node);
+		});
+		session.run(input, label, 1000);
+		session.inStore(path);
+                                                                                                                                                                                                                                                             
+	}
+
+	// @Test
+	public void Traing() {
+
+		Model<Session> model = new Model<Session>();
+		Session session = model.outStore(path);
 		session.feach(a -> {
 			Node node = (Node) session.tf.list.end();
 			log.debug("epoch :" + session.epoch);
@@ -82,28 +96,13 @@ public class CNNTest {
 	}
 
 	// @Test
-	public void Traing() {
-
-		Model<Session> model = new Model<Session>();
-		session = model.outStore(path);
-		session.feach(a -> {
-			Node node = (Node) session.tf.list.end();
-			log.debug("epoch :" + session.epoch);
-			log.debug("epoch :" + node);
-		});
-		session.run(input, label, 500);
-		session.inStore(path);
-
-	}
-
-	@Test
 	public void Test() {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
 		double[][][] input3 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
 
 		Model<Session> model = new Model<Session>();
-		session = model.outStore(path);
+		Session session = model.outStore(path);
 		session.feach(a -> {
 
 			session.tf.list.forEach(o -> {
@@ -114,7 +113,7 @@ public class CNNTest {
 					DataSet.gray2img((double[][][][]) node.output().get());
 				}
 
-				log.debug("epoch :" + session.epoch);
+				log.debug("epoch :" + session.epoch + ":" + session.index);
 				log.debug("epoch :" + node);
 
 			});
@@ -125,11 +124,11 @@ public class CNNTest {
 		log.debug("cost :" + cost);
 	}
 
-	// @Test
+	@Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();
-		session = model.outStore(path);
+		Session session = model.outStore(path);
 
 		try (Stream<Path> stream = Files.list(Paths.get("E:/imgs/"))) {
 
@@ -140,7 +139,7 @@ public class CNNTest {
 				double cost1 = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
 				double cost9 = new Prediction(session).feed(input).eval(new double[][] { { 0.9 } });
 
-				if (cost1 < 0.006) {
+				if (cost1 < 0.002) {
 
 					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
@@ -148,7 +147,7 @@ public class CNNTest {
 
 				}
 
-				if (cost9 < 0.006) {
+				if (cost9 < 0.002) {
 
 					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 

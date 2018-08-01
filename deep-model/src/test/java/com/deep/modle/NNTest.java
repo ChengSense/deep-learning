@@ -46,7 +46,7 @@ public class NNTest {
 			log.debug("epoch :" + session.epoch);
 			log.debug("epoch :" + node);
 		});
-		session.run(input, label, 10000);
+		session.run(input, label, 1000000);
 		session.inStore(path);
 
 	}

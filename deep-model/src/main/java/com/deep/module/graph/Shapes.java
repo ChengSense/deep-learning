@@ -3,6 +3,7 @@ package com.deep.module.graph;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.IntStream;
 
 public class Shapes implements Serializable {
 
@@ -63,15 +64,34 @@ public class Shapes implements Serializable {
 		if (a instanceof double[]) {
 			double[] c = (double[]) a, m = c.clone();
 			o[l] = m;
-			for (int i = 0; i < c.length; i++) {
+			IntStream.range(0, c.length).parallel().forEach(i -> {
 				m[i] = b;
-			}
+			});
 		} else {
 			E[] c = (E[]) a, m = c.clone();
 			o[l] = m;
-			for (int i = 0; i < c.length; i++) {
+			IntStream.range(0, c.length).parallel().forEach(i -> {
 				fill(c[i], m, i, b);
-			}
+			});
+		}
+	}
+	
+	public static <E> E copy(E a) {
+		Object[] o = new Object[1];
+		copy(a, o, 0);
+		return (E) o[0];
+	}
+	
+	private static <E> void copy(E a, Object[] o, int l) {
+		if (a instanceof double[]) {
+			double[] c = (double[]) a, m = c.clone();
+			o[l] = m;
+		} else {
+			E[] c = (E[]) a, m = c.clone();
+			o[l] = m;
+			IntStream.range(0, c.length).parallel().forEach(i -> {
+				copy(c[i], m, i);
+			});
 		}
 	}
 
