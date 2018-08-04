@@ -208,7 +208,7 @@ public class Matrix extends Range {
 	}
 
 	public static double[][][][] conv(double[][][] A, double[][][] B) {
-		double[][][][] C = new double[A.length][B.length][B[0].length - A[0].length + 1][B[0][0].length - A[0][0].length + 1];
+		double[][][][] C = new double[A.length][B.length][][];
 		forEach(A.length, B.length, (i, l) -> {
 			C[i][l] = conv(A[i], B[l]);
 		});
