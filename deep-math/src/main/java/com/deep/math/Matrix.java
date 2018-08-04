@@ -13,20 +13,14 @@ import com.google.gson.GsonBuilder;
 public class Matrix extends Range {
 	static Logger log = Logger.getLogger(Matrix.class);
 
+	@SuppressWarnings("unchecked")
 	public static <E> E random(E a) {
-		try {
+		if (a instanceof double[])
 			return (E) random((double[]) a);
-		} catch (Exception e) {
-			try {
-				return (E) random((double[][]) a);
-			} catch (Exception c) {
-				try {
-					return (E) random((double[][][]) a);
-				} catch (Exception o) {
-
-				}
-			}
-		}
+		if (a instanceof double[][])
+			return (E) random((double[][]) a);
+		if (a instanceof double[][][])
+			return (E) random((double[][][]) a);
 		return a;
 	}
 
