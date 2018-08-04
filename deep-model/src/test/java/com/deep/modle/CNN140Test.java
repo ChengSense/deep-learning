@@ -31,8 +31,16 @@ public class CNN140Test {
 			DataSet.img2rgb("./src/main/resources/DataSet/e-140.jpg"),
 
 			DataSet.img2rgb("./src/main/resources/DataSet/f-140.jpg"),
+			
+			DataSet.img2rgb("./src/main/resources/DataSet/g-140.jpg"),
 
-			DataSet.img2rgb("./src/main/resources/DataSet/g-140.jpg")
+			DataSet.img2rgb("./src/main/resources/DataSet/h-140.jpg"),
+			
+			DataSet.img2rgb("./src/main/resources/DataSet/i-140.jpg"),
+			
+			DataSet.img2rgb("./src/main/resources/DataSet/j-140.jpg"),
+			
+			DataSet.img2rgb("./src/main/resources/DataSet/k-140.jpg")
 
 	};
 	double[][][] label = {
@@ -48,8 +56,16 @@ public class CNN140Test {
 			{ { 0.5 } },
 
 			{ { 0.5 } },
+			
+			{ { 0.5 } },
+			
+			{ { 0.5 } },
+			
+			{ { 0.5 } },
 
-			{ { 0.8 } }
+			{ { 0.7 } },
+			
+			{ { 0.9 } }
 
 	};
 
@@ -114,7 +130,7 @@ public class CNN140Test {
 
 	}
 
-	// @Test
+	//@Test
 	public void Traing() {
 
 		Model<Session> model = new Model<Session>();
@@ -123,18 +139,16 @@ public class CNN140Test {
 			Node node = (Node) session.tf.list.end();
 			log.debug("epoch :" + session.epoch + ":" + session.index);
 			log.debug("epoch :" + node);
-			Shape output = node.get("output");
-			label[session.index] = (double[][]) output.get();
 			session.inStore(path);
 		});
 		session.run(input, label, 500);
 
 	}
 
-	// @Test
+	//@Test
 	public void ImgTest() {
 
-		double[][][] input = DataSet.img2rgb("./src/main/resources/DataSet/a-140.jpg");
+		double[][][] input = DataSet.img2rgb("./src/main/resources/DataSet/h-140.jpg");
 
 		Model<Session> model = new Model<Session>();
 		Session session = model.outStore(path);
@@ -146,8 +160,8 @@ public class CNN140Test {
 					DataSet.gray2img((double[][][][]) node.output().get());
 				}
 
-				log.debug("epoch :" + session.epoch);
-				log.debug("epoch :" + node);
+				//log.debug("epoch :" + session.epoch);
+				//log.debug("epoch :" + node);
 
 			});
 		});
@@ -155,10 +169,10 @@ public class CNN140Test {
 
 	}
 
-	// @Test
+	//@Test
 	public void Recognition() {
 		double[][][] input1 = DataSet.img2rgb("./src/main/resources/DataSet/c-140.jpg");
-		double[][][] input2 = DataSet.img2rgb("./src/main/resources/DataSet/a-140.jpg");
+		double[][][] input2 = DataSet.img2rgb("./src/main/resources/DataSet/n-140.jpg");
 
 		Model<Session> model = new Model<Session>();
 		Session session = model.outStore(path);
@@ -168,7 +182,7 @@ public class CNN140Test {
 		});
 		session.run(input1);
 		Node node = (Node) session.tf.list.end();
-		double[][] output = (double[][]) node.get("output").get();
+		double[][] output = (double[][]) Shape.copy(node.get("output").get());
 		double cost = new Prediction(session).feed(input2).eval(output);
 		log.debug("cost :" + BigDecimal.valueOf(cost).toString());
 	}

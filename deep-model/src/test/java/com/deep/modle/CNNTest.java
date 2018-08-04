@@ -22,20 +22,20 @@ public class CNNTest {
 
 	Logger log = Logger.getLogger(CNNTest.class);
 	double[][][][] input = DataSet.loadImageData();
+	String path = "D:/cnn-session.ml";
 	double[][][] label = new double[][][] {
 
-			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
+			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } },
 
 			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } },
 
 			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
 
-			{ { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }, { { 0.1 } }
+			{ { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } }, { { 0.9 } },
 
 	};
-	String path = "D:/cnn-session.ml";
 
-	//@Test
+	// @Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -69,15 +69,16 @@ public class CNNTest {
 		// 损失节点
 		Node node19 = tf.reduce(new Shape("lable", new double[1][1]), node18.output());
 
-		Session session = new Session(tf, node1.get("input"), node19.get("lable"));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+		Session session = new Session(tf, node1.get("input"), node19.get("lable"));
 		session.feach(a -> {
+			// session.log();
 			Node node = (Node) session.tf.list.end();
 			log.debug("epoch :" + session.epoch + ":" + session.index);
 			log.debug("epoch :" + node);
+			session.inStore(path);
 		});
-		session.run(input, label, 1000);
-		session.inStore(path);
-                                                                                                                                                                                                                                                             
+		session.run(input, label, 500);
+
 	}
 
 	// @Test
@@ -86,16 +87,17 @@ public class CNNTest {
 		Model<Session> model = new Model<Session>();
 		Session session = model.outStore(path);
 		session.feach(a -> {
+			// session.log();
 			Node node = (Node) session.tf.list.end();
 			log.debug("epoch :" + session.epoch);
 			log.debug("epoch :" + node);
+			session.inStore(path);
 		});
 		session.run(input, label, 500);
-		session.inStore(path);
 
 	}
 
-	// @Test
+	//@Test
 	public void Test() {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
@@ -120,7 +122,7 @@ public class CNNTest {
 
 		});
 
-		double cost = new Prediction(session).feed(input3).eval(new double[][] { { 0.1 } });
+		double cost = new Prediction(session).feed(input3).eval(new double[][] { { 0.9 } });
 		log.debug("cost :" + cost);
 	}
 
@@ -138,18 +140,15 @@ public class CNNTest {
 
 				double cost1 = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
 				double cost9 = new Prediction(session).feed(input).eval(new double[][] { { 0.9 } });
+				log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 
-				if (cost1 < 0.002) {
-
-					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
+				if (cost1 < 0.008) {
 
 					DataSet.copy(path.toString(), "E:/pred-img1/");
 
 				}
 
-				if (cost9 < 0.002) {
-
-					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
+				if (cost9 < 0.008) {
 
 					DataSet.copy(path.toString(), "E:/pred-img9/");
 

@@ -13,9 +13,9 @@ import com.deep.gradient.diff.SoftmaxDiff;
 import com.deep.math.Matrix;
 import com.deep.module.graph.Shape;
 import com.deep.util.Each;
-import com.deep.util.Feach;
+import com.deep.util.Range;
 
-public class Gradient<E> implements Serializable {
+public class Gradient<E> extends Range implements Serializable {
 
 	static double rate = 0.003;
 
@@ -42,26 +42,22 @@ public class Gradient<E> implements Serializable {
 
 						double[][] in = input.get()[iw][ix];
 
-						new Feach(in) {
+						Each(in, (i, l) -> {
 
-							public void each(int i, int l) {
+							double x = input.get()[iw][ix][i][l];
+							double d = output.diff()[iw][i][l];
 
-								double x = input.get()[iw][ix][i][l];
-								double d = output.diff()[iw][i][l];
+							Map map = new HashMap();
+							map.put("x", x);
+							map.put("w", w);
 
-								Map map = new HashMap();
-								map.put("x", x);
-								map.put("w", w);
+							AutoDiff diff = new MulDiff(map, d);
+							input.diff()[iw][ix][i][l] = diff.getDiff("x");
+							weight.diff()[iw][ix] += diff.getDiff("w");
 
-								AutoDiff diff = new MulDiff(map, d);
-								input.diff()[iw][ix][i][l] = diff.getDiff("x");
-								weight.diff()[iw][ix] += diff.getDiff("w");
+							weight.get()[iw][ix] += -rate * diff.getDiff("w");
 
-								weight.get()[iw][ix] += -rate * diff.getDiff("w");
-
-							}
-
-						};
+						});
 
 					}
 
@@ -162,27 +158,23 @@ public class Gradient<E> implements Serializable {
 
 				int ix = index();
 
-				new Feach(in) {
+				Each(in, (i, l) -> {
 
-					public void each(int i, int l) {
+					double x = in[i][l];
+					double b = bias.get()[ix];
+					double d = output.diff()[ix][i][l];
 
-						double x = in[i][l];
-						double b = bias.get()[ix];
-						double d = output.diff()[ix][i][l];
+					Map map = new HashMap();
+					map.put("x", x);
+					map.put("b", b);
 
-						Map map = new HashMap();
-						map.put("x", x);
-						map.put("b", b);
+					AutoDiff diff = new AddDiff(map, d);
+					input.diff()[ix][i][l] = diff.getDiff("x");
+					bias.diff()[ix] += diff.getDiff("b");
 
-						AutoDiff diff = new AddDiff(map, d);
-						input.diff()[ix][i][l] = diff.getDiff("x");
-						bias.diff()[ix] += diff.getDiff("b");
+					bias.get()[ix] += -rate * diff.getDiff("b");
 
-						bias.get()[ix] += -rate * diff.getDiff("b");
-
-					}
-
-				};
+				});
 
 			}
 
@@ -265,14 +257,12 @@ public class Gradient<E> implements Serializable {
 
 						int ix = index();
 
-						int x0 = we.length;
-						int x1 = we[0].length;
-						int x2 = in.length - x0 + 1;
-						int x3 = in[0].length - x1 + 1;
+						int height = in.length - we.length + 1;
+						int width = in[0].length - we[0].length + 1;
 
-						new Feach(x2, x3, x0, x1) {
+						forEach(height, width, (i, l) -> {
 
-							public void each(int i, int l, int m, int n) {
+							Each(we, (m, n) -> {
 
 								double w = we[m][n];
 								double x = in[i + m][l + n];
@@ -288,9 +278,9 @@ public class Gradient<E> implements Serializable {
 
 								weight.get()[iw][m][n] += -rate * diff.getDiff("w");
 
-							}
+							});
 
-						};
+						});
 
 					}
 
@@ -315,18 +305,14 @@ public class Gradient<E> implements Serializable {
 
 				int ix = index();
 
-				new Feach(in) {
+				Each(in, (i, l) -> {
 
-					public void each(int i, int l) {
+					double a = in[i][l];
+					double d = output.diff()[ix][i][l];
 
-						double a = in[i][l];
-						double d = output.diff()[ix][i][l];
+					input.diff()[ix][i][l] = d * (a < 0 ? 0 : 1);
 
-						input.diff()[ix][i][l] = d * (a < 0 ? 0 : 1);
-
-					}
-
-				};
+				});
 
 			}
 
@@ -347,19 +333,15 @@ public class Gradient<E> implements Serializable {
 
 				int ix = index();
 
-				new Feach(in) {
+				Each(in, (i, l) -> {
 
-					public void each(int i, int l) {
+					int m = i / 2, n = l / 2;
 
-						int m = i / 2, n = l / 2;
+					double d = output.diff()[ix][m][n];
 
-						double d = output.diff()[ix][m][n];
+					input.diff()[ix][i][l] = d;
 
-						input.diff()[ix][i][l] = d;
-
-					}
-
-				};
+				});
 
 			}
 

@@ -1,18 +1,17 @@
 package com.deep.module.data.flow;
 
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import org.apache.log4j.Logger;
 
 import com.deep.module.graph.Node;
 import com.deep.module.graph.Shape;
 import com.deep.util.Each;
-import com.deep.util.Feach;
 import com.deep.util.Model;
+import com.deep.util.Range;
 
 public class Session<E> extends Model {
-	public int epoch;
+	public int epoch, index;
 	private Shape<E> inShape, labShape;
 	private transient Consumer<Session> feach;
 	public final TensorFlow tf;
@@ -84,23 +83,21 @@ public class Session<E> extends Model {
 
 	public void run(E[] input, E[] label, int epoch) {
 
-		IntStream.range(0, epoch).forEach(i -> {
+		Range.Each(epoch, i -> {
 
 			this.epoch = i;
 
-			new Feach<E>(input, label) {
+			Range.Each(input.length, l -> {
 
-				public void each(E input, E label) {
+				this.index = l;
 
-					forward(input);
+				forward(input[l]);
 
-					backward(label);
+				backward(label[l]);
 
-					feach(null);
+				feach(null);
 
-				}
-
-			};
+			});
 
 		});
 
