@@ -23,7 +23,7 @@ public class Prediction<E> {
 		Shape label = node.get("lable");
 		label.set(lab);
 
-		Shape input = node.get("input");
+		Shape input = node.get("sigmoid_output");
 		node.gradient();
 
 		return Math.abs(Shape.mean(input.diff())) ;

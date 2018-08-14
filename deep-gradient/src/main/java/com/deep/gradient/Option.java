@@ -6,4 +6,8 @@ public enum Option {
 
 	MATMUL, ADD3, SIGMOID, CONV, RELU, MAXPOOL, SOFTMAX, REDUCE, PROD;
 
+	public String getName() {
+		return name().toLowerCase();
+	}
+
 }

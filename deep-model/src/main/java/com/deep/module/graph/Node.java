@@ -24,9 +24,9 @@ public abstract class Node implements Serializable {
 		this.option = option;
 		this.map = new LinkedHashMap<String, Shape>();
 		Arrays.stream(shapes).forEach(shape -> {
-			map.put("output".equals(shape.getName()) ? "input" : shape.getName(), shape);
+			map.put(shape.getName(), shape);
 		});
-		map.put("output", new Shape("output"));
+		map.put("output", new Shape(option.getName() + "_output"));
 	}
 
 	public Shape get(String name) {
@@ -44,7 +44,7 @@ public abstract class Node implements Serializable {
 	public String toString() {
 		Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().create();
 		StringBuilder builder = new StringBuilder();
-		builder.append("{\"name\":\"" + option.toString().toLowerCase() + "\"}").append("\n       ");
+		builder.append("{\"name\":\"" + option.getName() + "\"}").append("\n       ");
 		map.forEach((key, value) -> {
 			JsonObject json = gson.toJsonTree(value).getAsJsonObject();
 			json.addProperty("name", key);

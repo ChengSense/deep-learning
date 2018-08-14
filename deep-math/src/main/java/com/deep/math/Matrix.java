@@ -248,8 +248,8 @@ public class Matrix extends Range {
 
 	public static String format(double[][] A) {
 		StringBuilder sb = new StringBuilder();
-		forEach(A.length, i -> {
-			forEach(A[i].length, l -> {
+		Each(A.length, i -> {
+			Each(A[i].length, l -> {
 				BigDecimal g = new BigDecimal(A[i][l]);
 				g.setScale(6, BigDecimal.ROUND_HALF_UP);
 				sb.append(g.doubleValue() + ",");

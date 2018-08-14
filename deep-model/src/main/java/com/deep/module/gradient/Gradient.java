@@ -275,8 +275,7 @@ public class Gradient<E> extends Range implements Serializable {
 								AutoDiff diff = new MulDiff(map, d);
 								weight.diff()[iw][m][n] += diff.getDiff("w");
 								input.diff()[ix][i + m][l + n] += diff.getDiff("x");
-
-								weight.get()[iw][m][n] += -rate * diff.getDiff("w");
+								synchronized (this) {weight.get()[iw][m][n] += -rate * diff.getDiff("w");}
 
 							});
 
