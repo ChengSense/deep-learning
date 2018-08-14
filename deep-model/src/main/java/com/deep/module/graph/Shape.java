@@ -25,9 +25,8 @@ public class Shape<E> extends Shapes {
 	}
 
 	public void reshape(Object[] b) {
-		Object[] a = (Object[]) array;
 		cache = array;
-		array = (E) reshape(a, b);
+		array = (E) reshape((Object[]) array, b);
 	}
 
 	public void shape() {

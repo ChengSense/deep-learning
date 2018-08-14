@@ -59,7 +59,7 @@ public class TensorFlow<E> extends Shapes {
 
 				Shape<double[][]> weight = shapes[0];
 				Shape<E[]> input = shapes[1];
-				shapes[1].reshape(new double[input.get().length][1]);
+				input.reshape(new double[input.get().length][1]);
 
 				output(Matrix.mult(weight.get(), (double[][]) shapes[1].get()));
 
