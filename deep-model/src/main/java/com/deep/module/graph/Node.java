@@ -33,6 +33,10 @@ public abstract class Node implements Serializable {
 		return map.get(name);
 	}
 
+	public <E> void output(Shape output) {
+		map.put("output", output);
+	}
+
 	public <E> void output(E data) {
 		map.get("output").set(data);
 	}

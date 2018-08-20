@@ -13,41 +13,39 @@ public abstract class Each<E> {
 		this.list = (List<E>) list;
 		for (index = 0; index < input.length; index++) {
 			list.add(index, input[index]);
-			each(this.list.get(index));
+			each(this.list.get(index), index);
 		}
 	}
-	
 
 	public Each(double[][] input) {
 		this.list = (List<E>) Arrays.asList(input);
 		for (index = 0; index < list.size(); index++) {
-			each(list.get(index));
-		}
-	}
-	
-	public Each(double[][][] input) {
-		this.list = (List<E>) Arrays.asList(input);
-		for (index = 0; index < list.size(); index++) {
-			each(list.get(index));
+			each(list.get(index), index);
 		}
 	}
 
+	public Each(double[][][] input) {
+		this.list = (List<E>) Arrays.asList(input);
+		for (index = 0; index < list.size(); index++) {
+			each(list.get(index), index);
+		}
+	}
 
 	public Each(List<E> list) {
 		this.list = list;
 		for (index = 0; index < list.size(); index++) {
-			each(list.get(index));
+			each(list.get(index), index);
 		}
 	}
 
 	public Each(List<E> list, String a) {
 		this.list = list;
 		for (index = list.size() - 1; -1 < index; index--) {
-			each(list.get(index));
+			each(list.get(index), index);
 		}
 	}
 
-	abstract public void each(E node);
+	abstract public void each(E node, int i);
 
 	public E next() {
 		if (index < list.size() - 1)
@@ -59,10 +57,6 @@ public abstract class Each<E> {
 		if (index > 0)
 			return list.get(index - 1);
 		return null;
-	}
-
-	public int index() {
-		return index;
 	}
 
 }

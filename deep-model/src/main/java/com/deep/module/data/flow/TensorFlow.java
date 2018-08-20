@@ -160,7 +160,7 @@ public class TensorFlow<E> extends Shapes {
 
 			public void compute() {
 
-				output(shapes[1].get());
+				output(shapes[1]);
 
 			}
 
@@ -178,16 +178,13 @@ public class TensorFlow<E> extends Shapes {
 
 	}
 
-	public Node conv(Shape... shapes) {
+	public Node conv(Shape<double[][][]>... shapes) {
 
 		Node node = new Node(Option.CONV, shapes) {
 
 			public void compute() {
 
-				Shape<double[][][]> weight = shapes[0];
-				Shape<double[][][]> input = shapes[1];
-
-				output(Matrix.conv(weight.get(), input.get()));
+				output(Matrix.conv(shapes[0].get(), shapes[1].get()));
 
 			}
 

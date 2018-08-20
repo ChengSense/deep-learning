@@ -30,32 +30,28 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(weight.get()) {
 
-			public void each(double[] we) {
-
-				int iw = index();
+			public void each(double[] we, int ix) {
 
 				new Each<Double>(we) {
 
-					public void each(Double w) {
+					public void each(Double w, int lx) {
 
-						int ix = index();
-
-						double[][] in = input.get()[iw][ix];
+						double[][] in = input.get()[ix][lx];
 
 						Each(in, (i, l) -> {
 
-							double x = input.get()[iw][ix][i][l];
-							double d = output.diff()[iw][i][l];
+							double x = input.get()[ix][lx][i][l];
+							double d = output.diff()[ix][i][l];
 
 							Map map = new HashMap();
 							map.put("x", x);
 							map.put("w", w);
 
 							AutoDiff diff = new MulDiff(map, d);
-							input.diff()[iw][ix][i][l] = diff.getDiff("x");
-							weight.diff()[iw][ix] += diff.getDiff("w");
+							input.diff()[ix][lx][i][l] = diff.getDiff("x");
+							weight.diff()[ix][lx] += diff.getDiff("w");
 
-							weight.get()[iw][ix] += -rate * diff.getDiff("w");
+							weight.get()[ix][lx] += -rate * diff.getDiff("w");
 
 						});
 
@@ -80,26 +76,24 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(weight.get()) {
 
-			public void each(double[] we) {
-
-				int iw = index();
+			public void each(double[] we, int ix) {
 
 				new Each<Double>(we) {
 
-					public void each(Double w) {
+					public void each(Double w, int lx) {
 
-						double x = input.get()[index()][0];
-						double d = output.diff()[iw][0];
+						double x = input.get()[lx][0];
+						double d = output.diff()[ix][0];
 
 						Map map = new HashMap();
 						map.put("x", x);
 						map.put("w", w);
 
 						AutoDiff diff = new MulDiff(map, d);
-						input.diff()[index()][0] += diff.getDiff("x");
-						weight.diff()[iw][index()] = diff.getDiff("w");
+						input.diff()[lx][0] += diff.getDiff("x");
+						weight.diff()[ix][lx] = diff.getDiff("w");
 
-						weight.get()[iw][index()] += -rate * diff.getDiff("w");
+						weight.get()[ix][lx] += -rate * diff.getDiff("w");
 
 					}
 
@@ -122,21 +116,21 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(input.get()) {
 
-			public void each(double[] in) {
+			public void each(double[] in, int ix) {
 
 				double x = in[0];
-				double b = bias.get()[index()][0];
-				double d = output.diff()[index()][0];
+				double b = bias.get()[ix][0];
+				double d = output.diff()[ix][0];
 
 				Map map = new HashMap();
 				map.put("x", x);
 				map.put("b", b);
 
 				AutoDiff diff = new AddDiff(map, d);
-				bias.diff()[index()][0] = diff.getDiff("b");
-				input.diff()[index()][0] = diff.getDiff("x");
+				bias.diff()[ix][0] = diff.getDiff("b");
+				input.diff()[ix][0] = diff.getDiff("x");
 
-				bias.get()[index()][0] += -rate * diff.getDiff("b");
+				bias.get()[ix][0] += -rate * diff.getDiff("b");
 			}
 
 		};
@@ -154,14 +148,13 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[][]>(input.get()) {
 
-			public void each(double[][] in) {
+			public void each(double[][] in, int ix) {
 
-				int ix = index();
+				double b = bias.get()[ix];
 
 				Each(in, (i, l) -> {
 
 					double x = in[i][l];
-					double b = bias.get()[ix];
 					double d = output.diff()[ix][i][l];
 
 					Map map = new HashMap();
@@ -191,17 +184,17 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(input.get()) {
 
-			public void each(double[] in) {
+			public void each(double[] in, int ix) {
 
 				double z = in[0];
-				double d = output.diff()[index()][0];
+				double d = output.diff()[ix][0];
 
 				Map map = new HashMap();
 				map.put("E", Math.E);
 				map.put("x", z);
 
 				AutoDiff diff = new SigmoidDiff(map, d);
-				input.diff()[index()][0] = diff.getDiff("x");
+				input.diff()[ix][0] = diff.getDiff("x");
 
 			}
 
@@ -218,17 +211,17 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(lable.get()) {
 
-			public void each(double[] lab) {
+			public void each(double[] lab, int ix) {
 
 				double l = lab[0];
-				double x = output.get()[index()][0];
+				double x = output.get()[ix][0];
 
 				Map map = new HashMap();
 				map.put("l", l);
 				map.put("x", x);
 
 				AutoDiff diff = new MeanDiff(map);
-				output.diff()[index()][0] = diff.getDiff("x");
+				output.diff()[ix][0] = diff.getDiff("x");
 
 			}
 
@@ -247,15 +240,13 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[][]>(weight.get()) {
 
-			public void each(double[][] we) {
+			public void each(double[][] we, int ix) {
 
-				int iw = index();
+				double[][] wei = Shape.copy(we);
 
 				new Each<double[][]>(input.get()) {
 
-					public void each(double[][] in) {
-
-						int ix = index();
+					public void each(double[][] in, int lx) {
 
 						int height = in.length - we.length + 1;
 						int width = in[0].length - we[0].length + 1;
@@ -264,18 +255,18 @@ public class Gradient<E> extends Range implements Serializable {
 
 							Each(we, (m, n) -> {
 
-								double w = we[m][n];
+								double w = wei[m][n];
 								double x = in[i + m][l + n];
-								double d = output.diff()[iw][ix][i][l];
+								double d = output.diff()[ix][lx][i][l];
 
 								Map map = new HashMap();
 								map.put("w", w);
 								map.put("x", x);
 
 								AutoDiff diff = new MulDiff(map, d);
-								weight.diff()[iw][m][n] += diff.getDiff("w");
-								input.diff()[ix][i + m][l + n] += diff.getDiff("x");
-								synchronized (this) {weight.get()[iw][m][n] += -rate * diff.getDiff("w");}
+								weight.diff()[ix][m][n] += diff.getDiff("w");
+								input.diff()[lx][i + m][l + n] += diff.getDiff("x");
+								synchronized (this) {we[m][n] += -rate * diff.getDiff("w");}
 
 							});
 
@@ -300,9 +291,7 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[][]>(input.get()) {
 
-			public void each(double[][] in) {
-
-				int ix = index();
+			public void each(double[][] in, int ix) {
 
 				Each(in, (i, l) -> {
 
@@ -328,9 +317,7 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[][]>(input.get()) {
 
-			public void each(double[][] in) {
-
-				int ix = index();
+			public void each(double[][] in, int ix) {
 
 				Each(in, (i, l) -> {
 
@@ -357,17 +344,15 @@ public class Gradient<E> extends Range implements Serializable {
 
 		new Each<double[]>(input.get()) {
 
-			public void each(double[] in) {
-
-				int ix = index();
+			public void each(double[] in, int ix) {
 
 				double s = Matrix.sum(in);
 
 				new Each<Double>(in) {
 
-					public void each(Double x) {
+					public void each(Double x, int lx) {
 
-						double d = output.diff()[ix][index()];
+						double d = output.diff()[ix][lx];
 
 						Map map = new HashMap();
 						map.put("E", Math.E);
@@ -376,9 +361,9 @@ public class Gradient<E> extends Range implements Serializable {
 
 						AutoDiff diff = new SoftmaxDiff(map, d);
 
-						input.diff()[ix][index()] = diff.getDiff("x");
+						input.diff()[ix][lx] = diff.getDiff("x");
 
-						input.get()[ix][index()] += -rate * diff.getDiff("x");
+						input.get()[ix][lx] += -rate * diff.getDiff("x");
 
 					}
 

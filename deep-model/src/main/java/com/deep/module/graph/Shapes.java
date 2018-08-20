@@ -1,6 +1,7 @@
 package com.deep.module.graph;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.IntStream;
@@ -75,13 +76,13 @@ public class Shapes implements Serializable {
 			});
 		}
 	}
-	
+
 	public static <E> E copy(E a) {
 		Object[] o = new Object[1];
 		copy(a, o, 0);
 		return (E) o[0];
 	}
-	
+
 	private static <E> void copy(E a, Object[] o, int l) {
 		if (a instanceof double[]) {
 			double[] c = (double[]) a, m = c.clone();
@@ -96,28 +97,23 @@ public class Shapes implements Serializable {
 	}
 
 	public static double mean(Object a) {
-		double[] m = sums(a);
-		return m[0] / m[1];
-	}
-
-	public static double[] sums(Object a) {
 		double[] m = { 0, 0 };
 		sum(a, m);
-		return m;
+		return m[0] / m[1];
 	}
 
 	private static void sum(Object a, double[] m) {
 		if (a instanceof double[]) {
 			double[] c = (double[]) a;
-			for (double o : c) {
+			Arrays.stream(c).parallel().forEach(o -> {
 				m[0] += o;
 				m[1]++;
-			}
+			});
 		} else {
 			Object[] c = (Object[]) a;
-			for (Object o : c) {
+			Arrays.stream(c).parallel().forEach(o -> {
 				sum(o, m);
-			}
+			});
 		}
 	}
 

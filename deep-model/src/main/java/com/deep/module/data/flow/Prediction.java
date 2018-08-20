@@ -6,27 +6,24 @@ import com.deep.module.graph.Shape;
 public class Prediction<E> {
 	private Session session;
 
-	public Prediction(Session se) {
-		this.session = se;
+	public Prediction(Session session) {
+		this.session = session;
 	}
 
-	public Prediction feed(E input) {
+	public double eval(E input, E lable) {
+
 		session.run(input);
-		return this;
-	}
-
-	public double eval(E lab) {
 
 		TensorFlow<Node> tf = session.tf;
 		Node node = tf.list.end();
 
-		Shape label = node.get("lable");
-		label.set(lab);
+		Shape shape = node.get("lable");
+		shape.set(lable);
 
-		Shape input = node.get("sigmoid_output");
+		Shape output = node.output();
 		node.gradient();
 
-		return Math.abs(Shape.mean(input.diff())) ;
+		return Math.abs(Shape.mean(output.diff()));
 
 	}
 

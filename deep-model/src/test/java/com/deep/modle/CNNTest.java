@@ -77,7 +77,7 @@ public class CNNTest {
 			log.debug("epoch :" + node);
 			session.inStore(path);
 		});
-		session.run(input, label, 500);
+		session.run(input, label, 1000);
 
 	}
 
@@ -93,11 +93,11 @@ public class CNNTest {
 			log.debug("epoch :" + node);
 			session.inStore(path);
 		});
-		session.run(input, label, 500);
+		session.run(input, label, 5000);
 
 	}
 
-	//@Test
+	// @Test
 	public void Test() {
 		// double[][][] input1 = DataSet.img2rgb("E:\\imgs\\23_200.jpg");
 		// double[][][] input2 = DataSet.img2rgb("E:\\imgs\\270_191.jpg");
@@ -122,7 +122,7 @@ public class CNNTest {
 
 		});
 
-		double cost = new Prediction(session).feed(input3).eval(new double[][] { { 0.9 } });
+		double cost = new Prediction(session).eval(input3, new double[][] { { 0.9 } });
 		log.debug("cost :" + cost);
 	}
 
@@ -138,18 +138,20 @@ public class CNNTest {
 
 				double[][][] input = DataSet.img2rgb(path.toString());
 
-				double cost1 = new Prediction(session).feed(input).eval(new double[][] { { 0.1 } });
-				double cost9 = new Prediction(session).feed(input).eval(new double[][] { { 0.9 } });
-				log.debug(path.toString() + "  " + cost1 + ":" + cost9);
+				double cost1 = new Prediction(session).eval(input, new double[][] { { 0.1 } });
+				double cost9 = new Prediction(session).eval(input, new double[][] { { 0.9 } });
+				System.out.println(path.toString() + "  " + cost1 + ":" + cost9);
 
-				if (cost1 < 0.008) {
+				if (cost1 < 0.006) {
 
+					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 					DataSet.copy(path.toString(), "E:/pred-img1/");
 
 				}
 
 				if (cost9 < 0.008) {
 
+					log.debug(path.toString() + "  " + cost1 + ":" + cost9);
 					DataSet.copy(path.toString(), "E:/pred-img9/");
 
 				}

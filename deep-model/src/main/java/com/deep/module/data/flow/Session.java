@@ -31,7 +31,7 @@ public class Session<E> extends Model {
 
 		new Each<Node>(tf.list) {
 
-			public void each(Node node) {
+			public void each(Node node, int i) {
 
 				node.compute();
 
@@ -47,13 +47,57 @@ public class Session<E> extends Model {
 
 		new Each<Node>(tf.list, null) {
 
-			public void each(Node node) {
+			public void each(Node node, int i) {
 
 				node.gradient();
 
 			}
 
 		};
+
+	}
+
+	public void run(E... input) {
+
+		if (input.length == 1) {
+
+			forward(input[0]);
+
+		}
+
+		if (input.length == 2) {
+
+			backward(input[1]);
+
+		}
+
+		feach(null);
+
+	}
+
+	public void run(E[] input, E[] label) {
+
+		new Each<Node>(tf.list) {
+
+			public void each(Node node, int i) {
+
+				run(input[index = i], label[i]);
+
+			}
+
+		};
+
+	}
+
+	public void run(E[] input, E[] label, int epoch) {
+
+		Range.Each(epoch, i -> {
+
+			this.epoch = i;
+
+			run(input, label);
+
+		});
 
 	}
 
@@ -73,45 +117,15 @@ public class Session<E> extends Model {
 
 	}
 
-	public void run(E input) {
-
-		forward(input);
-
-		feach(null);
-
-	}
-
-	public void run(E[] input, E[] label, int epoch) {
-
-		Range.Each(epoch, i -> {
-
-			this.epoch = i;
-
-			Range.Each(input.length, l -> {
-
-				this.index = l;
-
-				forward(input[l]);
-
-				backward(label[l]);
-
-				feach(null);
-
-			});
-
-		});
-
-	}
-
 	public void log() {
 
 		Logger log = Logger.getLogger(Session.class);
 
 		new Each<Node>(tf.list) {
 
-			public void each(Node node) {
+			public void each(Node node, int i) {
 
-				log.debug("epoch :" + epoch + ":" + index());
+				log.debug("epoch :" + epoch + ":" + i);
 				log.debug("epoch :" + node.toString());
 
 			}
