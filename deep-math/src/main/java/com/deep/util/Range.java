@@ -5,6 +5,14 @@ import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
 public class Range {
+	
+	public Range() {
+	}
+
+	public Range(int m, IntConsumer a) {
+		IntStream.range(0, m).forEach(a);
+	}
+
 	public static void forEach(int m, IntConsumer a) {
 		IntStream.range(0, m).parallel().forEach(a);
 	}

@@ -35,7 +35,7 @@ public class CNNTest {
 
 	};
 
-	// @Test
+	@Test
 	public void Train() {
 
 		TensorFlow tf = new TensorFlow();
@@ -126,7 +126,7 @@ public class CNNTest {
 		log.debug("cost :" + cost);
 	}
 
-	@Test
+	//@Test
 	public void ImgTest() {
 
 		Model<Session> model = new Model<Session>();

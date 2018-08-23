@@ -57,19 +57,9 @@ public class Session<E> extends Model {
 
 	}
 
-	public void run(E... input) {
+	public void run(E input) {
 
-		if (input.length == 1) {
-
-			forward(input[0]);
-
-		}
-
-		if (input.length == 2) {
-
-			backward(input[1]);
-
-		}
+		forward(input);
 
 		feach(null);
 
@@ -77,21 +67,21 @@ public class Session<E> extends Model {
 
 	public void run(E[] input, E[] label) {
 
-		new Each<Node>(tf.list) {
+		new Range(input.length, i -> {
 
-			public void each(Node node, int i) {
+			forward(input[index = i]);
 
-				run(input[index = i], label[i]);
+			backward(label[i]);
 
-			}
+			feach(null);
 
-		};
+		});
 
 	}
 
 	public void run(E[] input, E[] label, int epoch) {
 
-		Range.Each(epoch, i -> {
+		new Range(epoch, i -> {
 
 			this.epoch = i;
 
@@ -103,7 +93,7 @@ public class Session<E> extends Model {
 
 	public void feach(Consumer<Session> feach) {
 
-		if (feach != null) {
+		if (feach!=null) {
 
 			this.feach = feach;
 
