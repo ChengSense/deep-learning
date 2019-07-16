@@ -18,15 +18,24 @@ public class BeanUtil {
         return false;
     }
 
-    public static boolean isArray(Object o) {
-        if (o == null)
-            return false;
+    public static boolean isNotOperation(Node node) {
+        try {
+            Method method = node.getClass().getMethod("compute");
+            return method.getAnnotation(Operation.class) == null;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public static boolean isTenser(Object o) {
+        if (o == null) return false;
         return o.getClass().isArray();
     }
 
-    public static boolean isNotArray(Object o) {
-        if (o == null)
-            return true;
+    public static boolean isNotTenser(Object o) {
+        if (o == null) return true;
         return !o.getClass().isArray();
     }
 
@@ -36,5 +45,9 @@ public class BeanUtil {
 
     public static boolean isNotNone(Tenser o) {
         return !o.getName().equals("None");
+    }
+
+    public static boolean idNotTenserNone(Tenser o) {
+        return !o.getName().equals("Tenser::None");
     }
 }

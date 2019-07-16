@@ -1,21 +1,18 @@
 package com.deep.framework.operation;
 
+import com.deep.framework.graph.Graph;
 import lombok.Data;
 
 @Data
-public class None<N> {
+public class None {
 
     public None(Double value) {
         this.value = value;
-    }
-
-    public None(Double value, N graph) {
-        this.value = value;
-        this.graph = graph;
+        this.graph = new Graph();
     }
 
     private Double value;
     private Double grad = 1d;
-    private N graph;
+    private Graph graph;
 
 }

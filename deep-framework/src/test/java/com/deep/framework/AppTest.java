@@ -3,7 +3,6 @@ package com.deep.framework;
 import com.deep.framework.flow.Executor;
 import com.deep.framework.flow.TensorFlow;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.operation.None;
 import org.junit.Test;
 
 public class AppTest {
@@ -20,7 +19,7 @@ public class AppTest {
     @Test
     public void matmulTest() {
         TensorFlow tf = new TensorFlow();
-        Tenser tenser = tf.matmul(new Tenser(new int[]{2, 4}), new Tenser(new int[]{4, 3}));
+        Tenser tenser = tf.matmul(new Tenser(new int[]{2, 4}), new Tenser(new int[]{4, 1}));
         Executor executor = new Executor(tenser);
         executor.run(null);
     }

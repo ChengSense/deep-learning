@@ -1,10 +1,9 @@
 package com.deep.framework.flow;
 
-import com.alibaba.fastjson.JSONObject;
-import com.deep.framework.graph.Graph;
 import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;
 import com.deep.framework.operation.Node;
+import com.deep.framework.operation.None;
 import com.deep.framework.util.BeanUtil;
 import lombok.Data;
 
@@ -17,18 +16,17 @@ public class Executor<E> extends Shape {
     }
 
     private void forward(E[] input) {
-        forEach(tenser.getGraph(), (Graph<Node> graph) -> {
-            graph.forEach(node -> {
+        Func1<None> func = none -> {
+            none.getGraph().forEach(n -> {
+                Node node = (Node) n;
                 if (BeanUtil.isOperation(node)) {
                     node.setOutput(node.compute());
                 } else {
-                    Graph grap = (Graph) node.getGraph();
-                    Tenser tenser = (Tenser) grap.getLast();
-                    node.setOutput(tenser.getOutput());
+                    System.out.println(node);
                 }
             });
-        });
-        toString(tenser);
+        };
+        forEach(tenser.getOutput(), func);
     }
 
     private void backward() {
@@ -38,9 +36,5 @@ public class Executor<E> extends Shape {
     public void run(E[] input) {
         forward(input);
         backward();
-    }
-
-    public void toString(Tenser tenser) {
-        System.out.println(JSONObject.toJSONString(tenser));
     }
 }

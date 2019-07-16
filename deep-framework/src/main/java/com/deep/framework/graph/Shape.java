@@ -55,17 +55,17 @@ public class Shape {
     }
 
     private static <E> void shapes(E a, List list) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             list.add(Array.getLength(a));
             shapes(Array.get(a, 0), list);
         }
     }
 
     public static Object fill(Object a, Fill func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i);
-                if (BeanUtil.isNotArray(m)) {
+                if (BeanUtil.isNotTenser(m)) {
                     Array.set(a, i, func.apply(a));
                 } else {
                     fill(m, func);
@@ -75,38 +75,27 @@ public class Shape {
         return a;
     }
 
-    public static void forEach(Object a, Func0 func) {
-        if (BeanUtil.isArray(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i);
-                if (BeanUtil.isNotArray(m)) {
-                    func.apply((None) m);
-                } else {
-                    forEach(m, func);
-                }
-            });
-        }
-    }
-
     public static void forEach(Object a, Func1 func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i);
-                if (BeanUtil.isNotArray(m)) {
-                    func.apply((Graph) m);
+                if (BeanUtil.isNotTenser(m)) {
+                    func.apply(m);
                 } else {
                     forEach(m, func);
                 }
             });
+        } else {
+            func.apply(a);
         }
     }
 
     public static void forEach(Object a, Object b, Func2 func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i);
-                if (BeanUtil.isNotArray(m)) {
-                    func.apply((Node) m, (Graph) n);
+                if (BeanUtil.isNotTenser(m)) {
+                    func.apply( m,  n);
                 } else {
                     forEach(m, n, func);
                 }
@@ -115,10 +104,10 @@ public class Shape {
     }
 
     public static void forEach(Object a, Object b, Object c, Func3 func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
-                if (BeanUtil.isNotArray(m)) {
+                if (BeanUtil.isNotTenser(m)) {
                     func.apply((Node ) m, (Graph) n, (None) o);
                 } else {
                     forEach(m, n, o, func);
@@ -128,10 +117,10 @@ public class Shape {
     }
 
     public static void forEach(Object a, Object b, For2 func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i);
-                if (BeanUtil.isNotArray(m)) {
+                if (BeanUtil.isNotTenser(m)) {
                     func.apply((None) m, (Tenser[]) b, i);
                 } else {
                     forEach(m, n, func);
@@ -141,10 +130,10 @@ public class Shape {
     }
 
     public static void forEach(Object a, Object b, Object c, For3 func) {
-        if (BeanUtil.isArray(a)) {
+        if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
-                if (BeanUtil.isNotArray(m)) {
+                if (BeanUtil.isNotTenser(m)) {
                     func.apply((None) m, (None) n, (Tenser[]) c, i);
                 } else {
                     forEach(m, n, o, func);
@@ -166,13 +155,10 @@ public class Shape {
     public interface Fill<N> { Object apply(N o);}
 
     @FunctionalInterface
-    public interface Func0 { void apply(None o);}
+    public interface Func1<N> { void apply(N o);}
 
     @FunctionalInterface
-    public interface Func1 { void apply(Graph<Node> o);}
-
-    @FunctionalInterface
-    public interface Func2 { void apply(Node m, Graph n);}
+    public interface Func2<M,N> { void apply(M m, N n);}
 
     @FunctionalInterface
     public interface Func3 { void apply(Node  m, Graph n, None o);}

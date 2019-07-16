@@ -7,9 +7,5 @@ public interface Node<N> {
 
     N getOutput();
 
-    void setOutput(N out);
-
-    N getGraph();
-
-    void setGraph(Node... input);
+    void setOutput(N o);
 }

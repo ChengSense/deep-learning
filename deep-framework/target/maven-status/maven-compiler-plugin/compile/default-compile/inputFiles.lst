@@ -1,0 +1,10 @@
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/util/BeanUtil.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/operation/None.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/flow/Executor.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/operation/Node.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/flow/TensorFlow.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/annotation/Operation.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/graph/Shape.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/graph/Graph.java
+/Applications/GitHub/deep-learning/deep-framework/src/main/java/com/deep/framework/graph/Builder.java

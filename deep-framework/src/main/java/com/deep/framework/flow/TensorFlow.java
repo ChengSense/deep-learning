@@ -252,8 +252,8 @@ public class TensorFlow extends Shape {
             public Node compute() {
                 Object A = input.getOutput();
                 Node[] B = {new Tenser<None>(0d)};
-                forEach(A, (None a) -> {
-                    B[0] = add(new Tenser(a), B[0]);
+                forEach(A,  a -> {
+                    B[0] = add(new Tenser((None) a), B[0]);
                 });
                 return B[0];
             }
