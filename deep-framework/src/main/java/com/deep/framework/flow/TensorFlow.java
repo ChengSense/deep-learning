@@ -1,6 +1,6 @@
 package com.deep.framework.flow;
 
-import com.deep.framework.annotation.Operation;
+import com.deep.framework.annotation.Operator;
 import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;
 import com.deep.framework.operation.Node;
@@ -12,7 +12,7 @@ public class TensorFlow extends Shape {
     public Tenser add(Node<None>... input) {
         return new Tenser<None>("Add", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 None inx = input[0].getOutput(), iny = input[1].getOutput();
                 Double valx = inx.getValue(), valy = iny.getValue();
@@ -48,7 +48,7 @@ public class TensorFlow extends Shape {
     public Tenser minus(Node<None>... input) {
         return new Tenser<None>("Minus", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 if (input.length == 1) {
                     None inx = input[0].getOutput();
@@ -81,7 +81,7 @@ public class TensorFlow extends Shape {
     public Tenser mul(Node<None>... input) {
         return new Tenser<None>("Mul", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 None inx = input[0].getOutput(), iny = input[1].getOutput();
                 Double valx = inx.getValue(), valy = iny.getValue();
@@ -102,7 +102,7 @@ public class TensorFlow extends Shape {
     public Tenser div(Node<None>... input) {
         return new Tenser<None>("Div", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 None inx = input[0].getOutput(), iny = input[1].getOutput();
                 Double valx = inx.getValue(), valy = iny.getValue();
@@ -123,7 +123,7 @@ public class TensorFlow extends Shape {
     public Tenser exp(Node<None>... input) {
         return new Tenser<None>("Exp", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 None inx = input[0].getOutput();
                 Double valx = inx.getValue();
@@ -142,7 +142,7 @@ public class TensorFlow extends Shape {
     public Tenser pow(Node<None>... input) {
         return new Tenser<None>("Pow", input) {
 
-            @Operation
+            @Operator
             public None compute() {
                 None inx = input[0].getOutput(), iny = input[1].getOutput();
                 Double valx = inx.getValue(), valy = iny.getValue();

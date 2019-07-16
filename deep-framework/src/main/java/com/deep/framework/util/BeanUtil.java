@@ -1,6 +1,6 @@
 package com.deep.framework.util;
 
-import com.deep.framework.annotation.Operation;
+import com.deep.framework.annotation.Operator;
 import com.deep.framework.graph.Tenser;
 import com.deep.framework.operation.Node;
 
@@ -11,7 +11,7 @@ public class BeanUtil {
     public static boolean isOperation(Node node) {
         try {
             Method method = node.getClass().getMethod("compute");
-            return method.getAnnotation(Operation.class) != null;
+            return method.getAnnotation(Operator.class) != null;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -21,7 +21,7 @@ public class BeanUtil {
     public static boolean isNotOperation(Node node) {
         try {
             Method method = node.getClass().getMethod("compute");
-            return method.getAnnotation(Operation.class) == null;
+            return method.getAnnotation(Operator.class) == null;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

@@ -18,11 +18,11 @@ public class Builder extends Shape {
                 scalar(tenser, (Tenser) node);
             }
         } else {
-            operation(tenser);
+            operator(tenser);
         }
     }
 
-    static void operation(Tenser tenser) {
+    static void operator(Tenser tenser) {
         None none = new None(0d);
         Graph graph = none.getGraph();
         tenser.setOutput(none);
