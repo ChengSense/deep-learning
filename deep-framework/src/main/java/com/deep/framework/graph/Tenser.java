@@ -3,10 +3,8 @@ package com.deep.framework.graph;
 import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
 import lombok.Data;
-import lombok.ToString;
 
 @Data
-@ToString
 public class Tenser<N> implements Node<N> {
 
     public Tenser(Double input) {
