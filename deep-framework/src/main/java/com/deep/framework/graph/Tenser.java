@@ -18,7 +18,7 @@ public class Tenser<N> implements Node<N> {
     }
 
     public Tenser(None input) {
-        this.name = this.name.concat("None");
+        this.name = input.getName();
         this.output = (N) input;
     }
 

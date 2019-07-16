@@ -29,15 +29,14 @@ public class Builder extends Shape {
         Func1<Tenser> func = node -> {
             None out = (None) node.getOutput();
             graph.addAll(out.getGraph());
-            if (BeanUtil.idNotTenserNone(node))
-                graph.add(node);
+            graph.add(node);
         };
         Predicate<Node> filter = node -> BeanUtil.isNotNone((Tenser) node);
         forEach(Stream.of(tenser.getInput()).filter(filter).toArray(), func);
     }
 
     static void tenser(Tenser tenser, Object obj) {
-        Object nones = Shape.nones(obj);
+        Object nones = Shape.nones(obj, tenser.getName());
         tenser.setOutput(nones);
         Func2<Node, None> func = (node, none) -> {
             Graph graph = none.getGraph();

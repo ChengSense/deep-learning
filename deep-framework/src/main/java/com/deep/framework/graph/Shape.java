@@ -30,8 +30,9 @@ public class Shape {
         return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1)));
     }
 
-    public static <E> E nones(Object a) {
-        return (E) fill(shape(None.class, a), o -> new None(0d));
+    public static <E> E nones(Object a, String name) {
+        String names = name.replace("Tenser::", "None::");
+        return (E) fill(shape(None.class, a), o -> new None(0d, names));
     }
 
     public static <E> E graphs(Object a) {

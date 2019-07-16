@@ -32,33 +32,18 @@ public class Engine extends Shape {
 
     private void _forward(Tenser tenser) {
         execute(tenser, o -> {
-            tenserForward((Tenser) o);
+            operatorForward((Tenser) o);
         }, o -> {
             scalarForward((Tenser) o);
-        }, o -> {
-            operatorForward((Tenser) o);
         });
     }
 
     public void _backward(Tenser tenser) {
         execute(tenser, o -> {
-            tenserBackward((Tenser) o);
+            operatorBackward((Tenser) o);
         }, o -> {
             scalarBackward((Tenser) o);
-        }, o -> {
-            operatorBackward((Tenser) o);
         });
-    }
-
-    private void tenserForward(Tenser tenser) {
-        Object output = tenser.getOutput();
-        Func1<Node<None>> func = (node) -> {
-            None none = node.getOutput();
-            Graph<Tenser> graph = none.getGraph();
-            Tenser<None> last = graph.getLast();
-            none.setValue(last.getOutput().getValue());
-        };
-        forEach(output, func);
     }
 
     private void scalarForward(Tenser<None> tenser) {
@@ -75,18 +60,6 @@ public class Engine extends Shape {
             out.setValue(none.getValue());
         };
         forEach(nones, outputs, func);
-    }
-
-
-    private void tenserBackward(Tenser tenser) {
-        Object output = tenser.getOutput();
-        Func1<Node<None>> func = (node) -> {
-            None none = node.getOutput();
-            Graph<Tenser> graph = none.getGraph();
-            Tenser<None> last = graph.getLast();
-            none.setValue(last.getOutput().getValue());
-        };
-        forEach(output, func);
     }
 
     private void scalarBackward(Tenser<None> tenser) {
@@ -106,14 +79,10 @@ public class Engine extends Shape {
     }
 
     private void execute(Tenser tenser, Func1<Node>... func) {
-        if (BeanUtil.isNotOperation(tenser)) {
-            if (BeanUtil.isTenser(tenser.getOutput())) {
-                func[0].apply(tenser);
-            } else {
-                func[1].apply(tenser);
-            }
+        if (BeanUtil.isOperation(tenser)) {
+            func[0].apply(tenser);
         } else {
-            func[2].apply(tenser);
+            func[1].apply(tenser);
         }
     }
 
