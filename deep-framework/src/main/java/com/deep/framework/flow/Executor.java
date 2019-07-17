@@ -14,6 +14,8 @@ public class Executor<E> extends Engine {
     public void run(E[] input) {
         forward(tenser);
         toString(tenser);
+        backward(tenser);
+        toString(tenser);
     }
 
 }

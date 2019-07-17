@@ -20,7 +20,7 @@ public class TensorFlow extends Shape {
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(), iny = input[1].getOutput(), out = (None) getOutput();
+                None inx = input[0].getOutput(), iny = input[1].getOutput(), out = getOutput();
                 Double grad = out.getGrad();
                 inx.setGrad(grad);
                 iny.setGrad(grad);
@@ -65,13 +65,13 @@ public class TensorFlow extends Shape {
             public void gradient() {
                 if (input.length == 1) {
                     None inx = input[0].getOutput(), out = getOutput();
-                    Double gradx = -out.getGrad();
-                    inx.setGrad(gradx);
+                    Double grad = out.getGrad();
+                    inx.setGrad(-grad);
                 } else {
-                    None inx = input[0].getOutput(), iny = input[1].getOutput();
-                    Double valx = inx.getValue(), valy = iny.getValue();
-                    inx.setGrad(valx);
-                    iny.setGrad(valy);
+                    None inx = input[0].getOutput(), iny = input[1].getOutput(), out = getOutput();
+                    Double grad = out.getGrad();
+                    inx.setGrad(grad);
+                    iny.setGrad(-grad);
                 }
             }
 
@@ -131,9 +131,10 @@ public class TensorFlow extends Shape {
             }
 
             public void gradient() {
-                None inx = input[0].getOutput();
+                None inx = input[0].getOutput(), out = getOutput();
                 Double valx = inx.getValue();
-                inx.setGrad(Math.exp(valx));
+                Double grad = out.getGrad();
+                inx.setGrad(grad * Math.exp(valx));
             }
 
         };

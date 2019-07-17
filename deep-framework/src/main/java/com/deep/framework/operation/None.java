@@ -7,20 +7,36 @@ import lombok.Data;
 public class None {
 
     public None(Double value) {
-        this.value = value;
         this.name = "None";
+        this.value = value;
         this.graph = new Graph();
     }
 
     public None(Double value, String name) {
-        this.value = value;
         this.name = name;
+        this.value = value;
         this.graph = new Graph();
+    }
+
+    public void setGrad(Double grad) {
+        if (this.grad != null) {
+            this.grad = this.grad + grad;
+        } else {
+            this.grad = grad;
+        }
+    }
+
+    public Double getGrad() {
+        if (this.grad != null) {
+            return grad;
+        } else {
+            return 1d;
+        }
     }
 
     private String name;
     private Double value;
-    private Double grad = 1d;
+    private Double grad;
     private Graph graph;
 
 }
