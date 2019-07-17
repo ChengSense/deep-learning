@@ -36,6 +36,14 @@ public class Shape {
         return (E) fill(shape(None.class, a), o -> new None(0d, names));
     }
 
+    public static <E> E nones(Object a) {
+        return (E) fill(a, shape(None.class, a), (Fill<Tenser<None>>) o -> {
+            if (BeanUtil.isOperation(o))
+                o.getOutput().getGraph().add(o);
+            return o.getOutput();
+        });
+    }
+
     public static <E> E graphs(Object a) {
         return (E) fill(shape(Graph.class, a), o -> new Graph());
     }
@@ -68,13 +76,27 @@ public class Shape {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i);
                 if (BeanUtil.isNotTenser(m)) {
-                    Array.set(a, i, func.apply(a));
+                    Array.set(a, i, func.apply(m));
                 } else {
                     fill(m, func);
                 }
             });
         }
         return a;
+    }
+
+    public static Object fill(Object a, Object b, Fill func) {
+        if (BeanUtil.isTenser(a)) {
+            forEach(Array.getLength(a), i -> {
+                Object m = Array.get(a, i), n = Array.get(b, i);
+                if (BeanUtil.isNotTenser(m)) {
+                    Array.set(b, i, func.apply(m));
+                } else {
+                    fill(m, n, func);
+                }
+            });
+        }
+        return b;
     }
 
     public static void forEach(Object a, Func1 func) {

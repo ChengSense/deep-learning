@@ -47,7 +47,11 @@ public class BeanUtil {
         return !o.getName().equals("None");
     }
 
-    public static boolean idNotTenserNone(Tenser o) {
+    public static boolean isNotTenserNone(Tenser o) {
         return !o.getName().equals("Tenser::None");
+    }
+
+    public static boolean isNotOperatorNone(Tenser o) {
+        return !o.getName().startsWith("Operator::");
     }
 }
