@@ -96,11 +96,13 @@ public class Shape {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i);
                 if (BeanUtil.isNotTenser(m)) {
-                    func.apply( m,  n);
+                    func.apply(m, n);
                 } else {
                     forEach(m, n, func);
                 }
             });
+        } else {
+            func.apply(a, b);
         }
     }
 
@@ -109,7 +111,7 @@ public class Shape {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
                 if (BeanUtil.isNotTenser(m)) {
-                    func.apply((Node ) m, (Graph) n, (None) o);
+                    func.apply((Node) m, (Graph) n, (None) o);
                 } else {
                     forEach(m, n, o, func);
                 }
@@ -144,31 +146,49 @@ public class Shape {
     }
 
     @FunctionalInterface
-    public interface Range1 { void apply(int l);}
+    public interface Range1 {
+        void apply(int l);
+    }
 
     @FunctionalInterface
-    public interface Range2 { void apply(int l, int i);}
+    public interface Range2 {
+        void apply(int l, int i);
+    }
 
     @FunctionalInterface
-    public interface Range3 { void apply(int l, int i, int m);}
+    public interface Range3 {
+        void apply(int l, int i, int m);
+    }
 
     @FunctionalInterface
-    public interface Fill<N> { Object apply(N o);}
+    public interface Fill<N> {
+        Object apply(N o);
+    }
 
     @FunctionalInterface
-    public interface Func1<N> { void apply(N o);}
+    public interface Func1<N> {
+        void apply(N o);
+    }
 
     @FunctionalInterface
-    public interface Func2<M,N> { void apply(M m, N n);}
+    public interface Func2<M, N> {
+        void apply(M m, N n);
+    }
 
     @FunctionalInterface
-    public interface Func3 { void apply(Node  m, Graph n, None o);}
+    public interface Func3 {
+        void apply(Node m, Graph n, None o);
+    }
 
     @FunctionalInterface
-    public interface For2 { void apply(None l, Tenser[] n, int i);}
+    public interface For2 {
+        void apply(None l, Tenser[] n, int i);
+    }
 
     @FunctionalInterface
-    public interface For3 { void apply(None l, None m, Tenser[] n, int i);}
+    public interface For3 {
+        void apply(None l, None m, Tenser[] n, int i);
+    }
 }
 
 

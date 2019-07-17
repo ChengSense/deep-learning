@@ -230,7 +230,6 @@ public class TensorFlow extends Shape {
         };
     }
 
-
     public Tenser squarex(Node<None>... input) {
         return new Tenser("Squarex", input) {
 

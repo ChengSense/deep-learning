@@ -4,9 +4,6 @@ import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
 import com.deep.framework.util.BeanUtil;
 
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 public class Builder extends Shape {
 
     public static void create(Tenser tenser) {
@@ -27,12 +24,12 @@ public class Builder extends Shape {
         Graph graph = none.getGraph();
         tenser.setOutput(none);
         Func1<Tenser> func = node -> {
+            if (BeanUtil.isNone(node)) return;
             None out = (None) node.getOutput();
             graph.addAll(out.getGraph());
             graph.add(node);
         };
-        Predicate<Node> filter = node -> BeanUtil.isNotNone((Tenser) node);
-        forEach(Stream.of(tenser.getInput()).filter(filter).toArray(), func);
+        forEach(tenser.getInput(), func);
     }
 
     static void tenser(Tenser tenser, Object obj) {

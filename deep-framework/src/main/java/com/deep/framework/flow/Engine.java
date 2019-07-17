@@ -13,63 +13,76 @@ import lombok.Data;
 public class Engine extends Shape {
 
     public void forward(Tenser tenser) {
-        Func1<None> func = out -> {
-            out.getGraph().forEach(o -> {
-                _forward((Tenser) o);
-            });
-        };
-        forEach(tenser.getOutput(), func);
-        execute(tenser, a -> operatorForward((Tenser<None>) a));
+        execute(tenser, a -> {
+            Func1<None> func = out -> {
+                out.getGraph().forEach(o -> {
+                    _forward(o);
+                });
+            };
+            forEach(a.getOutput(), func);
+            operatorForward((Tenser<None>) a);
+        }, a -> {
+            Func1<None> func = out -> {
+                out.getGraph().forEach(o -> {
+                    _forward(o);
+                });
+                scalarForward(out);
+            };
+            forEach(a.getOutput(), func);
+        });
     }
 
     public void backward(Tenser tenser) {
-        execute(tenser, a -> a.gradient());
-        Func1<None> func = out -> {
-            out.getGraph().farEach(o -> {
-                _backward((Tenser) o);
-            });
-        };
-        forEach(tenser.getOutput(), func);
+        execute(tenser, a -> {
+            a.gradient();
+            Func1<None> func = out -> {
+                out.getGraph().farEach(o -> {
+                    o.gradient();
+                });
+            };
+            forEach(a.getOutput(), func);
+        }, a -> {
+            Func1<None> func = (out) -> {
+                out.getGraph().farEach(o -> {
+                    o.gradient();
+                });
+            };
+            forEach(a.getOutput(), func);
+        });
     }
 
     private void _forward(Tenser tenser) {
         execute(tenser, o -> {
             operatorForward((Tenser) o);
         }, o -> {
-            scalarForward((Tenser) o);
+            scalarForward((None) o.getOutput());
         });
-    }
-
-    public void _backward(Tenser tenser) {
-        execute(tenser, o -> {
-            o.gradient();
-        }, o -> {
-            o.gradient();
-        });
-    }
-
-    private void execute(Tenser tenser, Func1<Node>... func) {
-        if (BeanUtil.isOperation(tenser)) {
-            func[0].apply(tenser);
-        } else {
-            func[1].apply(tenser);
-        }
     }
 
     private void operatorForward(Tenser<None> tenser) {
-        None[] nones = {tenser.compute()};
-        None[] outputs = {tenser.getOutput()};
+        None nones = tenser.compute(), outputs = tenser.getOutput();
         Func2<None, None> func = (none, out) -> {
             out.setValue(none.getValue());
         };
         forEach(nones, outputs, func);
     }
 
-    private void scalarForward(Tenser<None> tenser) {
-        None none = tenser.getOutput();
+    private void scalarForward(None none) {
         Graph<Tenser> graph = none.getGraph();
         Tenser<None> last = graph.getLast();
         none.setValue(last.getOutput().getValue());
+    }
+
+    private void execute(Tenser tenser, Func1<Node>... func) {
+        if (BeanUtil.isOperation(tenser)) {
+            if (func.length > 0) {
+                func[0].apply(tenser);
+            }
+        } else {
+            if (func.length > 1) {
+                func[1].apply(tenser);
+            }
+        }
     }
 
     public void toString(Tenser tenser) {

@@ -1,6 +1,7 @@
 package com.deep.framework.operation;
 
 import com.deep.framework.graph.Graph;
+import com.deep.framework.graph.Tenser;
 import lombok.Data;
 
 @Data
@@ -37,6 +38,6 @@ public class None {
     private String name;
     private Double value;
     private Double grad;
-    private Graph graph;
+    private Graph<Tenser> graph;
 
 }
