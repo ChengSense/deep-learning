@@ -1,5 +1,7 @@
 package com.deep.framework.graph;
 
+import com.deep.framework.function.Func1;
+import com.deep.framework.function.Func2;
 import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
 import com.deep.framework.util.BeanUtil;
