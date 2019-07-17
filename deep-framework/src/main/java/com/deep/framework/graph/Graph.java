@@ -1,5 +1,7 @@
 package com.deep.framework.graph;
 
+import com.deep.framework.function.Func1;
+
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -10,10 +12,10 @@ public class Graph<E> extends ConcurrentLinkedDeque<E> {
         return super.add(obj);
     }
 
-    public void farEach(Shape.Func1<E> func1) {
+    public void farEach(Func1<E> func1) {
         Iterator iter = this.descendingIterator();
         while (iter.hasNext()) {
-            func1.apply((E)iter.next());
+            func1.apply((E) iter.next());
         }
     }
 

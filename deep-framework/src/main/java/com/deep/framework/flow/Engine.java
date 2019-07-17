@@ -1,6 +1,8 @@
 package com.deep.framework.flow;
 
 import com.alibaba.fastjson.JSONObject;
+import com.deep.framework.function.Func1;
+import com.deep.framework.function.Func2;
 import com.deep.framework.graph.Graph;
 import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;

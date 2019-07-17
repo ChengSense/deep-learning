@@ -1,5 +1,6 @@
 package com.deep.framework.graph;
 
+import com.deep.framework.function.*;
 import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
 import com.deep.framework.util.BeanUtil;
@@ -143,51 +144,6 @@ public class Shape {
                 }
             });
         }
-    }
-
-    @FunctionalInterface
-    public interface Range1 {
-        void apply(int l);
-    }
-
-    @FunctionalInterface
-    public interface Range2 {
-        void apply(int l, int i);
-    }
-
-    @FunctionalInterface
-    public interface Range3 {
-        void apply(int l, int i, int m);
-    }
-
-    @FunctionalInterface
-    public interface Fill<N> {
-        Object apply(N o);
-    }
-
-    @FunctionalInterface
-    public interface Func1<N> {
-        void apply(N o);
-    }
-
-    @FunctionalInterface
-    public interface Func2<M, N> {
-        void apply(M m, N n);
-    }
-
-    @FunctionalInterface
-    public interface Func3 {
-        void apply(Node m, Graph n, None o);
-    }
-
-    @FunctionalInterface
-    public interface For2 {
-        void apply(None l, Tenser[] n, int i);
-    }
-
-    @FunctionalInterface
-    public interface For3 {
-        void apply(None l, None m, Tenser[] n, int i);
     }
 }
 
