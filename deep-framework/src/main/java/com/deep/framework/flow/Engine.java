@@ -20,6 +20,7 @@ public class Engine extends Shape {
                 });
             };
             forEach(tenser.getOutput(), func);
+            _forward(tenser);
         } else {
             Func1<Tenser<None>> func = node -> {
                 node.getOutput().getGraph().forEach(o -> {

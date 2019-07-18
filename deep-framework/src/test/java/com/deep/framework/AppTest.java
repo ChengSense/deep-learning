@@ -40,12 +40,20 @@ public class AppTest {
     public void appTest() {
         TensorFlow tf = new TensorFlow();
 
-        Tenser tenser11 = tf.matmul(new Tenser(new int[]{2, 4}), new Tenser(new int[]{4, 1}));
-        Tenser tenser12 = tf.addx(tenser11, new Tenser(new int[]{2, 1}));
+        Tenser tenser11 = tf.matmul(new Tenser(new int[]{4, 2}), new Tenser(new int[]{2, 1}));
+        Tenser tenser12 = tf.addx(tenser11, new Tenser(new int[]{4, 1}));
         Tenser tenser13 = tf.sigmoidx(tenser12);
-        Tenser tenser14 = tf.squarex(tenser13 ,new Tenser(new int[]{2, 1}));
 
-        Executor executor = new Executor(tenser14);
+        Tenser tenser21 = tf.matmul(new Tenser(new int[]{6, 4}), tenser13);
+        Tenser tenser22 = tf.addx(tenser21, new Tenser(new int[]{6, 1}));
+        Tenser tenser23 = tf.sigmoidx(tenser22);
+
+        Tenser tenser31 = tf.matmul(new Tenser(new int[]{1, 6}), tenser23);
+        Tenser tenser32 = tf.addx(tenser31, new Tenser(new int[]{1, 1}));
+        Tenser tenser33 = tf.sigmoidx(tenser32);
+        Tenser tenser34 = tf.squarex(new Tenser(new int[]{1, 1}), tenser33);
+
+        Executor executor = new Executor(tenser34);
         executor.run(null);
 
     }
