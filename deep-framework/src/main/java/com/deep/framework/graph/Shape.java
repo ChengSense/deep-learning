@@ -32,15 +32,23 @@ public class Shape {
     }
 
     public static <E> E nones(Object a) {
-        return (E) fill(a, shape(None.class, a), (Fill<Tenser<None>>) o -> {
-            return o.getOutput();
-        });
+        if (BeanUtil.isTenser(a)) {
+            return (E) fill(a, shape(None.class, a), (Fill<Tenser<None>>) o -> {
+                return o.getOutput();
+            });
+        } else {
+            return (E) ((Tenser) a).getOutput();
+        }
     }
 
     public static <E> E tensers(Object a) {
-        return (E) fill(a, shape(Tenser.class, a), (Fill<None>) o -> {
-            return new Tenser(o);
-        });
+        if (BeanUtil.isTenser(a)) {
+            return (E) fill(a, shape(Tenser.class, a), (Fill<None>) o -> {
+                return new Tenser(o);
+            });
+        } else {
+            return (E) new Tenser((None) a);
+        }
     }
 
     public static <E> E functions(Object a) {
@@ -98,8 +106,6 @@ public class Shape {
                     fill(m, n, func);
                 }
             });
-        } else {
-            return a;
         }
         return b;
     }
