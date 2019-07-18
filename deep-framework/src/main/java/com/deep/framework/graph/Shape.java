@@ -1,7 +1,6 @@
 package com.deep.framework.graph;
 
 import com.deep.framework.function.*;
-import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
 import com.deep.framework.util.BeanUtil;
 import org.apache.commons.math3.random.RandomDataGenerator;
@@ -29,6 +28,10 @@ public class Shape {
 
     public static <E> E random(int... x) {
         return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1)));
+    }
+
+    public static <E> E random(String name, int... x) {
+        return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1), name));
     }
 
     public static <E> E nones(Object a) {
@@ -125,6 +128,17 @@ public class Shape {
         }
     }
 
+    public static void each(Object a, Object b, Func2 func) {
+        if (BeanUtil.isTenser(a)) {
+            forEach(Array.getLength(a), i -> {
+                Object m = Array.get(a, i), n = Array.get(b, i);
+                func.apply(m, n);
+            });
+        } else {
+            func.apply(a, b);
+        }
+    }
+
     public static void forEach(Object a, Object b, Func2 func) {
         if (BeanUtil.isTenser(a)) {
             forEach(Array.getLength(a), i -> {
@@ -137,19 +151,6 @@ public class Shape {
             });
         } else {
             func.apply(a, b);
-        }
-    }
-
-    public static void forEach(Object a, Object b, Object c, Func3 func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    func.apply((Node) m, (Graph) n, (None) o);
-                } else {
-                    forEach(m, n, o, func);
-                }
-            });
         }
     }
 

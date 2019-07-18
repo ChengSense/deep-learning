@@ -11,6 +11,7 @@ import lombok.Data;
 
 @Data
 public class Engine extends Shape {
+    public static double rate = 0.0003;
 
     public void forward(Tenser tenser) {
         if (BeanUtil.isOperation(tenser)) {
@@ -58,10 +59,44 @@ public class Engine extends Shape {
             };
             forEach(tenser.getFunction(), func);
         }
+
+        _backward(tenser);
     }
 
-    public void toString(Tenser tenser) {
-        System.out.println(JSONObject.toJSONString(tenser));
+    public void _backward(Tenser tenser) {
+        if (BeanUtil.isOperation(tenser)) {
+            reduce(tenser);
+            Func1<None> func = out -> {
+                out.getGraph().farEach(o -> {
+                    reduce(o);
+                });
+            };
+            forEach(tenser.getOutput(), func);
+        } else {
+            Func1<Tenser<None>> func = node -> {
+                reduce(node);
+                node.getOutput().getGraph().farEach(o -> {
+                    reduce(o);
+                });
+            };
+            forEach(tenser.getFunction(), func);
+        }
+    }
+
+    public void reduce(Tenser tenser) {
+        Func1<Tenser> func = node -> {
+            if (BeanUtil.startsWithNone(node)) {
+                forEach(node.getOutput(), (Func1<None>) a -> {
+                    Double value = a.getValue();
+                    a.setValue(value - rate * a.getGrad());
+                });
+            }
+        };
+        forEach(tenser.getInput(), func);
+    }
+
+    public void toString(Object obj) {
+        System.out.println(JSONObject.toJSONString(obj));
     }
 
 }

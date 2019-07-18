@@ -18,6 +18,11 @@ public class Tenser<N> implements Node<N> {
         this.output = Shape.random(shape);
     }
 
+    public Tenser(String name, int[] shape) {
+        this.name = "None::".concat(name);
+        this.output = Shape.random(this.name, shape);
+    }
+
     public Tenser(None input) {
         this.name = input.getName();
         this.output = (N) input;

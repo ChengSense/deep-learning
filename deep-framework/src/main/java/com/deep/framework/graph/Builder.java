@@ -38,7 +38,6 @@ public class Builder extends Shape {
         forEach(tenser.getInput(), func);
     }
 
-
     public static void build(Tenser tenser) {
         if (BeanUtil.isNotOperation(tenser)) {
             Object function = tenser.compute();

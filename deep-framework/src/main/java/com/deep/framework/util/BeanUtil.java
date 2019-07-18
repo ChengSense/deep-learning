@@ -40,18 +40,14 @@ public class BeanUtil {
     }
 
     public static boolean isNone(Tenser o) {
-        return o.getName().equals("None");
+        return o.getName().startsWith("None");
     }
 
     public static boolean isNotNone(Tenser o) {
-        return !o.getName().equals("None");
+        return !o.getName().startsWith("None");
     }
 
-    public static boolean isNotTenserNone(Tenser o) {
-        return !o.getName().equals("Tenser::None");
-    }
-
-    public static boolean isNotOperatorNone(Tenser o) {
-        return !o.getName().startsWith("Operator::");
+    public static boolean startsWithNone(Tenser o) {
+        return o.getName().startsWith("None::");
     }
 }
