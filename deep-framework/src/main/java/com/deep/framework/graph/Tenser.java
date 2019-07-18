@@ -2,6 +2,7 @@ package com.deep.framework.graph;
 
 import com.deep.framework.operation.Node;
 import com.deep.framework.operation.None;
+import com.deep.framework.util.BeanUtil;
 import lombok.Data;
 
 @Data
@@ -32,7 +33,21 @@ public class Tenser<N> implements Node<N> {
 
     public void gradient() { }
 
+    public N getOutput(Tenser n) {
+        if (BeanUtil.isOperation(n)) return output;
+        if (BeanUtil.isNone(this)) return Shape.tensers(output);
+        if (BeanUtil.isOperation(this)) return (N) this;
+        return function;
+    }
+
+    public N getOutput() {
+        if (output != null) return output;
+        if (function != null) return Shape.nones(function);
+        return output;
+    }
+
     private String name = "Tenser::";
     private Node[] input;
+    private N function;
     private N output;
 }

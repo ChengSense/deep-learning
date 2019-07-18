@@ -31,21 +31,24 @@ public class Shape {
         return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1)));
     }
 
-    public static <E> E nones(Object a, String name) {
-        String names = name.replace("Tenser::", "None::");
-        return (E) fill(shape(None.class, a), o -> new None(0d, names));
-    }
-
     public static <E> E nones(Object a) {
         return (E) fill(a, shape(None.class, a), (Fill<Tenser<None>>) o -> {
-            if (BeanUtil.isOperation(o))
-                o.getOutput().getGraph().add(o);
             return o.getOutput();
         });
     }
 
-    public static <E> E graphs(Object a) {
-        return (E) fill(shape(Graph.class, a), o -> new Graph());
+    public static <E> E tensers(Object a) {
+        return (E) fill(a, shape(Tenser.class, a), (Fill<None>) o -> {
+            return new Tenser(o);
+        });
+    }
+
+    public static <E> E functions(Object a) {
+        return (E) fill(a, a, (Fill<Tenser>) o -> {
+            if (BeanUtil.isOperation(o))
+                return o;
+            return o.getFunction();
+        });
     }
 
     public static <E> E zeros(Object a) {
@@ -95,6 +98,8 @@ public class Shape {
                     fill(m, n, func);
                 }
             });
+        } else {
+            return a;
         }
         return b;
     }
@@ -147,7 +152,7 @@ public class Shape {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i);
                 if (BeanUtil.isNotTenser(m)) {
-                    func.apply((None) m, (Tenser[]) b, i);
+                    func.apply((Tenser) m, (Tenser[]) b, i);
                 } else {
                     forEach(m, n, func);
                 }
@@ -160,7 +165,7 @@ public class Shape {
             forEach(Array.getLength(a), i -> {
                 Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
                 if (BeanUtil.isNotTenser(m)) {
-                    func.apply((None) m, (None) n, (Tenser[]) c, i);
+                    func.apply((Tenser) m, (Tenser) n, (Tenser[]) c, i);
                 } else {
                     forEach(m, n, o, func);
                 }

@@ -8,14 +8,16 @@ public class Builder extends Shape {
 
     public static void create(Tenser tenser) {
         if (BeanUtil.isNotOperation(tenser)) {
-            Object node = tenser.compute();
-            if (BeanUtil.isTenser(node)) {
-                tenser.setOutput(nones(node));
+            Object function = tenser.compute();
+            if (BeanUtil.isNotTenser(function)) {
+                Tenser tense = (Tenser) function;
+                if (BeanUtil.isNotOperation(tense)) {
+                    tenser.setFunction(tense.getFunction());
+                } else {
+                    tenser.setFunction(function);
+                }
             } else {
-                Tenser<None> o = (Tenser) node;
-                if (BeanUtil.isOperation(o))
-                    o.getOutput().getGraph().add(o);
-                tenser.setOutput(((Tenser) node).getOutput());
+                tenser.setFunction(functions(function));
             }
         } else {
             operator(tenser);
@@ -23,8 +25,7 @@ public class Builder extends Shape {
     }
 
     private static void operator(Tenser tenser) {
-        String name = tenser.getName().replace("Tenser::", "Operator::");
-        None none = new None(0d, name);
+        None none = new None(0d);
         Graph graph = none.getGraph();
         tenser.setOutput(none);
         Func1<Tenser> func = node -> {
@@ -35,5 +36,23 @@ public class Builder extends Shape {
                 graph.add(node);
         };
         forEach(tenser.getInput(), func);
+    }
+
+
+    public static void build(Tenser tenser) {
+        if (BeanUtil.isNotOperation(tenser)) {
+            Object function = tenser.compute();
+            if (BeanUtil.isTenser(function)) {
+                tenser.setFunction(functions(function));
+            } else {
+                if (BeanUtil.isNotOperation((Tenser) function)) {
+                    tenser.setFunction(((Tenser) function).getFunction());
+                } else {
+                    tenser.setFunction(function);
+                }
+            }
+        } else {
+            operator(tenser);
+        }
     }
 }
