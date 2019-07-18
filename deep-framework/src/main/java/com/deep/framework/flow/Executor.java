@@ -31,15 +31,14 @@ public class Executor<E> extends Engine {
     public void run(E inputSet, E labelSet) {
         each(inputSet, labelSet, (inSet, labSet) -> {
             init(inSet, labSet);
-            forward(tenser);
-            backward(tenser);
-            toString(tenser.getOutput());
+            run();
         });
     }
 
     public void run() {
         forward(tenser);
         backward(tenser);
+        toString(tenser);
     }
 
 }

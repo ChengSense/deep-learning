@@ -1,6 +1,5 @@
 package com.deep.framework.flow;
 
-import com.alibaba.fastjson.JSONObject;
 import com.deep.framework.function.Func1;
 import com.deep.framework.function.Func2;
 import com.deep.framework.graph.Shape;
@@ -14,23 +13,23 @@ public class Engine extends Shape {
     public static double rate = 0.0003;
 
     public void forward(Tenser tenser) {
-        if (BeanUtil.isOperation(tenser)) {
+        execute(tenser, a -> {
             Func1<None> func = out -> {
                 out.getGraph().forEach(o -> {
                     _forward(o);
                 });
             };
-            forEach(tenser.getOutput(), func);
-            _forward(tenser);
-        } else {
+            forEach(a.getOutput(), func);
+            _forward(a);
+        }, a -> {
             Func1<Tenser<None>> func = node -> {
                 node.getOutput().getGraph().forEach(o -> {
                     _forward(o);
                 });
                 _forward(node);
             };
-            forEach(tenser.getFunction(), func);
-        }
+            forEach(a.getFunction(), func);
+        });
     }
 
     private void _forward(Tenser<None> tenser) {
@@ -42,45 +41,45 @@ public class Engine extends Shape {
     }
 
     public void backward(Tenser tenser) {
-        if (BeanUtil.isOperation(tenser)) {
-            tenser.gradient();
+        execute(tenser, a -> {
+            a.gradient();
             Func1<None> func = out -> {
                 out.getGraph().farEach(o -> {
                     o.gradient();
                 });
             };
-            forEach(tenser.getOutput(), func);
-        } else {
+            forEach(a.getOutput(), func);
+        }, a -> {
             Func1<Tenser<None>> func = node -> {
                 node.gradient();
                 node.getOutput().getGraph().farEach(o -> {
                     o.gradient();
                 });
             };
-            forEach(tenser.getFunction(), func);
-        }
+            forEach(a.getFunction(), func);
+        });
 
         _backward(tenser);
     }
 
     public void _backward(Tenser tenser) {
-        if (BeanUtil.isOperation(tenser)) {
-            reduce(tenser);
+        execute(tenser, a -> {
+            reduce(a);
             Func1<None> func = out -> {
                 out.getGraph().farEach(o -> {
                     reduce(o);
                 });
             };
-            forEach(tenser.getOutput(), func);
-        } else {
+            forEach(a.getOutput(), func);
+        }, a -> {
             Func1<Tenser<None>> func = node -> {
                 reduce(node);
                 node.getOutput().getGraph().farEach(o -> {
                     reduce(o);
                 });
             };
-            forEach(tenser.getFunction(), func);
-        }
+            forEach(a.getFunction(), func);
+        });
     }
 
     public void reduce(Tenser tenser) {
@@ -95,8 +94,11 @@ public class Engine extends Shape {
         forEach(tenser.getInput(), func);
     }
 
-    public void toString(Object obj) {
-        System.out.println(JSONObject.toJSONString(obj));
+    public void execute(Tenser tenser, Func1<Tenser>... func) {
+        if (BeanUtil.isOperation(tenser)) {
+            func[0].apply(tenser);
+        } else {
+            func[1].apply(tenser);
+        }
     }
-
 }
