@@ -1,17 +1,12 @@
 package com.deep.framework.framework;
 
-import com.deep.framework.lang.function.Func2;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.bean.None;
 import lombok.Data;
 
 @Data
 public class Executor<E> extends Engine {
     private Tenser tenser;
     private Tenser input, label;
-    private Func2<None, Double> func = (m, n) -> {
-        m.setValue(n);
-    };
 
     public Executor(Tenser tenser) {
         this.tenser = tenser;
@@ -23,21 +18,14 @@ public class Executor<E> extends Engine {
         this.label = label;
     }
 
-    public void init(Object inSet, Object labSet) {
-        forEach(input.getOutput(), inSet, func);
-        forEach(label.getOutput(), labSet, func);
-    }
-
-    public void run(E inputSet, E labelSet) {
-        each(inputSet, labelSet, (inSet, labSet) -> {
-            init(inSet, labSet);
-            run();
-        });
-    }
-
     public void run() {
         forward(tenser);
         backward(tenser);
     }
 
+    public void run(E inSet, E labSet) {
+        init(input, inSet);
+        init(label, labSet);
+        run();
+    }
 }

@@ -1,16 +1,16 @@
 package com.deep.framework.framework;
 
 import com.deep.framework.bean.None;
-import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;
+import com.deep.framework.lang.ForEach;
 import com.deep.framework.lang.function.Func1;
 import com.deep.framework.lang.function.Func2;
 import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
 
 @Data
-public class Engine extends Shape {
-    public static double rate = 0.0003;
+public class Engine extends ForEach {
+    public static double rate = 0.003;
 
     public void forward(Tenser tenser) {
         execute(tenser, a -> {
@@ -84,13 +84,13 @@ public class Engine extends Shape {
 
     public void reduce(Tenser tenser) {
         Func1<Tenser> func = node -> {
-            if (BeanUtil.startsWithNone(node)) {
-                forEach(node.getOutput(), (Func1<None>) a -> {
-                    Double value = a.getValue();
-                    a.setValue(value - rate * a.getGrad());
-                    a.setGrad(null);
-                });
-            }
+            forEach(node.getOutput(), (Func1<None>) a -> {
+                if (BeanUtil.startsWithNone(node)) {
+                    Double value = a.getValue() - rate * a.getGrad();
+                    a.setValue(value);
+                }
+                a.setGrad(null);
+            });
         };
         forEach(tenser.getInput(), func);
     }
@@ -101,5 +101,12 @@ public class Engine extends Shape {
         } else {
             func[1].apply(tenser);
         }
+    }
+
+    public void init(Tenser a, Object b) {
+        Func2<None, Double> func = (m, n) -> {
+            m.setValue(n);
+        };
+        forEach(a.getOutput(), b, func);
     }
 }

@@ -20,7 +20,7 @@ public class None {
     }
 
     public void setGrad(Double grad) {
-        if (this.grad != null) {
+        if (this.grad != null && grad != null) {
             this.grad = this.grad + grad;
         } else {
             this.grad = grad;

@@ -15,6 +15,10 @@ public class Shape extends ForEach {
 
     static RandomDataGenerator random = new RandomDataGenerator();
 
+    public static Double random() {
+        return random.nextGaussian(0, 1);
+    }
+
     public static <E> E random(int... x) {
         return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1)));
     }
@@ -73,7 +77,6 @@ public class Shape extends ForEach {
             shapes(Array.get(a, 0), list);
         }
     }
-
 
     public static void each(Object a, Object b, Func2 func) {
         if (BeanUtil.isTenser(a)) {
