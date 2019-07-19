@@ -1,8 +1,8 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.operation.Node;
-import com.deep.framework.operation.None;
-import com.deep.framework.util.BeanUtil;
+import com.deep.framework.bean.Node;
+import com.deep.framework.bean.None;
+import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
 
 @Data

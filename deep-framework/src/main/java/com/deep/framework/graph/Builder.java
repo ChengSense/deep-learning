@@ -1,8 +1,8 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.function.Func1;
-import com.deep.framework.operation.None;
-import com.deep.framework.util.BeanUtil;
+import com.deep.framework.lang.function.Func1;
+import com.deep.framework.bean.None;
+import com.deep.framework.lang.util.BeanUtil;
 
 public class Builder extends Shape {
 

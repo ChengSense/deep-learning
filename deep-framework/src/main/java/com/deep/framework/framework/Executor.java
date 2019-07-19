@@ -1,8 +1,8 @@
-package com.deep.framework.flow;
+package com.deep.framework.framework;
 
-import com.deep.framework.function.Func2;
+import com.deep.framework.lang.function.Func2;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.operation.None;
+import com.deep.framework.bean.None;
 import lombok.Data;
 
 @Data

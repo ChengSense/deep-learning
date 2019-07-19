@@ -1,4 +1,4 @@
-package com.deep.framework.operation;
+package com.deep.framework.bean;
 
 import com.deep.framework.graph.Tenser;
 

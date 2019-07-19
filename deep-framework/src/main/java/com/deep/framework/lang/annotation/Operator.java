@@ -1,4 +1,4 @@
-package com.deep.framework.annotation;
+package com.deep.framework.lang.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

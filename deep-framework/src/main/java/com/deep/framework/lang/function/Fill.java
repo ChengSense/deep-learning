@@ -1,4 +1,4 @@
-package com.deep.framework.function;
+package com.deep.framework.lang.function;
 
 @FunctionalInterface
 public interface Fill<N> {

@@ -1,10 +1,10 @@
-package com.deep.framework.flow;
+package com.deep.framework.graph;
 
-import com.deep.framework.annotation.Operator;
+import com.deep.framework.lang.annotation.Operator;
 import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.operation.Node;
-import com.deep.framework.operation.None;
+import com.deep.framework.bean.Node;
+import com.deep.framework.bean.None;
 
 
 public class TensorFlow extends Shape {

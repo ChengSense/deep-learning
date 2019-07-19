@@ -1,8 +1,8 @@
-package com.deep.framework.util;
+package com.deep.framework.lang.util;
 
-import com.deep.framework.annotation.Operator;
+import com.deep.framework.lang.annotation.Operator;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.operation.Node;
+import com.deep.framework.bean.Node;
 
 import java.lang.reflect.Method;
 

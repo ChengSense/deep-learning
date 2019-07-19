@@ -1,30 +1,19 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.function.*;
-import com.deep.framework.operation.None;
-import com.deep.framework.util.BeanUtil;
+import com.deep.framework.bean.None;
+import com.deep.framework.lang.ForEach;
+import com.deep.framework.lang.function.Fill;
+import com.deep.framework.lang.function.Func2;
+import com.deep.framework.lang.util.BeanUtil;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
-public class Shape {
+public class Shape extends ForEach {
 
     static RandomDataGenerator random = new RandomDataGenerator();
-
-    public static void forEach(int a, Range1 e) {
-        IntStream.range(0, a).forEach(i -> e.apply(i));
-    }
-
-    public static void forEach(int a, int b, Range2 e) {
-        forEach(a, i -> forEach(b, l -> e.apply(i, l)));
-    }
-
-    public static void forEach(int a, int b, int c, Range3 e) {
-        forEach(a, i -> forEach(b, l -> forEach(c, m -> e.apply(i, l, m))));
-    }
 
     public static <E> E random(int... x) {
         return (E) fill(Array.newInstance(None.class, x), o -> new None(random.nextGaussian(0, 1)));
@@ -85,48 +74,6 @@ public class Shape {
         }
     }
 
-    public static Object fill(Object a, Fill func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    Array.set(a, i, func.apply(m));
-                } else {
-                    fill(m, func);
-                }
-            });
-        }
-        return a;
-    }
-
-    public static Object fill(Object a, Object b, Fill func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i), n = Array.get(b, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    Array.set(b, i, func.apply(m));
-                } else {
-                    fill(m, n, func);
-                }
-            });
-        }
-        return b;
-    }
-
-    public static void forEach(Object a, Func1 func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    func.apply(m);
-                } else {
-                    forEach(m, func);
-                }
-            });
-        } else {
-            func.apply(a);
-        }
-    }
 
     public static void each(Object a, Object b, Func2 func) {
         if (BeanUtil.isTenser(a)) {
@@ -136,47 +83,6 @@ public class Shape {
             });
         } else {
             func.apply(a, b);
-        }
-    }
-
-    public static void forEach(Object a, Object b, Func2 func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i), n = Array.get(b, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    func.apply(m, n);
-                } else {
-                    forEach(m, n, func);
-                }
-            });
-        } else {
-            func.apply(a, b);
-        }
-    }
-
-    public static void forEach(Object a, Object b, For2 func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i), n = Array.get(b, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    func.apply((Tenser) m, (Tenser[]) b, i);
-                } else {
-                    forEach(m, n, func);
-                }
-            });
-        }
-    }
-
-    public static void forEach(Object a, Object b, Object c, For3 func) {
-        if (BeanUtil.isTenser(a)) {
-            forEach(Array.getLength(a), i -> {
-                Object m = Array.get(a, i), n = Array.get(b, i), o = Array.get(c, i);
-                if (BeanUtil.isNotTenser(m)) {
-                    func.apply((Tenser) m, (Tenser) n, (Tenser[]) c, i);
-                } else {
-                    forEach(m, n, o, func);
-                }
-            });
         }
     }
 }

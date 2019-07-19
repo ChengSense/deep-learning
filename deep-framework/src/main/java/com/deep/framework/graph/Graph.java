@@ -1,6 +1,6 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.function.Func1;
+import com.deep.framework.lang.function.Func1;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedDeque;

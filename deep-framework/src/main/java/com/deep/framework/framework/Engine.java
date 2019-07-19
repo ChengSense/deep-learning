@@ -1,11 +1,11 @@
-package com.deep.framework.flow;
+package com.deep.framework.framework;
 
-import com.deep.framework.function.Func1;
-import com.deep.framework.function.Func2;
+import com.deep.framework.bean.None;
 import com.deep.framework.graph.Shape;
 import com.deep.framework.graph.Tenser;
-import com.deep.framework.operation.None;
-import com.deep.framework.util.BeanUtil;
+import com.deep.framework.lang.function.Func1;
+import com.deep.framework.lang.function.Func2;
+import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
 
 @Data
@@ -88,6 +88,7 @@ public class Engine extends Shape {
                 forEach(node.getOutput(), (Func1<None>) a -> {
                     Double value = a.getValue();
                     a.setValue(value - rate * a.getGrad());
+                    a.setGrad(null);
                 });
             }
         };

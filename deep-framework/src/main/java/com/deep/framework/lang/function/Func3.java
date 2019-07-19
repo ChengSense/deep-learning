@@ -1,8 +1,8 @@
-package com.deep.framework.function;
+package com.deep.framework.lang.function;
 
 import com.deep.framework.graph.Graph;
-import com.deep.framework.operation.Node;
-import com.deep.framework.operation.None;
+import com.deep.framework.bean.Node;
+import com.deep.framework.bean.None;
 
 @FunctionalInterface
 public interface Func3 {
