@@ -14,11 +14,11 @@ public class NNTest extends Shape {
     @Test
     public void NNTest() {
 
-        Double[][][] inputSet = new Double[][][]{
-                {{0.1}, {0.1}}, {{0.1}, {0.2}}, {{0.2}, {0.2}}, {{0.2}, {0.3}}, {{0.3}, {0.7}}, {{0.4}, {0.8}}, {{0.5}, {0.9}}, {{0.8}, {0.9}}, {{0.6}, {0.8}}
+        Double[][][] inputSet = {
+            {{0.1}, {0.1}}, {{0.1}, {0.2}}, {{0.2}, {0.2}}, {{0.2}, {0.3}}, {{0.3}, {0.7}}, {{0.4}, {0.8}}, {{0.5}, {0.9}}, {{0.8}, {0.9}}, {{0.6}, {0.8}}
         };
-        Double[][][] labelSet = new Double[][][]{{
-                {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
+        Double[][][] labelSet = {{
+            {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
         };
 
         TensorFlow tf = new TensorFlow();
@@ -39,7 +39,7 @@ public class NNTest extends Shape {
         Tenser tenser34 = tf.squarex(label, tenser33);
 
         Executor executor = new Executor(tenser34, input, label);
-        forEach(10000000, i -> {
+        forEach(100000000, i -> {
             int l = (int) (Math.random() * (labelSet.length - 1) + 1);
             Object inSet = inputSet[l], labSet = labelSet[l];
             executor.run(inSet, labSet);

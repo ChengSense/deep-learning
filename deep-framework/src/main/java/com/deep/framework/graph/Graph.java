@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class Graph<E> extends ConcurrentLinkedDeque<E> {
 
     public boolean add(E obj) {
-        super.remove(obj);
+        this.remove(obj);
         return super.add(obj);
     }
 
