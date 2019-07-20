@@ -15,18 +15,10 @@ public class NNTest extends Shape {
     public void NNTest() {
 
         Double[][][] inputSet = new Double[][][]{
-                {{0.1}, {0.1}},
-                {{0.1}, {0.2}},
-                {{0.2}, {0.2}},
-                {{0.2}, {0.3}},
-                {{0.3}, {0.7}},
-                {{0.4}, {0.8}},
-                {{0.5}, {0.9}},
-                {{0.8}, {0.9}},
-                {{0.6}, {0.8}}
+                {{0.1}, {0.1}}, {{0.1}, {0.2}}, {{0.2}, {0.2}}, {{0.2}, {0.3}}, {{0.3}, {0.7}}, {{0.4}, {0.8}}, {{0.5}, {0.9}}, {{0.8}, {0.9}}, {{0.6}, {0.8}}
         };
         Double[][][] labelSet = new Double[][][]{{
-            {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
+                {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
         };
 
         TensorFlow tf = new TensorFlow();
@@ -48,13 +40,12 @@ public class NNTest extends Shape {
 
         Executor executor = new Executor(tenser34, input, label);
         forEach(10000000, i -> {
-            each(inputSet, labelSet, (inSet, labSet) -> {
-                executor.run(inSet, labSet);
-                if (i % 1000 == 0)
-                    log(tenser33.getOutput());
-            });
+            int l = (int) (Math.random() * (labelSet.length - 1) + 1);
+            Object inSet = inputSet[l], labSet = labelSet[l];
+            executor.run(inSet, labSet);
             if (i % 1000 == 0) {
                 log.info("---------{" + i + "}------------");
+                log(tenser33.getOutput());
                 log(tenser34);
             }
         });
