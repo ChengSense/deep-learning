@@ -7,10 +7,12 @@ import com.deep.framework.lang.function.Func1;
 import com.deep.framework.lang.function.Func2;
 import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
+import org.apache.log4j.Logger;
 
 @Data
 public class Engine extends ForEach {
-    public static double rate = 0.003;
+    Logger log = Logger.getLogger(Engine.class);
+    public static double rate = 0.002;
 
     public void forward(Tenser tenser) {
         execute(tenser, a -> {
@@ -58,7 +60,6 @@ public class Engine extends ForEach {
             };
             forEach(a.getFunction(), func);
         });
-
         _backward(tenser);
     }
 

@@ -8,8 +8,6 @@ import com.deep.framework.graph.TensorFlow;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import static java.lang.Double.NaN;
-
 public class NNTest extends Shape {
     Logger log = Logger.getLogger(NNTest.class);
 
@@ -17,10 +15,18 @@ public class NNTest extends Shape {
     public void NNTest() {
 
         Double[][][] inputSet = new Double[][][]{
-                {{0.1}, {0.1}}, {{0.1}, {0.2}}, {{0.2}, {0.2}}, {{0.2}, {0.3}}, {{0.3}, {0.7}}, {{0.4}, {0.8}}, {{0.5}, {0.9}}, {{0.8}, {0.9}}, {{0.6}, {0.8}}
+                {{0.1}, {0.1}},
+                {{0.1}, {0.2}},
+                {{0.2}, {0.2}},
+                {{0.2}, {0.3}},
+                {{0.3}, {0.7}},
+                {{0.4}, {0.8}},
+                {{0.5}, {0.9}},
+                {{0.8}, {0.9}},
+                {{0.6}, {0.8}}
         };
         Double[][][] labelSet = new Double[][][]{{
-                {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
+            {0.01}}, {{0.02}}, {{0.04}}, {{0.06}}, {{0.21}}, {{0.32}}, {{0.45}}, {{0.72}}, {{0.48}}
         };
 
         TensorFlow tf = new TensorFlow();
@@ -41,15 +47,20 @@ public class NNTest extends Shape {
         Tenser tenser34 = tf.squarex(label, tenser33);
 
         Executor executor = new Executor(tenser34, input, label);
-        forEach(1000000, i -> {
+        forEach(10000000, i -> {
             each(inputSet, labelSet, (inSet, labSet) -> {
                 executor.run(inSet, labSet);
-                log.info(JSONObject.toJSONString(tenser34.getOutput()));
+                if (i % 1000 == 0)
+                    log(tenser33.getOutput());
             });
-            log.info("---------{" + i + "}------------");
-            if (i % 100 == 0)
+            if (i % 1000 == 0) {
                 log.info("---------{" + i + "}------------");
+                log(tenser34);
+            }
         });
     }
 
+    public void log(Object obj) {
+        log.info(JSONObject.toJSONString(obj));
+    }
 }

@@ -38,6 +38,6 @@ public class None {
     private String name;
     private Double value;
     private Double grad;
-    private Graph<Tenser> graph;
+    private transient Graph<Tenser> graph;
 
 }

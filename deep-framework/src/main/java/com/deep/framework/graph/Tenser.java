@@ -1,9 +1,11 @@
 package com.deep.framework.graph;
 
+import com.alibaba.fastjson.JSONObject;
 import com.deep.framework.bean.Node;
 import com.deep.framework.bean.None;
 import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
+import org.apache.log4j.Logger;
 
 @Data
 public class Tenser<N> implements Node<N> {
@@ -53,6 +55,6 @@ public class Tenser<N> implements Node<N> {
 
     private String name = "Tenser::";
     private Node[] input;
-    private N function;
+    private transient N function;
     private N output;
 }

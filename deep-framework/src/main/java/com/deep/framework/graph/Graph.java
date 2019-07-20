@@ -2,15 +2,20 @@ package com.deep.framework.graph;
 
 import com.deep.framework.lang.function.Func1;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Graph<E> extends ConcurrentLinkedDeque<E> {
 
     public boolean add(E obj) {
-        if (obj == null)
-            return false;
+        super.remove(obj);
         return super.add(obj);
+    }
+
+    public boolean addAll(Collection obj) {
+        this.removeAll(obj);
+        return super.addAll(obj);
     }
 
     public void farEach(Func1<E> func1) {
