@@ -47,14 +47,9 @@ public class Builder extends Shape {
     public static Object[] build(Tenser tenser) {
         Node[] input = tenser.getInput();
         if (BeanUtil.isNotOperation(tenser)) {
-            Object function = tenser.compute();
-            if (BeanUtil.isTenser(function)) {
-                tenser.setFunction(functions(function));
-            } else {
-                if (BeanUtil.isNotOperation((Tenser) function)) {
-                    tenser.setFunction(((Tenser) function).getFunction());
-                } else {
-                    tenser.setFunction(function);
+            Fill<Tenser> fill = a -> {
+                if (BeanUtil.isNone(a)) {
+                    return Shape.tensers(a.getOutput());
                 }
                 if (BeanUtil.isOperation(a)) {
                     return a;
