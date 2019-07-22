@@ -7,6 +7,8 @@ public interface Node<N> {
 
     void gradient();
 
+    N getInput(int i);
+
     N getOutput(Tenser o);
 
     void setOutput(N o);

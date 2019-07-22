@@ -1,8 +1,8 @@
 package com.deep.framework.lang.util;
 
-import com.deep.framework.lang.annotation.Operator;
-import com.deep.framework.graph.Tenser;
 import com.deep.framework.bean.Node;
+import com.deep.framework.graph.Tenser;
+import com.deep.framework.lang.annotation.Operator;
 
 import java.lang.reflect.Method;
 
@@ -27,7 +27,6 @@ public class BeanUtil {
         }
         return false;
     }
-
 
     public static boolean isTenser(Object o) {
         if (o == null) return false;

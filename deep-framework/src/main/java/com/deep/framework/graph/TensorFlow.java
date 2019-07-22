@@ -1,10 +1,8 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.lang.annotation.Operator;
-import com.deep.framework.graph.Shape;
-import com.deep.framework.graph.Tenser;
 import com.deep.framework.bean.Node;
 import com.deep.framework.bean.None;
+import com.deep.framework.lang.annotation.Operator;
 
 
 public class TensorFlow extends Shape {
@@ -14,13 +12,13 @@ public class TensorFlow extends Shape {
 
             @Operator
             public None compute() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                None inx = getInput(0), iny = getInput(1);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 return new None(valx + valy);
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this), out = getOutput(this);
+                None inx = getInput(0), iny = getInput(1), out = getOutput(this);
                 Double grad = out.getGrad();
                 inx.setGrad(grad);
                 iny.setGrad(grad);
@@ -33,9 +31,9 @@ public class TensorFlow extends Shape {
         return new Tenser("Addx", input) {
 
             public Object compute() {
-                Object A = input[0].getOutput(this), B = input[1].getOutput(this), C = shape(Tenser.class, A);
-                forEach(A, B, C, (m, n, o, i) -> {
-                    o[i] = add(m, n);
+                Object A = getInput(0), B = getInput(1), C = shape(Tenser.class, A);
+                forEach(A, B, C, (a, b, c, i) -> {
+                    c[i] = add(a, b);
                 });
                 return C;
             }
@@ -51,11 +49,11 @@ public class TensorFlow extends Shape {
             @Operator
             public None compute() {
                 if (input.length == 1) {
-                    None inx = input[0].getOutput(this);
+                    None inx = getInput(0);
                     Double valx = inx.getValue();
                     return new None(-valx);
                 } else {
-                    None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                    None inx = getInput(0), iny = getInput(1);
                     Double valx = inx.getValue(), valy = iny.getValue();
                     return new None(valx - valy);
                 }
@@ -64,11 +62,11 @@ public class TensorFlow extends Shape {
 
             public void gradient() {
                 if (input.length == 1) {
-                    None inx = input[0].getOutput(this), out = getOutput(this);
+                    None inx = getInput(0), out = getOutput(this);
                     Double grad = out.getGrad();
                     inx.setGrad(-grad);
                 } else {
-                    None inx = input[0].getOutput(this), iny = input[1].getOutput(this), out = getOutput(this);
+                    None inx = getInput(0), iny = getInput(1), out = getOutput(this);
                     Double grad = out.getGrad();
                     inx.setGrad(grad);
                     iny.setGrad(-grad);
@@ -83,13 +81,13 @@ public class TensorFlow extends Shape {
 
             @Operator
             public None compute() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                None inx = getInput(0), iny = getInput(1);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 return new None(valx * valy);
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this), out = getOutput(this);
+                None inx = getInput(0), iny = getInput(1), out = getOutput(this);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 Double grad = out.getGrad();
                 inx.setGrad(grad * valy);
@@ -104,13 +102,13 @@ public class TensorFlow extends Shape {
 
             @Operator
             public None compute() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                None inx = getInput(0), iny = getInput(1);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 return new None(valx / valy);
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this), out = getOutput(this);
+                None inx = getInput(0), iny = getInput(1), out = getOutput(this);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 Double grad = out.getGrad();
                 inx.setGrad(grad * valy / Math.pow(valy, 2));
@@ -125,17 +123,33 @@ public class TensorFlow extends Shape {
 
             @Operator
             public None compute() {
-                None inx = input[0].getOutput(this);
+                None inx = getInput(0);
                 Double valx = inx.getValue();
                 return new None(Math.exp(valx));
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(this), out = getOutput(this);
+                None inx = getInput(0), out = getOutput(this);
                 Double valx = inx.getValue();
                 Double grad = out.getGrad();
                 inx.setGrad(grad * Math.exp(valx));
             }
+
+        };
+    }
+
+    public Tenser expx(Node input) {
+        return new Tenser("Expx", input) {
+
+            public Object compute() {
+                Object A = getInput(0), B = shape(Tenser.class, A);
+                forEach(A, B, (a, b, i) -> {
+                    b[i] = exp(a);
+                });
+                return B;
+            }
+
+            public void gradient() {}
 
         };
     }
@@ -145,15 +159,35 @@ public class TensorFlow extends Shape {
 
             @Operator
             public None compute() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                None inx = getInput(0), iny = getInput(1);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 return new None(Math.pow(valx, valy));
             }
 
             public void gradient() {
-                None inx = input[0].getOutput(this), iny = input[1].getOutput(this);
+                None inx = getInput(0), iny = getInput(1);
                 Double valx = inx.getValue(), valy = iny.getValue();
                 inx.setGrad(valy * Math.pow(valx, valy - 1));
+            }
+
+        };
+    }
+
+    public Tenser relu(Node<None> input) {
+        return new Tenser<None>("Relu", input) {
+
+            @Operator
+            public None compute() {
+                None inx = input.getOutput(this);
+                Double valx = inx.getValue();
+                return new None(valx > 0 ? valx : 0);
+            }
+
+            public void gradient() {
+                None inx = input.getOutput(this), out = getOutput(this);
+                Double valx = inx.getValue();
+                Double grad = out.getGrad();
+                inx.setGrad(grad * (valx > 0 ? 1 : 0));
             }
 
         };
@@ -163,7 +197,7 @@ public class TensorFlow extends Shape {
         return new Tenser<Node[][]>("Matmul", input) {
 
             public Node[][] compute() {
-                Node[][] A = input[0].getOutput(this), B = input[1].getOutput(this);
+                Node[][] A = getInput(0), B = getInput(1);
                 Node[][] C = zeros(new Node[A.length][B[0].length]);
                 forEach(A.length, B[0].length, A[0].length, (i, l, j) -> {
                     C[i][l] = add(C[i][l], mul(A[i][j], B[j][l]));
@@ -205,9 +239,9 @@ public class TensorFlow extends Shape {
         return new Tenser("Sigmoidx", input) {
 
             public Object compute() {
-                Object A = input.getOutput(this), B = shape(Tenser.class, A);
-                forEach(A, B, (m, o, i) -> {
-                    o[i] = sigmoid(m) ;
+                Object A = getInput(0), B = shape(Tenser.class, A);
+                forEach(A, B, (a, b, i) -> {
+                    b[i] = sigmoid(a);
                 });
                 return B;
             }
@@ -221,7 +255,8 @@ public class TensorFlow extends Shape {
         return new Tenser<Node>("Square", input) {
 
             public Node compute() {
-                return mul(new Tenser(0.5), pow(minus(input[0], input[1]), new Tenser(2d)));
+                Node a = getInput(0), b = getInput(1);
+                return mul(new Tenser(0.5), pow(minus(a, b), new Tenser(2d)));
             }
 
             public void gradient() {}
@@ -233,7 +268,7 @@ public class TensorFlow extends Shape {
         return new Tenser("Squarex", input) {
 
             public Object compute() {
-                Object A = input[0].getOutput(this), B = input[1].getOutput(this), C = shape(Tenser.class, A);
+                Object A = getInput(0), B = getInput(1), C = shape(Tenser.class, A);
                 forEach(A, B, C, (a, b, c, i) -> {
                     c[i] = square(a, b);
                 });
@@ -249,9 +284,9 @@ public class TensorFlow extends Shape {
         return new Tenser<Node>("Sum", input) {
 
             public Node compute() {
-                Object A = input.getOutput(this);
-                Node[] B = {new Tenser<None>(0d)};
-                forEach(A,  a -> {
+                Object A = getInput(0);
+                Node[] B = {new Tenser(0d)};
+                forEach(A, a -> {
                     B[0] = add((Tenser) a, B[0]);
                 });
                 return B[0];
@@ -274,18 +309,6 @@ public class TensorFlow extends Shape {
         };
     }
 
-    public Tenser relu(Node node) {
-        return new Tenser<Node>("Relu", node) {
-
-            public Node compute() {
-                return null;
-            }
-
-            public void gradient() {}
-
-        };
-    }
-
     public Tenser maxpool(Node node) {
         return new Tenser<Node>("Maxpool", node) {
 
@@ -298,11 +321,16 @@ public class TensorFlow extends Shape {
         };
     }
 
-    public Tenser softmax(Node node) {
-        return new Tenser<Node>("Softmax", node) {
+    public Tenser softmax(Node input) {
+        return new Tenser("Softmax", input) {
 
-            public Node compute() {
-                return null;
+            public Object compute() {
+                Tenser A = expx(input);
+                Object C = A.getOutput(this), D = shape(Tenser.class, C);
+                forEach(C, D, (c, d, i) -> {
+                    d[i] = div(c, sum(A));
+                });
+                return D;
             }
 
             public void gradient() {}

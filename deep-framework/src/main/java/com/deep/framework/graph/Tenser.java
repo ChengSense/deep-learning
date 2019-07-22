@@ -1,11 +1,9 @@
 package com.deep.framework.graph;
 
-import com.alibaba.fastjson.JSONObject;
 import com.deep.framework.bean.Node;
 import com.deep.framework.bean.None;
 import com.deep.framework.lang.util.BeanUtil;
 import lombok.Data;
-import org.apache.log4j.Logger;
 
 @Data
 public class Tenser<N> implements Node<N> {
@@ -39,6 +37,10 @@ public class Tenser<N> implements Node<N> {
     public N compute() { return null; }
 
     public void gradient() { }
+
+    public N getInput(int i) {
+        return (N) Builder.build(this)[i];
+    }
 
     public N getOutput(Tenser n) {
         if (BeanUtil.isOperation(n)) return output;

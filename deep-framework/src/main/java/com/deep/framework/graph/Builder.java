@@ -1,7 +1,9 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.lang.function.Func1;
+import com.deep.framework.bean.Node;
 import com.deep.framework.bean.None;
+import com.deep.framework.lang.function.Fill;
+import com.deep.framework.lang.function.Func1;
 import com.deep.framework.lang.util.BeanUtil;
 
 public class Builder extends Shape {
@@ -29,16 +31,21 @@ public class Builder extends Shape {
         Graph graph = none.getGraph();
         tenser.setOutput(none);
         Func1<Tenser> func = node -> {
-            if (BeanUtil.isNone(node)) return;
-            None out = (None) node.getOutput();
-            graph.addAll(out.getGraph());
-            if (BeanUtil.isOperation(node))
-                graph.add(node);
+            if (BeanUtil.isNotNone(node)) {
+                None out = (None) node.getOutput();
+                graph.addAll(out.getGraph());
+                if (BeanUtil.isOperation(node)) {
+                    graph.add(node);
+                } else {
+                    graph.add(node.getFunction());
+                }
+            }
         };
         forEach(tenser.getInput(), func);
     }
 
-    public static void build(Tenser tenser) {
+    public static Object[] build(Tenser tenser) {
+        Node[] input = tenser.getInput();
         if (BeanUtil.isNotOperation(tenser)) {
             Object function = tenser.compute();
             if (BeanUtil.isTenser(function)) {
@@ -49,9 +56,17 @@ public class Builder extends Shape {
                 } else {
                     tenser.setFunction(function);
                 }
-            }
+                if (BeanUtil.isOperation(a)) {
+                    return a;
+                }
+                return a.getFunction();
+            };
+            return (Object[]) fill(input, shape(Object.class, input), fill);
         } else {
-            operator(tenser);
+            Fill<Tenser> fill = a -> {
+                return a.getOutput();
+            };
+            return (Object[]) fill(input, shape(None.class, input), fill);
         }
     }
 }

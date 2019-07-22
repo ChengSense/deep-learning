@@ -1,8 +1,8 @@
 package com.deep.framework;
 
 import com.deep.framework.framework.Executor;
-import com.deep.framework.graph.TensorFlow;
 import com.deep.framework.graph.Tenser;
+import com.deep.framework.graph.TensorFlow;
 import org.junit.Test;
 
 public class AppTest {
@@ -46,9 +46,11 @@ public class AppTest {
     }
 
     @Test
-    public void xTest() {
-
-        System.out.println(-2.243732467029906E-4*0.6);
+    public void softmaxTest() {
+        TensorFlow tf = new TensorFlow();
+        Tenser tenser = tf.softmax(new Tenser(new int[]{2}));
+        Executor executor = new Executor(tenser);
+        executor.run();
     }
 
 }

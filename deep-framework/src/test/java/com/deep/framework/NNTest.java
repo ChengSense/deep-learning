@@ -40,10 +40,12 @@ public class NNTest extends Shape {
 
         Executor executor = new Executor(tenser34, input, label);
         forEach(100000000, i -> {
-            int l = (int) (Math.random() * (labelSet.length - 1) + 1);
+            int l = (int) (Math.random() * labelSet.length);
             Object inSet = inputSet[l], labSet = labelSet[l];
+
             executor.run(inSet, labSet);
             if (i % 1000 == 0) {
+                executor.rate = executor.rate - 0.0001;
                 log.info("---------{" + i + "}------------");
                 log(tenser33.getOutput());
                 log(tenser34);
