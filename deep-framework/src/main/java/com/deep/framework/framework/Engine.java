@@ -1,5 +1,6 @@
 package com.deep.framework.framework;
 
+import com.alibaba.fastjson.JSONObject;
 import com.deep.framework.bean.None;
 import com.deep.framework.graph.Tenser;
 import com.deep.framework.lang.ForEach;
@@ -12,7 +13,7 @@ import org.apache.log4j.Logger;
 @Data
 public class Engine extends ForEach {
     Logger log = Logger.getLogger(Engine.class);
-    public static double rate = 0.25;
+    public static double rate = 0.03;
 
     public void forward(Tenser tenser) {
         execute(tenser, a -> {
@@ -43,20 +44,25 @@ public class Engine extends ForEach {
         forEach(nones, outputs, func);
     }
 
-    public void backward(Tenser tenser) {
+    public void backward(Tenser<None> tenser) {
         execute(tenser, a -> {
-            a.gradient();
+            Tenser<None> node = (Tenser) a;
+            node.gradient();
+            node.getOutput().setGrad(null);
             Func1<None> func = out -> {
                 out.getGraph().farEach(o -> {
                     o.gradient();
+                    o.getOutput().setGrad(null);
                 });
             };
             forEach(a.getOutput(), func);
         }, a -> {
             Func1<Tenser<None>> func = node -> {
                 node.gradient();
+                node.getOutput().setGrad(null);
                 node.getOutput().getGraph().farEach(o -> {
                     o.gradient();
+                    o.getOutput().setGrad(null);
                 });
             };
             forEach(a.getFunction(), func);

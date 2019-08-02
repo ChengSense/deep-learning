@@ -297,11 +297,17 @@ public class TensorFlow extends Shape {
         };
     }
 
-    public Tenser conv(Node node) {
-        return new Tenser<Node>("Conv", node) {
+    public Tenser conv(Node<None[][]>... input) {
+        return new Tenser<Node[][]>("Conv", input) {
 
-            public Node compute() {
-                return null;
+            public Object compute() {
+                Node[][] A = getInput(0), B = getInput(1);
+                int height = B.length - A.length + 1, width = B[0].length - A[0].length + 1;
+                Node[][] C = zeros(new Node[height][width]);
+                forEach(height, width, A.length, A[0].length, (i, l, m, n) -> {
+                    C[i][l] = add(C[i][l], mul(B[i + m][l + n], A[m][n]));
+                });
+                return C;
             }
 
             public void gradient() {}
@@ -325,12 +331,11 @@ public class TensorFlow extends Shape {
         return new Tenser("Softmax", input) {
 
             public Object compute() {
-                Tenser A = expx(input);
-                Object C = A.getOutput(this), D = shape(Tenser.class, C);
-                forEach(C, D, (c, d, i) -> {
-                    d[i] = div(c, sum(A));
+                Object A = getInput(0), B = shape(Tenser.class, A);
+                forEach(A, B, (a, b, i) -> {
+                    b[i] = div(exp(a), sum(expx(input)));
                 });
-                return D;
+                return B;
             }
 
             public void gradient() {}

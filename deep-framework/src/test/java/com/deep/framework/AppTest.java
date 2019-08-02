@@ -53,4 +53,12 @@ public class AppTest {
         executor.run();
     }
 
+    @Test
+    public void cnnTest() {
+        TensorFlow tf = new TensorFlow();
+        Tenser tenser = tf.conv(new Tenser(new int[]{5, 5}), new Tenser(new int[]{140, 140}));
+        Executor executor = new Executor(tenser);
+        executor.run();
+    }
+
 }

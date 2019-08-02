@@ -34,7 +34,7 @@ public class Tenser<N> implements Node<N> {
         Builder.create(this);
     }
 
-    public N compute() { return null; }
+    public <M> M compute() { return null; }
 
     public void gradient() { }
 

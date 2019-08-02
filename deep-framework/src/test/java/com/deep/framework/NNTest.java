@@ -45,7 +45,8 @@ public class NNTest extends Shape {
 
             executor.run(inSet, labSet);
             if (i % 1000 == 0) {
-                executor.rate = executor.rate - 0.0001;
+                if (executor.rate > 0.00001)
+                    executor.rate = executor.rate - 0.0001;
                 log.info("---------{" + i + "}------------");
                 log(tenser33.getOutput());
                 log(tenser34);

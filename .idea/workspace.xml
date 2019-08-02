@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e0ab6dee-039e-4c59-a00d-f194c97766f1" name="Default Changelist" comment="重写">
+      <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning.log" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deep-framework/target/classes/log4j.properties" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/deep-math/target/" />
     <ignored path="$PROJECT_DIR$/deep-gradient/target/" />
@@ -37,10 +40,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-112">
+              <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="31" />
+            <state relative-caret-position="338">
+              <caret line="19" selection-start-line="16" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -94,36 +121,29 @@
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/function/func/For3.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/function/func/ForEach.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/flow/ForEach.java" />
-        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/tensor/TensorFlow.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/engine/Engine.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/tenser/Executor.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Shape.java" />
-        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Builder.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning-bak.log" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Executor.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/Node.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range4.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java" />
+        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java" />
         <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java" />
-        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java" />
-        <option value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java" />
-        <option value="$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java" />
       </list>
     </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="deep-learning" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="deep-learning" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-      </expand>
+      <expand />
       <select />
     </treeState>
   </component>
@@ -148,47 +168,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="deep-learning" type="58d84e3e:PackageViewProjectNode" />
-              <item name="deep-framework" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="deep-learning" type="58d84e3e:PackageViewProjectNode" />
-              <item name="deep-framework" type="616d4139:PackageViewModuleNode" />
-              <item name="com.deep.framework" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="deep-learning" type="58d84e3e:PackageViewProjectNode" />
-              <item name="deep-framework" type="616d4139:PackageViewModuleNode" />
-              <item name="com.deep.framework" type="1f31426a:PackageElementNode" />
-              <item name="bean" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="deep-learning" type="58d84e3e:PackageViewProjectNode" />
-              <item name="deep-framework" type="616d4139:PackageViewModuleNode" />
-              <item name="com.deep.framework" type="1f31426a:PackageElementNode" />
-              <item name="framework" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="deep-learning" type="58d84e3e:PackageViewProjectNode" />
-              <item name="deep-framework" type="616d4139:PackageViewModuleNode" />
-              <item name="com.deep.framework" type="1f31426a:PackageElementNode" />
-              <item name="graph" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1563593177541" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564718376043" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -205,6 +192,7 @@
       <recent name="com.deep.framework.function" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.deep.framework.lang.function" />
       <recent name="com.deep.framework.graph" />
       <recent name="com.deep.framework.function" />
       <recent name="com.deep.framework" />
@@ -226,8 +214,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.NNTest.NNTest">
-    <configuration name="AppTest.matmulTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AppTest.cnnTest">
+    <configuration name="AppTest.cnnTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="deep-framework" />
       <extension name="coverage">
         <pattern>
@@ -237,7 +225,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.deep.framework" />
       <option name="MAIN_CLASS_NAME" value="com.deep.framework.AppTest" />
-      <option name="METHOD_NAME" value="matmulTest" />
+      <option name="METHOD_NAME" value="cnnTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -259,7 +247,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AppTest.squarexTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AppTest.softmaxTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="deep-framework" />
       <extension name="coverage">
         <pattern>
@@ -269,7 +257,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.deep.framework" />
       <option name="MAIN_CLASS_NAME" value="com.deep.framework.AppTest" />
-      <option name="METHOD_NAME" value="squarexTest" />
+      <option name="METHOD_NAME" value="softmaxTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -309,11 +297,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AppTest.cnnTest" />
         <item itemvalue="JUnit.NNTest.NNTest" />
+        <item itemvalue="JUnit.AppTest.softmaxTest" />
         <item itemvalue="JUnit.AppTest.xTest" />
         <item itemvalue="JUnit.AppTest.sigmoidTest" />
-        <item itemvalue="JUnit.AppTest.matmulTest" />
-        <item itemvalue="JUnit.AppTest.squarexTest" />
       </list>
     </recent_temporary>
   </component>
@@ -334,45 +322,46 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 09h 48m 17s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 10h 07m 45s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 09h 53m 24s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 10h 12m 49s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 09h 54m 01s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 11h 01m 06s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 09h 54m 40s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 11h 11m 47s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 03m 11s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 11h 44m 29s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 04m 49s.xml">
+    <history-entry file="NNTest_NNTest - 2019.07.31 at 12h 16m 45s.xml">
       <configuration name="NNTest.NNTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 05m 21s.xml">
-      <configuration name="NNTest.NNTest" configurationId="JUnit" />
+    <history-entry file="AppTest_cnnTest - 2019.08.01 at 09h 32m 27s.xml">
+      <configuration name="AppTest.cnnTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 18m 48s.xml">
-      <configuration name="NNTest.NNTest" configurationId="JUnit" />
+    <history-entry file="AppTest_cnnTest - 2019.08.01 at 09h 34m 24s.xml">
+      <configuration name="AppTest.cnnTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 22m 34s.xml">
-      <configuration name="NNTest.NNTest" configurationId="JUnit" />
+    <history-entry file="AppTest_cnnTest - 2019.08.01 at 09h 50m 03s.xml">
+      <configuration name="AppTest.cnnTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="NNTest_NNTest - 2019.07.20 at 10h 36m 24s.xml">
-      <configuration name="NNTest.NNTest" configurationId="JUnit" />
+    <history-entry file="AppTest_cnnTest - 2019.08.02 at 09h 14m 12s.xml">
+      <configuration name="AppTest.cnnTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145002000" />
+    <option name="totallyTimeSpent" value="177385000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.39361703" visible="true" weight="0.26873198" />
-      <window_info id="Structure" order="1" sideWeight="0.60638297" side_tool="true" visible="true" weight="0.26873198" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8361955" visible="true" weight="0.23775215" />
+      <window_info id="Structure" order="1" sideWeight="0.16380449" side_tool="true" visible="true" weight="0.23775215" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -380,8 +369,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.33836478" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49927953" visible="true" weight="0.881761" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.04779874" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6930836" weight="0.04779874" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -389,8 +378,8 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32988358" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32988358" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50072044" side_tool="true" weight="0.43144655" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.7295597" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.30691642" side_tool="true" weight="0.56981134" />
+      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.4985591" weight="0.95220125" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -437,10 +426,37 @@
     <option name="version" value="1" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java</url>
+          <line>59</line>
+          <properties />
+          <option name="timeStamp" value="618" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Builder.java</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="621" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java</url>
+          <line>309</line>
+          <properties />
+          <option name="timeStamp" value="623" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
         <watch expression="tenser11" />
         <watch expression="((com.deep.framework.graph.Graph)((None)this.output).graph).toArray()[11]" custom="com.deep.framework.bean.None,com.deep.framework.graph.Graph,com.deep.framework.graph.Tenser" />
+        <watch expression="this.output" custom="com.deep.framework.graph.Tenser" />
+        <watch expression="((None)this.output).name" custom="com.deep.framework.bean.None,com.deep.framework.graph.Tenser" />
+        <watch expression="this.output" custom="com.deep.framework.bean.None,com.deep.framework.graph.Graph,com.deep.framework.graph.Tenser" />
+        <watch expression="this.input" custom="com.deep.framework.bean.Node[],com.deep.framework.graph.Tenser" />
+        <watch expression="this.this$0" custom="com.deep.framework.graph.Tenser" />
       </configuration>
     </watches-manager>
   </component>
@@ -451,51 +467,53 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>fill(input, shape(Object.class, input), fill)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(i/990)/10</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(i/900)/10</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(i/700)/10</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(i)/10</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(1000/100)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(1000)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>1 / Math.exp(i)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>this.contains(o)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>this.containsAll(obj)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>tenser11</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/annotation/Operator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Func3.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -702,51 +720,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.10/junit-4.10-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Executor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="14" column="61" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1863#1864#0" expanded="true" />
-            <element signature="e#1920#1921#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#304#305#0" expanded="true" />
-            <element signature="e#366#367#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -763,70 +740,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="170" selection-start-line="170" selection-end-line="170" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="47" column="9" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Builder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning-bak.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="227" selection-start-line="227" selection-end-line="227" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning-bak.log" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/ConcurrentLinkedDeque.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -838,20 +752,154 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/atomic/AtomicBoolean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        <state relative-caret-position="113">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning.log.2019-07-28">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/function/Range4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="23" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/None.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13">
+          <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Executor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="14" column="64" lean-forward="true" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+          <folding>
+            <element signature="e#244#245#0" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Shape.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="77" column="9" lean-forward="true" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1863#1864#0" expanded="true" />
+            <element signature="e#1920#1921#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/lang/ForEach.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="858">
+          <caret line="95" column="9" lean-forward="true" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#304#305#0" expanded="true" />
+            <element signature="e#366#367#0" expanded="true" />
+            <element signature="e#424#425#0" expanded="true" />
+            <element signature="e#487#488#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Builder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="35" column="25" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="16" column="28" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/TensorFlow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="305" column="60" lean-forward="true" selection-start-line="305" selection-start-column="60" selection-end-line="305" selection-end-column="60" />
+          <folding>
+            <element signature="e#9373#9374#0" expanded="true" />
+            <element signature="e#9416#9417#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/graph/Tenser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="41" column="30" lean-forward="true" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#972#973#0" expanded="true" />
+            <element signature="e#1021#1022#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/bean/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/AppTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/resources/deep-learning.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/deep-framework/src/test/java/com/deep/framework/NNTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="31" />
+        <state relative-caret-position="338">
+          <caret line="19" selection-start-line="16" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deep-framework/src/main/java/com/deep/framework/framework/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-112">
+          <caret line="29" column="32" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

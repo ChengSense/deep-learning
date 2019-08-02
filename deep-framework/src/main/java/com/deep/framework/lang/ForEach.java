@@ -1,7 +1,7 @@
 package com.deep.framework.lang;
 
-import com.deep.framework.lang.function.*;
 import com.deep.framework.graph.Tenser;
+import com.deep.framework.lang.function.*;
 import com.deep.framework.lang.util.BeanUtil;
 
 import java.lang.reflect.Array;
@@ -9,16 +9,20 @@ import java.util.stream.IntStream;
 
 public class ForEach {
 
-    public static void forEach(int a, Range1 e) {
-        IntStream.range(0, a).forEach(i -> e.apply(i));
+    public static void forEach(int a, Range1 r) {
+        IntStream.range(0, a).forEach(i -> r.apply(i));
     }
 
-    public static void forEach(int a, int b, Range2 e) {
-        forEach(a, i -> forEach(b, l -> e.apply(i, l)));
+    public static void forEach(int a, int b, Range2 r) {
+        forEach(a, i -> forEach(b, l -> r.apply(i, l)));
     }
 
-    public static void forEach(int a, int b, int c, Range3 e) {
-        forEach(a, i -> forEach(b, l -> forEach(c, m -> e.apply(i, l, m))));
+    public static void forEach(int a, int b, int c, Range3 r) {
+        forEach(a, i -> forEach(b, l -> forEach(c, m -> r.apply(i, l, m))));
+    }
+
+    public static void forEach(int a, int b, int c, int e, Range4 r) {
+        forEach(a, i -> forEach(b, l -> forEach(c, m -> forEach(e, n -> r.apply(i, l, m, n)))));
     }
 
     public static Object fill(Object a, Fill func) {
