@@ -1,8 +1,6 @@
 package com.deep.framework.graph;
 
-import com.deep.framework.bean.Node;
 import com.deep.framework.bean.None;
-import com.deep.framework.lang.function.Fill;
 import com.deep.framework.lang.function.Func1;
 import com.deep.framework.lang.util.BeanUtil;
 
@@ -44,24 +42,11 @@ public class Builder extends Shape {
         forEach(tenser.getInput(), func);
     }
 
-    public static Object[] build(Tenser tenser) {
-        Node[] input = tenser.getInput();
-        if (BeanUtil.isNotOperation(tenser)) {
-            Fill<Tenser> fill = a -> {
-                if (BeanUtil.isNone(a)) {
-                    return Shape.tensers(a.getOutput());
-                }
-                if (BeanUtil.isOperation(a)) {
-                    return a;
-                }
-                return a.getFunction();
-            };
-            return (Object[]) fill(input, shape(Object.class, input), fill);
-        } else {
-            Fill<Tenser> fill = a -> {
-                return a.getOutput();
-            };
-            return (Object[]) fill(input, shape(None.class, input), fill);
-        }
+    public static <M> M build(Tenser tenser, int i) {
+        Tenser input = (Tenser) tenser.getInput()[i];
+        if (BeanUtil.isOperation(tenser)) return (M) input.getOutput();
+        if (BeanUtil.isNone(input)) return Shape.tensers(input.getOutput());
+        if (BeanUtil.isOperation(input)) return (M) input;
+        return (M) input.getFunction();
     }
 }
