@@ -8,8 +8,7 @@ import com.deep.framework.lang.util.BeanUtil;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Shape extends ForEach {
 
@@ -63,19 +62,14 @@ public class Shape extends ForEach {
         return Array.newInstance(clas, shapes(a));
     }
 
-    public static int[] shapes(Object a) {
-        List<Integer> list = new ArrayList();
-        shapes(a, list);
-        int[] arr = new int[list.size()];
-        forEach(list.size(), i -> arr[i] = list.get(i));
-        return arr;
-    }
-
-    private static <E> void shapes(E a, List list) {
+    public static <E> int[] shapes(E a, int... list) {
         if (BeanUtil.isTenser(a)) {
-            list.add(Array.getLength(a));
-            shapes(Array.get(a, 0), list);
+            int length = Array.getLength(list);
+            list = Arrays.copyOf(list, length + 1);
+            Array.set(list, length, Array.getLength(a));
+            return shapes(Array.get(a, 0), list);
         }
+        return list;
     }
 
     public static void each(Object a, Object b, Func2 func) {
