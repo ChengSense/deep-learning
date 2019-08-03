@@ -57,7 +57,6 @@ public class TensorFlow extends Shape {
                     Double valx = inx.getValue(), valy = iny.getValue();
                     return new None(valx - valy);
                 }
-
             }
 
             public void gradient() {

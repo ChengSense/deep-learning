@@ -9,13 +9,16 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class Graph<E> extends ConcurrentLinkedDeque<E> {
 
     public boolean add(E obj) {
-        this.remove(obj);
+        if (this.contains(obj)) return false;
         return super.add(obj);
     }
 
     public boolean addAll(Collection obj) {
-        this.removeAll(obj);
-        return super.addAll(obj);
+        Iterator iter = obj.iterator();
+        while (iter.hasNext()) {
+            add((E) iter.next());
+        }
+        return true;
     }
 
     public void farEach(Func1<E> func1) {
