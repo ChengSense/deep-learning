@@ -18,24 +18,24 @@ public class Engine extends ForEach {
         execute(tenser, a -> {
             Func1<None> func = out -> {
                 out.getGraph().forEach(o -> {
-                    _forward(o);
+                    compute(o);
                 });
             };
             forEach(a.getOutput(), func);
-            _forward(a);
+            compute(a);
         }, a -> {
             Func1<Tenser<None>> func = node -> {
                 node.getOutput().getGraph().forEach(o -> {
-                    _forward(o);
+                    compute(o);
                 });
-                _forward(node);
+                compute(node);
             };
             forEach(a.getFunction(), func);
         });
         //log.info(JSONObject.toJSONString(tenser));
     }
 
-    private void _forward(Tenser<None> tenser) {
+    private void compute(Tenser<None> tenser) {
         None nones = tenser.compute(), outputs = tenser.getOutput();
         Func2<None, None> func = (none, out) -> {
             out.setValue(none.getValue());
@@ -45,18 +45,18 @@ public class Engine extends ForEach {
 
     public void backward(Tenser<None> tenser) {
         execute(tenser, a -> {
-            _gradient(a);
+            gradient(a);
             Func1<None> func = out -> {
                 out.getGraph().farEach(o -> {
-                    _gradient(o);
+                    gradient(o);
                 });
             };
             forEach(a.getOutput(), func);
         }, a -> {
             Func1<Tenser<None>> func = node -> {
-                _gradient(node);
+                gradient(node);
                 node.getOutput().getGraph().farEach(o -> {
-                    _gradient(o);
+                    gradient(o);
                 });
             };
             forEach(a.getFunction(), func);
@@ -65,7 +65,7 @@ public class Engine extends ForEach {
         _backward(tenser);
     }
 
-    private void _gradient(Tenser<None> node) {
+    private void gradient(Tenser<None> node) {
         node.gradient();
         node.getOutput().setGrad(null);
     }
