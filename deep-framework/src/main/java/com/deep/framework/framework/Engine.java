@@ -1,6 +1,5 @@
 package com.deep.framework.framework;
 
-import com.alibaba.fastjson.JSONObject;
 import com.deep.framework.bean.None;
 import com.deep.framework.graph.Tenser;
 import com.deep.framework.lang.ForEach;
@@ -46,23 +45,18 @@ public class Engine extends ForEach {
 
     public void backward(Tenser<None> tenser) {
         execute(tenser, a -> {
-            Tenser<None> node = (Tenser) a;
-            node.gradient();
-            node.getOutput().setGrad(null);
+            _gradient(a);
             Func1<None> func = out -> {
                 out.getGraph().farEach(o -> {
-                    o.gradient();
-                    o.getOutput().setGrad(null);
+                    _gradient(o);
                 });
             };
             forEach(a.getOutput(), func);
         }, a -> {
             Func1<Tenser<None>> func = node -> {
-                node.gradient();
-                node.getOutput().setGrad(null);
+                _gradient(node);
                 node.getOutput().getGraph().farEach(o -> {
-                    o.gradient();
-                    o.getOutput().setGrad(null);
+                    _gradient(o);
                 });
             };
             forEach(a.getFunction(), func);
@@ -71,7 +65,12 @@ public class Engine extends ForEach {
         _backward(tenser);
     }
 
-    public void _backward(Tenser tenser) {
+    private void _gradient(Tenser<None> node) {
+        node.gradient();
+        node.getOutput().setGrad(null);
+    }
+
+    private void _backward(Tenser tenser) {
         execute(tenser, a -> {
             reduce(a);
             Func1<None> func = out -> {
@@ -91,7 +90,7 @@ public class Engine extends ForEach {
         });
     }
 
-    public void reduce(Tenser tenser) {
+    private void reduce(Tenser tenser) {
         Func1<Tenser> func = node -> {
             forEach(node.getOutput(), (Func1<None>) a -> {
                 if (BeanUtil.startsWithNone(node)) {
@@ -104,7 +103,7 @@ public class Engine extends ForEach {
         forEach(tenser.getInput(), func);
     }
 
-    public void execute(Tenser tenser, Func1<Tenser>... func) {
+    private void execute(Tenser tenser, Func1<Tenser>... func) {
         if (BeanUtil.isOperation(tenser)) {
             func[0].apply(tenser);
         } else {
